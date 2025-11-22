@@ -1,0 +1,30 @@
+[
+  {
+    "id": "8a3adecb-9ec6-49d8-b0d1-a31670d79473",
+    "username": "Den4ik",
+    "email": "gavatukden@gmail.com",
+    "full_name": "Denis Havatiuk",
+    "password": "1234"
+  },
+  {
+    "id": "0283cf21-e5ba-46de-b0c3-4627c1163f6e",
+    "username": "user",
+    "email": "user@gmail.com",
+    "full_name": "User User",
+    "password": "1234"
+  },
+  {
+    "id": "c54239bd-745c-4e7d-be9e-cb1a89c2aab1",
+    "username": "Den",
+    "email": "test_user@gmail.com",
+    "full_name": "Den Havatiuk",
+    "password": "12345678"
+  },
+  {
+    "id": "1a4c133e-fc38-4a66-8087-d2ec8beebd9b",
+    "username": "Teest",
+    "email": "test@gmail.com",
+    "full_name": "Test teest",
+    "password": "1234test"
+  }
+]

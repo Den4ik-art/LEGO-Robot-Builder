@@ -1,0 +1,10 @@
+py -3.12 -m venv .venv
+source .venv/Scripts/activate
+source .venv/Scripts/activate - активувати venv 
+deactivate - деактивувати venv 
+
+cd ~/Desktop/lego-configurator/backend - cd ~/Desktop/lego-configurator/frontend
+
+npm run dev
+
+uvicorn app.main:app --reload
