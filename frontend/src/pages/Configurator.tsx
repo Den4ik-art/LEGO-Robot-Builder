@@ -9,9 +9,6 @@ import {
   FaTree, FaHome, FaSwimmingPool, FaMountain, FaMicrochip, FaPuzzlePiece, FaStar
 } from "react-icons/fa";
 
-// ❗❗❗ ПОВНІСТЮ ВИДАЛЕНО:
-// import { SiLego } from "react-icons/si";
-
 // --- Типи ---
 type LegoComponent = {
   id: number;
@@ -151,7 +148,13 @@ export default function Configurator() {
       }
       
       setResult(data);
-      showToast("Конфігурацію успішно створено! 🚀", "success");
+      
+      // Показуємо попередження якщо воно є
+      if (data.warning) {
+        showToast(data.warning, "info");
+      } else {
+        showToast("Конфігурацію успішно створено! 🚀", "success");
+      }
       
       if (window.innerWidth < 1024) {
         setTimeout(() => document.getElementById("results")?.scrollIntoView({ behavior: "smooth" }), 100);
@@ -484,6 +487,13 @@ export default function Configurator() {
                   value={`${result.remaining_budget.toFixed(2)} грн`}
                 />
               </div>
+
+              {/* Попередження якщо є */}
+              {result.warning && (
+                <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
+                  <strong>ℹ️ Інформація:</strong> {result.warning}
+                </div>
+              )}
 
               {/* Список деталей */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
