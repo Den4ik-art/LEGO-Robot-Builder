@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { motion, Variants } from "framer-motion"; // Додано Variants
+import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
 import { FaUser, FaLock, FaArrowRight, FaSignInAlt } from "react-icons/fa";
 
-// Явно вказуємо тип Variants
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -45,7 +44,7 @@ export default function SignIn() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      showToast("Раді вас бачити знову! 👋", "success");
+      showToast("Раді вас бачити знову!", "success");
 
       setTimeout(() => {
         window.location.href = "/";
@@ -66,7 +65,7 @@ export default function SignIn() {
         className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden"
       >
         
-        {/* Верхня частина (Header) */}
+        {/* (Header) */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-center text-white">
           <div className="mx-auto w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 shadow-inner">
             <FaSignInAlt className="text-3xl text-white" />

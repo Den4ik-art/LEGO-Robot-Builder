@@ -44,7 +44,7 @@ export default function About() {
         animate="visible"
       >
         
-        {/* === ЗАГОЛОВОК === */}
+        {/* ЗАГОЛОВОК */}
         <motion.div variants={itemVariants} className="text-center mb-16">
           <div className="inline-flex items-center justify-center p-3 bg-blue-100 text-blue-600 rounded-full mb-4 shadow-sm">
             <FaRocket size={24} />
@@ -57,7 +57,7 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* === ОСНОВНА КАРТКА === */}
+        {/* ОСНОВНА КАРТКА */}
         <motion.div 
           variants={itemVariants}
           className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mb-12"
@@ -73,7 +73,7 @@ export default function About() {
               </p>
               <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
                 <p className="font-medium">
-                  ✨ Ви зосереджуєтесь на творчості, збірці та програмуванні. Рутину ми беремо на себе.
+                  Ви зосереджуєтесь на творчості, збірці та програмуванні. Рутину ми беремо на себе.
                 </p>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* === ДЛЯ КОГО ЦЕ === */}
+        {/* ДЛЯ КОГО ЦЕ */}
         <motion.div variants={itemVariants} className="mb-16">
           <h3 className="text-2xl font-bold text-slate-800 text-center mb-10">Для кого цей інструмент?</h3>
           <div className="grid md:grid-cols-3 gap-6">
@@ -139,7 +139,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* === ПРО АВТОРА === */}
+        {/* ПРО АВТОРА */}
         <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-slate-100 relative overflow-hidden">
           {/* Декоративний фон */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-32 -mt-32 opacity-50 pointer-events-none"></div>
@@ -152,7 +152,6 @@ export default function About() {
               whileHover={{ scale: 1.02 }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
-              {/* Використовуємо звичайний img для надійності, якщо motion.img дає збої */}
               <img 
                 src="/images/avatar.png" 
                 alt="Денис Гаватюк"
@@ -184,7 +183,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* === КНОПКА ПОВЕРНЕННЯ === */}
+        {/* КНОПКА ПОВЕРНЕННЯ */}
         <motion.div variants={itemVariants} className="mt-16 text-center pb-10">
           <Link
             to="/"

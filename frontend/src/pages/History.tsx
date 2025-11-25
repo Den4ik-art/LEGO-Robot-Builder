@@ -13,7 +13,7 @@ type HistoryComponent = {
   category: string;
   price: number;
   weight: number;
-  quantity?: number; // Додаємо поле для кількості
+  quantity?: number;
 };
 
 interface HistoryEntry {
@@ -51,10 +51,8 @@ const aggregateComponents = (components: HistoryComponent[]) => {
   for (const comp of components) {
     const existing = map.get(comp.id);
     if (existing) {
-      // Якщо деталь вже є, збільшуємо лічильник
       existing.quantity = (existing.quantity || 1) + 1;
     } else {
-      // Якщо немає, додаємо з кількістю 1 (клонуємо об'єкт, щоб не мутувати оригінал)
       map.set(comp.id, { ...comp, quantity: 1 });
     }
   }
@@ -112,15 +110,15 @@ export default function History() {
       });
 
       if (res.ok) {
-        showToast("Історію успішно очищено ✅", "success");
+        showToast("Історію успішно очищено", "success");
         setHistory([]);
       } else {
         const data = await res.json();
-        showToast(data.detail || "Помилка при очищенні історії ❌", "error");
+        showToast(data.detail || "Помилка при очищенні історії", "error");
       }
     } catch (err) {
       console.error(err);
-      showToast("Помилка сервера ❌", "error");
+      showToast("Помилка сервера", "error");
     }
   };
 
@@ -141,7 +139,7 @@ export default function History() {
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
       <div className="max-w-4xl mx-auto">
         
-        {/* === HEADER === */}
+        {/* HEADER */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
           <div className="text-center sm:text-left">
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-2 flex items-center justify-center sm:justify-start gap-3">
@@ -161,7 +159,7 @@ export default function History() {
           )}
         </div>
 
-        {/* === СПИСОК === */}
+        {/* СПИСОК */}
         {history.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
             <div className="bg-blue-50 p-6 rounded-full mb-4">
@@ -185,7 +183,7 @@ export default function History() {
                   ${expanded === index ? "ring-2 ring-blue-500/20" : ""}
                 `}
               >
-                {/* --- Верхня частина картки (Завжди видима) --- */}
+                {/* --- Верхня частина картки --- */}
                 <div 
                   className="p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 cursor-pointer hover:bg-slate-50/50 transition-colors"
                   onClick={() => setExpanded(expanded === index ? null : index)}
@@ -242,7 +240,7 @@ export default function History() {
                           <MetricBox label="Сенсори" value={`${entry.request.sensors} шт`} icon={<FaRobot/>} color="text-indigo-600 bg-indigo-50"/>
                         </div>
 
-                        {/* Список компонентів (ЗГРУПОВАНИЙ) */}
+                        {/* Список компонентів */}
                         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                           <div className="px-4 py-3 bg-slate-100 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wide flex justify-between">
                             <span>Деталь</span>
@@ -254,7 +252,7 @@ export default function History() {
                                 <div>
                                   <div className="flex items-center gap-2">
                                     <span className="text-sm font-medium text-slate-800">{comp.name}</span>
-                                    {/* Бейдж кількості */}
+                                    {/* Кількость */}
                                     {(comp.quantity || 1) > 1 && (
                                       <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
                                         ×{comp.quantity}
@@ -294,7 +292,7 @@ export default function History() {
         )}
       </div>
 
-      {/* ✨ КАСТОМНЕ МОДАЛЬНЕ ВІКНО ✨ */}
+      {/* КАСТОМНЕ МОДАЛЬНЕ ВІКНО */}
       <AnimatePresence>
         {showConfirmModal && (
           <motion.div 

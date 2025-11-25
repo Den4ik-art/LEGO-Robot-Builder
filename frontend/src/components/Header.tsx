@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaPuzzlePiece, FaSignOutAlt } from "react-icons/fa"; // 👈 ВИПРАВЛЕНО: FaLegoBrick -> FaPuzzlePiece
+import { FaPuzzlePiece, FaSignOutAlt } from "react-icons/fa"; 
 
 export default function Header() {
   const location = useLocation();
@@ -39,7 +39,7 @@ export default function Header() {
         {/* Логотип */}
         <Link to="/" className="flex items-center gap-2 group">
           <div className="p-2 bg-blue-600 text-white rounded-lg transform group-hover:rotate-12 transition-transform duration-300">
-            <FaPuzzlePiece size={24} /> {/* 👈 Використовуємо коректну іконку */}
+            <FaPuzzlePiece size={24} /> 
           </div>
           <span className="text-xl font-extrabold text-gray-800 tracking-tight group-hover:text-blue-600 transition-colors">
             LEGO <span className="text-blue-600">Configurator</span>
@@ -56,6 +56,9 @@ export default function Header() {
           </Link>
           <Link to="/history" className={linkClasses("/history")}>
             Історія
+          </Link>
+          <Link to="/analysis" className={linkClasses("/analysis")}>
+            Аналіз
           </Link>
           <Link to="/about" className={linkClasses("/about")}>
             Про нас

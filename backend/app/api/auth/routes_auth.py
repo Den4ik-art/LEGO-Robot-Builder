@@ -66,7 +66,7 @@ def register(data: RegisterRequest):
         "username": data.username,
         "email": data.email,
         "full_name": data.full_name,
-        "password": data.password  # у продакшн — хешування!
+        "password": data.password
     }
 
     users.append(new_user)
@@ -75,7 +75,7 @@ def register(data: RegisterRequest):
     token = generate_token(new_user["id"])
 
     return {
-        "message": "Реєстрація успішна ✅",
+        "message": "Реєстрація успішна",
         "user": {"username": new_user["username"], "full_name": new_user["full_name"]},
         "token": token
     }
@@ -91,7 +91,7 @@ def login(data: LoginRequest):
     token = generate_token(user["id"])
 
     return {
-        "message": "Вхід успішний ✅",
+        "message": "Вхід успішний",
         "user": {"username": user["username"], "full_name": user["full_name"]},
         "token": token
     }

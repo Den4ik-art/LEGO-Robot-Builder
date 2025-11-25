@@ -1,4 +1,3 @@
-// src/utils/helpers.ts
 export const formatNumber = (num: number, decimals = 2): string =>
   num.toFixed(decimals).replace(/\.00$/, "");
 

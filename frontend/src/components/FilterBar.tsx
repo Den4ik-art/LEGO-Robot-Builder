@@ -6,7 +6,7 @@ interface FilterBarProps {
   onSelect: (category: string) => void;
 }
 
-// 🔤 Мапа перекладів для категорій
+// Мапа перекладів для категорій
 const CATEGORY_LABELS: Record<string, string> = {
   all: "Всі",
   motor: "Мотори",
@@ -30,7 +30,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ categories, selected, onSelect })
     <div className="w-full overflow-x-auto pb-2 no-scrollbar">
       <div className="flex flex-wrap gap-2 justify-center min-w-max px-2">
         {categories.map((cat) => {
-          const label = CATEGORY_LABELS[cat] || cat; // Використовуємо переклад або оригінал
+          const label = CATEGORY_LABELS[cat] || cat;
           const isSelected = selected === cat;
 
           return (

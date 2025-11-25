@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { motion, Variants } from "framer-motion"; // Додано Variants для типів
+import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
 import { FaUser, FaEnvelope, FaLock, FaUserPlus, FaArrowRight } from "react-icons/fa";
 
-// Анімація появи
 const containerVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
@@ -46,7 +45,7 @@ export default function SignUp() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      showToast("Реєстрація успішна! Ласкаво просимо 🚀", "success");
+      showToast("Реєстрація успішна! Ласкаво просимо", "success");
 
       setTimeout(() => {
         window.location.href = "/";
@@ -68,7 +67,7 @@ export default function SignUp() {
         className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-white/60"
       >
         
-        {/* === Header === */}
+        {/* Header */}
         <div className="bg-gradient-to-r from-emerald-500 to-teal-600 p-8 text-center text-white">
           <div className="mx-auto w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-4 shadow-inner">
             <FaUserPlus className="text-3xl text-white" />
@@ -77,7 +76,7 @@ export default function SignUp() {
           <p className="text-emerald-50 text-sm font-medium">Приєднуйся до спільноти LEGO-інженерів</p>
         </div>
 
-        {/* === Форма === */}
+        {/* Форма */}
         <div className="p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             

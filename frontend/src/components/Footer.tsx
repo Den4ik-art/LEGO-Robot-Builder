@@ -9,7 +9,7 @@ import {
 } from "react-icons/si";
 import { FaGithub, FaLinkedin, FaHeart, FaPuzzlePiece } from "react-icons/fa";
 
-// Анімація появи для колонок
+// Анімація
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -41,7 +41,7 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           
-          {/* === 1. БРЕНД === */}
+          {/* БРЕНД */}
           <motion.div variants={itemVariants} className="space-y-4">
             <Link to="/" className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors group">
               <FaPuzzlePiece className="text-2xl text-blue-500 group-hover:rotate-12 transition-transform duration-300" />
@@ -57,29 +57,30 @@ export default function Footer() {
             </div>
           </motion.div>
 
-          {/* === 2. НАВІГАЦІЯ === */}
+          {/* НАВІГАЦІЯ */}
           <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold mb-4">Навігація</h3>
             <ul className="space-y-3 text-sm">
-              <FooterLink to="/" label="🚀 Конфігуратор" />
-              <FooterLink to="/history" label="📜 Історія запитів" />
-              <FooterLink to="/about" label="ℹ️ Про проєкт" />
+              <FooterLink to="/" label="Конфігуратор" />
+              <FooterLink to="/history" label="Історія запитів" />
+              <FooterLink to="/about" label="Про проєкт" />
+              <FooterLink to="/analysis" label="Аналіз" />
             </ul>
           </motion.div>
 
-          {/* === 3. АКАУНТ === */}
+          {/* АКАУНТ */}
           <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold mb-4">Акаунт</h3>
             <ul className="space-y-3 text-sm">
-              <FooterLink to="/signin" label="🔑 Вхід" />
-              <FooterLink to="/signup" label="📝 Реєстрація" />
+              <FooterLink to="/signin" label="Вхід" />
+              <FooterLink to="/signup" label="Реєстрація" />
               <li className="text-slate-500 text-xs pt-2">
                 * Доступ до історії доступний лише авторизованим користувачам.
               </li>
             </ul>
           </motion.div>
 
-          {/* === 4. ТЕХНОЛОГІЇ (STACK) === */}
+          {/* ТЕХНОЛОГІЇ (STACK) */}
           <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold mb-4">Tech Stack</h3>
             <p className="text-xs text-slate-500 mb-4">Побудовано на сучасних технологіях:</p>
@@ -94,7 +95,7 @@ export default function Footer() {
 
         </motion.div>
 
-        {/* === НИЖНІЙ БАР === */}
+        {/* НИЖНІЙ БАР */}
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

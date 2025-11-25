@@ -1,4 +1,3 @@
-// src/types/Component.ts
 export interface LegoComponent {
   id: number;
   name: string;
@@ -6,14 +5,12 @@ export interface LegoComponent {
   price: number;
   weight: number;
 
-  // те, що вже було
   efficiency?: number;
   torque?: number;
   speed?: number;
   stability?: number;
   image?: string;
 
-  // опційні розширені поля (з бекенда)
   lego_number?: string;
   family?: string;
   system_type?: string;
@@ -34,8 +31,6 @@ export interface LegoComponent {
 
   domain?: string;
 }
-
-// Новий, розширений запит конфігурації
 export interface ConfigRequest {
   functions: string[];
   subFunctions?: Record<string, string>;
@@ -43,8 +38,6 @@ export interface ConfigRequest {
   weight: number;
   priority: string;
   sensors: string[];
-
-  // 🔽 Нові поля опитування (такі ж, як у бекенда)
 
   terrain?: "indoor" | "outdoor_flat" | "offroad" | "water_pool";
   sizeClass?: "small" | "medium" | "large";

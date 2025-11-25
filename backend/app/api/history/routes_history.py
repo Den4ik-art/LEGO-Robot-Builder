@@ -21,7 +21,7 @@ def load_history():
 def save_history(data):
     HISTORY_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
-# === Отримання історії ===
+# --- Отримання історії ---
 @router.get("/list")
 def get_history(token: str = Header(None)):
     """
@@ -40,7 +40,7 @@ def get_history(token: str = Header(None)):
     return user_history
 
 
-# === Очищення історії ===
+# --- Очищення історії ---
 @router.delete("/clear")
 def clear_history(token: str = Header(None)):
     """
@@ -55,9 +55,8 @@ def clear_history(token: str = Header(None)):
         raise HTTPException(status_code=401, detail="Недійсний токен")
 
     history = load_history()
-    # Залишаємо лише записи інших користувачів
     updated_history = [h for h in history if h.get("user_id") != user_id]
 
     save_history(updated_history)
 
-    return {"message": "Історію успішно очищено ✅"}
+    return {"message": "Історію успішно очищено"}

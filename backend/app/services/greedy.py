@@ -1,5 +1,3 @@
-# backend/app/services/greedy.py
-
 from typing import List, Dict, Any, Optional
 from app.models.dto import ConfigRequest
 
@@ -36,16 +34,19 @@ class GreedyConfigurator:
     Покращений жадібний конфігуратор LEGO-робота з виправленими проблемами сумісності.
     """
 
-    # псевдо-категорії, які насправді сидять у інших категоріях
+    # псевдо-категорії
     ALIAS_CATEGORY = {
         "wing": "structure",
         "wing_plate": "structure",
+        "wheel_offroad": "wheel",
+        "tire_offroad": "tire",
     }
 
     def __init__(self, components: List[Dict]):
         self.components = components
         self._normalize_components()
         self.component_map = self._build_component_map(self.components)
+        self._current_terrain: str = "indoor"
 
     # ---------------- НОРМАЛІЗАЦІЯ ---------------- #
 
@@ -309,6 +310,26 @@ class GreedyConfigurator:
         if not candidates:
             return None
 
+        # Спеціальна обробка offroad-поверхні для рухових елементів
+        terrain = getattr(self, "_current_terrain", "indoor")
+        if terrain == "offroad" and base_category in ("wheel", "tire", "track", "tread"):
+            offroad_candidates: List[Dict] = []
+            for c in candidates:
+                meta = c.get("meta") or {}
+                tags = meta.get("tags") or []
+                name_l = (c.get("name") or "").lower()
+                if (
+                    "off-road" in tags
+                    or "offroad" in tags
+                    or "terrain_rough" in tags
+                    or "off-road" in name_l
+                    or "offroad" in name_l
+                ):
+                    offroad_candidates.append(c)
+            if offroad_candidates:
+                candidates = offroad_candidates
+
+
         p = (priority or "").lower()
 
         # Фільтрація за доменами
@@ -342,6 +363,26 @@ class GreedyConfigurator:
 
         if not candidates:
             return None
+
+        # Спеціальна обробка offroad-поверхні для рухових елементів
+        terrain = getattr(self, "_current_terrain", "indoor")
+        if terrain == "offroad" and base_category in ("wheel", "tire", "track", "tread"):
+            offroad_candidates: List[Dict] = []
+            for c in candidates:
+                meta = c.get("meta") or {}
+                tags = meta.get("tags") or []
+                name_l = (c.get("name") or "").lower()
+                if (
+                    "off-road" in tags
+                    or "offroad" in tags
+                    or "terrain_rough" in tags
+                    or "off-road" in name_l
+                    or "offroad" in name_l
+                ):
+                    offroad_candidates.append(c)
+            if offroad_candidates:
+                candidates = offroad_candidates
+
 
         # ---- Мотори ----
         if base_category == "motor":
@@ -498,7 +539,7 @@ class GreedyConfigurator:
                 add("motor", motors_qty, domains=["ground", "universal"])
                 add(drive_type, wheels_qty, domains=["ground"])
 
-                # ГАРАНТІЯ: колеса + шини завжди разом
+                # Колеса + шини завжди разом
                 if drive_type == "wheel":
                     add("tire", wheels_qty, domains=["ground"])
 
@@ -570,7 +611,6 @@ class GreedyConfigurator:
             elif "плавати" in func_l:
                 water_type = FUNCTION_TO_CATEGORY_MAP["плавати"].get(sub_choice, "water")
 
-                # ПОКРАЩЕННЯ: більше моторів та структурних елементів для корпусу
                 add("motor", 2, domains=["water", "universal"])
                 add(water_type, 2, domains=["water"])
 
@@ -580,7 +620,7 @@ class GreedyConfigurator:
                 
                 add("structure:body_plate", hull_plate_qty, domains=["water", "universal"])
                 add("structure:body_brick", hull_brick_qty, domains=["water", "universal"])
-                add("structure:hull", 1, domains=["water", "universal"])  # Спеціальний корпус
+                add("structure:hull", 1, domains=["water", "universal"])
                 
                 add("structure:beam", max(4, round(6 * struct_mult)), domains=["water", "universal"])
                 add("structure:axle", max(2, round(2 * struct_mult)), domains=["water", "universal"])
@@ -622,21 +662,47 @@ class GreedyConfigurator:
         return components
 
     def _ensure_hull_components(self, components: List[Dict], request: ConfigRequest) -> List[Dict]:
-        """Гарантує наявність корпусних елементів для водних роботів."""
-        hull_components = [c for c in components if c.get("family") in ["hull_frame", "body_plate", "body_brick"]]
-        
-        # Якщо корпусних елементів замало, додаємо додаткові
+        """Гарантує наявність корпусних елементів та основи (hull) для водних роботів."""
+        # Вже обрані корпусні елементи / основа
+        hull_components: List[Dict] = []
+        for c in components:
+            if c.get("is_base"):
+                hull_components.append(c)
+                continue
+            family = c.get("family")
+            category = c.get("category")
+            name_l = (c.get("name") or "").lower()
+            if family in ["hull_frame", "body_plate", "body_brick"]:
+                hull_components.append(c)
+            elif category == "water" and any(k in name_l for k in ["корпус", "hull", "човн", "човна"]):
+                hull_components.append(c)
+
+        # Якщо немає базового корпусу для плавучості - підбираємо з категорії water
+        has_base_hull = any(c.get("is_base") or c.get("category") == "water" for c in hull_components)
+        if not has_base_hull:
+            base_hull = self._find_best_component(
+                category="water",
+                priority=request.priority or "stability",
+                name_hint="корпус",
+                allowed_domains=["water"],
+            )
+            if base_hull:
+                components.append(base_hull)
+                hull_components.append(base_hull)
+
+        # Додаємо додаткові корпусні елементи, якщо їх замало
         if len(hull_components) < 3:
-            hull_comp = self._find_best_component(
-                category="structure", 
-                priority=request.priority, 
+            extra_hull = self._find_best_component(
+                category="structure",
+                priority=request.priority or "stability",
                 role="body_plate",
                 allowed_domains=["water", "universal"],
             )
-            if hull_comp:
-                components.append(hull_comp)
-                
+            if extra_hull:
+                components.append(extra_hull)
+
         return components
+
 
     def _ensure_component_compatibility(self, components: List[Dict], request: ConfigRequest) -> List[Dict]:
         """Головний метод гарантії сумісності всіх компонентів."""
@@ -649,12 +715,16 @@ class GreedyConfigurator:
             
         return components
 
-    # ---------------- ПОКРАЩЕНИЙ ОСНОВНИЙ МЕТОД ---------------- #
-
     def configure(self, request: ConfigRequest) -> Dict[str, Any]:
         """Покращений основний метод конфігурації з кращою обробкою помилок."""
         if not request.functions or request.budget is None or request.weight is None:
             return {"error": "Будь ласка, заповніть усі обов'язкові параметри."}
+
+        # зберігаємо поточний тип поверхні для подальшого підбору компонентів
+        try:
+            self._current_terrain = (request.terrain or "indoor").lower()
+        except Exception:
+            self._current_terrain = "indoor"
 
         try:
             blueprint = self._build_blueprint(request)
@@ -701,7 +771,7 @@ class GreedyConfigurator:
                                 allowed_domains=["universal"],
                             )
                             if not component:
-                                continue  # Пропускаємо якщо сенсорів немає
+                                continue
                         
                         chosen_components.append(component)
                         current_cost += component.get("price") or 0
@@ -746,7 +816,7 @@ class GreedyConfigurator:
             if not has_fly and (cat in ("propeller", "wing") or dom == "air"):
                 return True
             if not has_swim and (cat == "water" or dom == "water"):
-                return False  # Дозволяємо водні компоненти для універсальності
+                return False
             return False
 
         filtered_components = [c for c in chosen_components if not is_forbidden(c)]

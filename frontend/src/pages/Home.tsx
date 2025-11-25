@@ -60,13 +60,13 @@ export default function Home() {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [showScroll, setShowScroll] = useState(false);
 
-  // --- 1. Оптимізація пошуку (Debounce) ---
+  // --- Оптимізація пошуку ---
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(searchTerm), 300);
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // --- 2. Завантаження даних ---
+  // --- Завантаження даних ---
   useEffect(() => {
     const fetchComponents = async () => {
       try {
@@ -85,7 +85,7 @@ export default function Home() {
         }
       } catch (err) {
         console.error(err);
-        setError("Не вдалося завантажити каталог 😢");
+        setError("Не вдалося завантажити каталог");
       } finally {
         setLoading(false);
       }
@@ -93,7 +93,7 @@ export default function Home() {
     fetchComponents();
   }, []);
 
-  // --- 3. Скрол-слухач ---
+  // --- Скрол-слухач ---
   useEffect(() => {
     const handleScroll = () => setShowScroll(window.scrollY > 400);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -102,7 +102,7 @@ export default function Home() {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // --- 4. Мемоізована фільтрація ---
+  // --- Мемоізована фільтрація ---
   const filteredComponents = useMemo(() => {
     setVisibleCount(ITEMS_PER_PAGE);
     
@@ -123,7 +123,7 @@ export default function Home() {
     });
   }, [components]);
 
-  // --- 5. Відображуваний список (Пагінація) ---
+  // --- Відображуваний список ---
   const displayedComponents = filteredComponents.slice(0, visibleCount);
   const hasMore = visibleCount < filteredComponents.length;
 
@@ -133,8 +133,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20">
       
-      {/* === Header (Hero Section) === */}
-      {/* Додаємо нижній padding, щоб відокремити від контенту */}
+      {/* Header */}
       <div className="relative bg-white pt-8 pb-16 px-4 mb-4 overflow-hidden">
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-blue-50/60 rounded-full blur-3xl -z-10 pointer-events-none"></div>
          <div className="max-w-7xl mx-auto text-center z-10 relative">
@@ -153,11 +152,9 @@ export default function Home() {
          </div>
       </div>
 
-      {/* Контейнер з негативним margin, щоб фільтр "напливав" на Hero секцію */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12">
         
-        {/* === STICKY FILTER BAR (ВИПРАВЛЕНО) === */}
-        {/* Використовуємо top-20 (80px), щоб відступити від Header сайту */}
+        {/* STICKY FILTER BAR*/}
         <div className="sticky top-20 z-30 mb-10">
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
@@ -171,14 +168,13 @@ export default function Home() {
                 <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                 <input
                   type="text"
-                  placeholder="Пошук за назвою (напр. Мотор)..."
+                  placeholder="Пошук за назвою"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-slate-100 focus:bg-white border-0 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium text-slate-700 placeholder-slate-400 outline-none"
                 />
               </div>
 
-              {/* Роздільник (тільки десктоп) */}
               <div className="hidden lg:block w-px h-10 bg-slate-200"></div>
 
               {/* 2. Категорія */}
@@ -198,7 +194,6 @@ export default function Home() {
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">▼</div>
               </div>
 
-              {/* Роздільник (тільки десктоп) */}
               <div className="hidden lg:block w-px h-10 bg-slate-200"></div>
 
               {/* 3. Ціна */}
@@ -222,7 +217,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* === Результати === */}
+        {/* Результати */}
         {displayedComponents.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-32 text-center animate-fadeIn">
             <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">

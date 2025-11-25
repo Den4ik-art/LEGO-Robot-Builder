@@ -97,7 +97,6 @@
       "short_code": "MOTOR_1",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -116,7 +115,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 48,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 2,
@@ -216,7 +224,6 @@
       "short_code": "MOTOR_2",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -235,7 +242,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 3,
@@ -335,7 +351,6 @@
       "short_code": "MOTOR_3",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -354,7 +369,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 80,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 4,
@@ -454,7 +478,6 @@
       "short_code": "MOTOR_4",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -473,7 +496,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 50,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 5,
@@ -547,7 +579,6 @@
       "short_code": "SENSOR_5",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -566,7 +597,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 6,
@@ -640,7 +680,6 @@
       "short_code": "SENSOR_6",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -659,7 +698,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 7,
@@ -733,7 +781,6 @@
       "short_code": "SENSOR_7",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -752,7 +799,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 8,
@@ -826,7 +882,6 @@
       "short_code": "SENSOR_8",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -845,7 +900,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 9,
@@ -945,7 +1009,6 @@
       "short_code": "MOTOR_9",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -964,7 +1027,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 48.08,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 10,
@@ -1064,7 +1136,6 @@
       "short_code": "MOTOR_10",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -1083,7 +1154,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 70,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 11,
@@ -1183,7 +1263,6 @@
       "short_code": "MOTOR_11",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -1202,7 +1281,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 41.27,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 12,
@@ -1295,7 +1383,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 110,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 13,
@@ -1388,7 +1485,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 90,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 14,
@@ -1481,7 +1587,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 80,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 15,
@@ -1574,7 +1689,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 120,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 16,
@@ -1667,7 +1791,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 80,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 17,
@@ -1714,7 +1847,9 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "offroad_wheel",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -1757,9 +1892,10 @@
       "short_code": "WHEEL_17",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
-        "large"
+        "large",
+        "off-road",
+        "terrain_rough"
       ]
     },
     "question_weights": {
@@ -1776,7 +1912,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 30,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 18,
@@ -1876,7 +2021,6 @@
       "short_code": "MOTOR_18",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -1895,7 +2039,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 34,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 19,
@@ -1942,7 +2095,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -1985,7 +2139,6 @@
       "short_code": "WHEEL_19",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -2004,7 +2157,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 50,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 20,
@@ -2028,7 +2190,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -2071,7 +2234,6 @@
       "short_code": "TRACK_20",
       "tags": [
         "track",
-        "track",
         "ground",
         "large"
       ]
@@ -2090,7 +2252,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 100,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 21,
@@ -2190,7 +2361,6 @@
       "short_code": "MOTOR_21",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -2209,7 +2379,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 22,
@@ -2276,7 +2455,6 @@
       "short_code": "PROPELLER_22",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -2295,7 +2473,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 23,
@@ -2362,7 +2549,6 @@
       "short_code": "PROPELLER_23",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -2381,7 +2567,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 24,
@@ -2481,7 +2676,6 @@
       "short_code": "MOTOR_24",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -2500,7 +2694,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 25,
@@ -2574,7 +2777,6 @@
       "short_code": "SENSOR_25",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -2593,7 +2795,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 26,
@@ -2667,7 +2878,6 @@
       "short_code": "SENSOR_26",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -2686,7 +2896,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 14,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 27,
@@ -2760,7 +2979,6 @@
       "short_code": "SENSOR_27",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -2779,7 +2997,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 28,
@@ -2853,7 +3080,6 @@
       "short_code": "SENSOR_28",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -2872,7 +3098,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 29,
@@ -2939,7 +3174,6 @@
       "short_code": "ACCESSORY_29",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -2958,7 +3192,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 27,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 30,
@@ -3044,7 +3287,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 50,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 31,
@@ -3130,7 +3382,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 40,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 32,
@@ -3216,7 +3477,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 60,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 33,
@@ -3283,7 +3553,6 @@
       "short_code": "MANIPULATOR_33",
       "tags": [
         "manipulator",
-        "manipulator",
         "universal",
         "small"
       ]
@@ -3302,7 +3571,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.65,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 34,
@@ -3413,7 +3691,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 60,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 35,
@@ -3480,7 +3767,6 @@
       "short_code": "ACCESSORY_35",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -3499,7 +3785,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 36,
@@ -3585,7 +3880,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 40,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 37,
@@ -3671,7 +3975,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 30,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 38,
@@ -3738,7 +4051,6 @@
       "short_code": "ACCESSORY_38",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -3757,7 +4069,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 39,
@@ -3824,7 +4145,6 @@
       "short_code": "ACCESSORY_39",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -3843,7 +4163,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 50,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 40,
@@ -3936,7 +4265,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 70,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 41,
@@ -4003,7 +4341,6 @@
       "short_code": "ACCESSORY_41",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4022,7 +4359,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 42,
@@ -4096,7 +4442,6 @@
       "short_code": "SENSOR_42",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -4115,7 +4460,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 43,
@@ -4215,7 +4569,6 @@
       "short_code": "MOTOR_43",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -4234,7 +4587,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 55,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 44,
@@ -4308,7 +4670,6 @@
       "short_code": "SENSOR_44",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -4327,7 +4688,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 45,
@@ -4401,7 +4771,6 @@
       "short_code": "SENSOR_45",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -4420,7 +4789,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 46,
@@ -4487,7 +4865,6 @@
       "short_code": "ACCESSORY_46",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4506,7 +4883,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 40,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 47,
@@ -4573,7 +4959,6 @@
       "short_code": "ACCESSORY_47",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4592,7 +4977,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 30,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 48,
@@ -4659,7 +5053,6 @@
       "short_code": "ACCESSORY_48",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4678,7 +5071,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 49,
@@ -4771,7 +5173,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 120,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 50,
@@ -4838,7 +5249,6 @@
       "short_code": "ACCESSORY_50",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4857,7 +5267,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 40,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 51,
@@ -4924,7 +5343,6 @@
       "short_code": "ACCESSORY_51",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -4943,7 +5361,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 52,
@@ -5043,7 +5470,6 @@
       "short_code": "MOTOR_52",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -5062,7 +5488,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 53,
@@ -5129,7 +5564,6 @@
       "short_code": "ACCESSORY_53",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -5148,7 +5582,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 40,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 54,
@@ -5241,7 +5684,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 60,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 55,
@@ -5308,7 +5760,6 @@
       "short_code": "ACCESSORY_55",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -5327,7 +5778,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 56,
@@ -5420,7 +5880,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 90,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 57,
@@ -5520,7 +5989,6 @@
       "short_code": "MOTOR_57",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -5539,7 +6007,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 50,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 58,
@@ -5632,7 +6109,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 70,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 59,
@@ -5699,7 +6185,6 @@
       "short_code": "ACCESSORY_59",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -5718,7 +6203,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 70,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 60,
@@ -5811,7 +6305,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 61,
@@ -5904,7 +6407,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 95,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 62,
@@ -6004,7 +6516,6 @@
       "short_code": "MOTOR_62",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -6023,7 +6534,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 80,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 63,
@@ -6123,7 +6643,6 @@
       "short_code": "MOTOR_63",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -6142,7 +6661,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 85,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 64,
@@ -6216,7 +6744,6 @@
       "short_code": "SENSOR_64",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -6235,7 +6762,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 22,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 65,
@@ -6335,7 +6871,6 @@
       "short_code": "MOTOR_65",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -6354,7 +6889,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 65,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 66,
@@ -6447,7 +6991,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 120,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 67,
@@ -6547,7 +7100,6 @@
       "short_code": "MOTOR_67",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -6566,7 +7118,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 68,
@@ -6659,7 +7220,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 300,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 69,
@@ -6727,8 +7297,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -6745,7 +7316,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 63,
+      "buoyancy_value": 189
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 70,
@@ -6813,7 +7393,6 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
         "large"
       ]
     },
@@ -6831,7 +7410,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 36,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 71,
@@ -6899,7 +7487,6 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
         "large"
       ]
     },
@@ -6917,7 +7504,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 16,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 72,
@@ -6985,7 +7581,6 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
         "large"
       ]
     },
@@ -7003,7 +7598,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 218,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 73,
@@ -7089,7 +7693,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.81,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 74,
@@ -7175,7 +7788,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 75,
@@ -7261,7 +7883,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 76,
@@ -7347,7 +7978,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.12,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 77,
@@ -7480,7 +8120,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.12,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 78,
@@ -7591,7 +8240,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 79,
@@ -7677,7 +8335,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 80,
@@ -7763,7 +8430,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.72,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 81,
@@ -7849,7 +8525,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.32,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 82,
@@ -7982,7 +8667,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 83,
@@ -8115,7 +8809,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 84,
@@ -8201,7 +8904,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 85,
@@ -8287,7 +8999,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 86,
@@ -8373,7 +9094,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.26,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 87,
@@ -8484,7 +9214,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.33,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 88,
@@ -8570,7 +9309,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.07,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 89,
@@ -8703,7 +9451,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.35,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 90,
@@ -8836,7 +9593,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.37,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 91,
@@ -8969,7 +9735,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.63,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 92,
@@ -9055,7 +9830,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.59,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 93,
@@ -9141,7 +9925,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.59,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 94,
@@ -9227,7 +10020,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.86,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 95,
@@ -9313,7 +10115,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 96,
@@ -9399,7 +10210,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.78,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 97,
@@ -9485,7 +10305,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 98,
@@ -9596,7 +10425,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 99,
@@ -9707,7 +10545,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.16,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 100,
@@ -9793,7 +10640,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.43,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 101,
@@ -9879,7 +10735,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.61,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 102,
@@ -10012,7 +10877,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.26,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 103,
@@ -10144,7 +11018,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.22,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 104,
@@ -10277,7 +11160,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 105,
@@ -10388,7 +11280,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 106,
@@ -10499,7 +11400,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 11,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 107,
@@ -10610,7 +11520,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.29,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 108,
@@ -10743,7 +11662,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.32,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 109,
@@ -10876,7 +11804,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.83,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 110,
@@ -11009,7 +11946,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.82,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 111,
@@ -11142,7 +12088,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.88,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 112,
@@ -11275,7 +12230,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.64,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 113,
@@ -11408,7 +12372,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.46,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 114,
@@ -11541,7 +12514,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 115,
@@ -11674,7 +12656,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.74,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 116,
@@ -11807,7 +12798,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 117,
@@ -11940,7 +12940,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.89,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 118,
@@ -12073,7 +13082,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 119,
@@ -12206,7 +13224,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.1,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 120,
@@ -12339,7 +13366,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 121,
@@ -12472,7 +13508,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.47,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 122,
@@ -12605,7 +13650,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 123,
@@ -12691,7 +13745,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.09,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 124,
@@ -12777,7 +13840,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 125,
@@ -12910,7 +13982,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 126,
@@ -13043,7 +14124,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 127,
@@ -13176,7 +14266,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 128,
@@ -13309,7 +14408,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.47,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 129,
@@ -13442,7 +14550,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.68,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 130,
@@ -13575,7 +14692,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.83,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 131,
@@ -13708,7 +14834,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.31,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 132,
@@ -13841,7 +14976,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 133,
@@ -13974,7 +15118,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 134,
@@ -14107,7 +15260,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 135,
@@ -14193,7 +15355,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 136,
@@ -14279,7 +15450,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.28,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 137,
@@ -14365,7 +15545,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.24,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 138,
@@ -14451,7 +15640,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 139,
@@ -14537,7 +15735,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.33,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 140,
@@ -14623,7 +15830,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.57,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 141,
@@ -14709,7 +15925,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.67,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 142,
@@ -14795,7 +16020,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 143,
@@ -14881,7 +16115,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 144,
@@ -15013,7 +16256,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 145,
@@ -15145,7 +16397,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.57,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 146,
@@ -15277,7 +16538,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.26,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 147,
@@ -15409,7 +16679,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 148,
@@ -15495,7 +16774,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 149,
@@ -15581,7 +16869,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 150,
@@ -15714,7 +17011,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 151,
@@ -15847,7 +17153,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.04,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 152,
@@ -15933,7 +17248,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.17,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 153,
@@ -16066,7 +17390,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.55,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 154,
@@ -16199,7 +17532,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.91,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 155,
@@ -16332,7 +17674,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.27,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 156,
@@ -16465,7 +17816,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.49,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 157,
@@ -16598,7 +17958,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.36,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 158,
@@ -16731,7 +18100,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.06,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 159,
@@ -16842,7 +18220,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.59,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 160,
@@ -16953,7 +18340,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 161,
@@ -17064,7 +18460,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 162,
@@ -17175,7 +18580,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 163,
@@ -17286,7 +18700,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.77,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 164,
@@ -17397,7 +18820,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.33,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 165,
@@ -17508,7 +18940,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 166,
@@ -17619,7 +19060,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.58,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 167,
@@ -17705,7 +19155,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.46,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 168,
@@ -17791,7 +19250,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 169,
@@ -17877,7 +19345,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 170,
@@ -17963,7 +19440,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 171,
@@ -18049,7 +19535,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 172,
@@ -18135,7 +19630,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.66,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 173,
@@ -18221,7 +19725,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.46,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 174,
@@ -18307,7 +19820,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.67,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 175,
@@ -18393,7 +19915,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.68,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 176,
@@ -18479,7 +20010,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.63,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 177,
@@ -18565,7 +20105,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.1,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 178,
@@ -18651,7 +20200,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.77,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 179,
@@ -18784,7 +20342,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 180,
@@ -18870,7 +20437,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.84,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 181,
@@ -18956,7 +20532,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.02,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 182,
@@ -19042,7 +20627,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.32,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 183,
@@ -19153,7 +20747,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.96,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 184,
@@ -19239,7 +20842,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 185,
@@ -19350,7 +20962,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 186,
@@ -19461,7 +21082,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 8.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 187,
@@ -19594,7 +21224,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 188,
@@ -19661,7 +21300,6 @@
       "short_code": "PROPELLER_188",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -19680,7 +21318,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 13,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 189,
@@ -19813,7 +21460,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.81,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 190,
@@ -19899,7 +21555,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.67,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 191,
@@ -19985,7 +21650,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.14,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 192,
@@ -20118,7 +21792,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.52,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 193,
@@ -20204,7 +21887,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.05,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 194,
@@ -20290,7 +21982,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.49,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 195,
@@ -20376,7 +22077,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.16,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 196,
@@ -20462,7 +22172,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 197,
@@ -20548,7 +22267,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 198,
@@ -20681,7 +22409,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.86,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 199,
@@ -20814,7 +22551,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 19.43,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 200,
@@ -20947,7 +22693,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7.95,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 201,
@@ -21080,7 +22835,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 11,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 202,
@@ -21213,7 +22977,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.76,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 203,
@@ -21346,7 +23119,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 204,
@@ -21479,7 +23261,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 205,
@@ -21565,7 +23356,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 206,
@@ -21698,7 +23498,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.61,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 207,
@@ -21831,7 +23640,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.71,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 208,
@@ -21964,7 +23782,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 209,
@@ -22050,7 +23877,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 210,
@@ -22183,7 +24019,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 211,
@@ -22316,7 +24161,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.87,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 212,
@@ -22402,7 +24256,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.57,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 213,
@@ -22535,7 +24398,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 214,
@@ -22621,7 +24493,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 215,
@@ -22754,7 +24635,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.95,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 216,
@@ -22840,7 +24730,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 217,
@@ -22973,7 +24872,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.53,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 218,
@@ -23106,7 +25014,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.64,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 219,
@@ -23239,7 +25156,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.64,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 220,
@@ -23372,7 +25298,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 221,
@@ -23505,7 +25440,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.18,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 222,
@@ -23638,7 +25582,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 223,
@@ -23771,7 +25724,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.22,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 224,
@@ -23857,7 +25819,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.26,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 225,
@@ -23943,7 +25914,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.32,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 226,
@@ -24076,7 +26056,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.46,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 227,
@@ -24209,7 +26198,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 228,
@@ -24342,7 +26340,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.48,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 229,
@@ -24475,7 +26482,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 230,
@@ -24608,7 +26624,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 231,
@@ -24741,7 +26766,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.52,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 232,
@@ -24874,7 +26908,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.82,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 233,
@@ -24960,7 +27003,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 234,
@@ -25046,7 +27098,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 235,
@@ -25132,7 +27193,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 236,
@@ -25265,7 +27335,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.57,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 237,
@@ -25351,7 +27430,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.26,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 238,
@@ -25437,7 +27525,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.58,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 239,
@@ -25523,7 +27620,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.69,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 240,
@@ -25609,7 +27715,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.69,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 241,
@@ -25695,7 +27810,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.98,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 242,
@@ -25781,7 +27905,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.94,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 243,
@@ -25867,7 +28000,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.55,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 244,
@@ -25953,7 +28095,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.29,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 245,
@@ -26039,7 +28190,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.28,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 246,
@@ -26125,7 +28285,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.29,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 247,
@@ -26236,7 +28405,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.73,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 248,
@@ -26322,7 +28500,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 249,
@@ -26408,7 +28595,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 250,
@@ -26494,7 +28690,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.47,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 251,
@@ -26580,7 +28785,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 252,
@@ -26713,7 +28927,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.32,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 253,
@@ -26846,7 +29069,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.92,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 254,
@@ -26979,7 +29211,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.35,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 255,
@@ -27112,7 +29353,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.42,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 256,
@@ -27245,7 +29495,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.21,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 257,
@@ -27378,7 +29637,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.64,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 258,
@@ -27511,7 +29779,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.24,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 259,
@@ -27644,7 +29921,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.83,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 260,
@@ -27777,7 +30063,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.74,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 261,
@@ -27910,7 +30205,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 262,
@@ -28043,7 +30347,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 263,
@@ -28176,7 +30489,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 264,
@@ -28309,7 +30631,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 265,
@@ -28442,7 +30773,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 266,
@@ -28575,7 +30915,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 267,
@@ -28708,7 +31057,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.49,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 268,
@@ -28841,7 +31199,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 269,
@@ -28974,7 +31341,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 270,
@@ -29107,7 +31483,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.08,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 271,
@@ -29240,7 +31625,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 272,
@@ -29373,7 +31767,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 273,
@@ -29506,7 +31909,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 276,
@@ -29553,7 +31965,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -29596,7 +32009,6 @@
       "short_code": "WHEEL_276",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -29615,7 +32027,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 277,
@@ -29639,7 +32060,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -29682,7 +32104,6 @@
       "short_code": "TIRE_277",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -29701,7 +32122,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 278,
@@ -29725,7 +32155,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -29768,7 +32199,6 @@
       "short_code": "TIRE_278",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -29787,7 +32217,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 279,
@@ -29811,7 +32250,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -29854,7 +32294,6 @@
       "short_code": "TIRE_279",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -29873,7 +32312,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 280,
@@ -29897,7 +32345,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -29940,7 +32389,6 @@
       "short_code": "TIRE_280",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -29959,7 +32407,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 14.52,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 281,
@@ -30006,7 +32463,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30049,7 +32507,6 @@
       "short_code": "WHEEL_281",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -30068,7 +32525,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.82,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 282,
@@ -30092,7 +32558,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30135,7 +32602,6 @@
       "short_code": "TIRE_282",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30154,7 +32620,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 283,
@@ -30178,7 +32653,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30221,7 +32697,6 @@
       "short_code": "TIRE_283",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30240,7 +32715,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 284,
@@ -30264,7 +32748,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30307,7 +32792,6 @@
       "short_code": "TIRE_284",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30326,7 +32810,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 285,
@@ -30373,7 +32866,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30416,7 +32910,6 @@
       "short_code": "WHEEL_285",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -30435,7 +32928,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 286,
@@ -30459,7 +32961,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30502,7 +33005,6 @@
       "short_code": "TIRE_286",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30521,7 +33023,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 26.05,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 287,
@@ -30545,7 +33056,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30588,7 +33100,6 @@
       "short_code": "TIRE_287",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30607,7 +33118,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 34,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 288,
@@ -30631,7 +33151,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30674,7 +33195,6 @@
       "short_code": "TIRE_288",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30693,7 +33213,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 289,
@@ -30717,7 +33246,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30760,7 +33290,6 @@
       "short_code": "TIRE_289",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30779,7 +33308,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 31.3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 290,
@@ -30803,7 +33341,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30846,7 +33385,6 @@
       "short_code": "TIRE_290",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30865,7 +33403,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 13.98,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 291,
@@ -30889,7 +33436,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -30932,7 +33480,6 @@
       "short_code": "TIRE_291",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -30951,7 +33498,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 22.05,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 292,
@@ -30975,7 +33531,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31018,7 +33575,6 @@
       "short_code": "TIRE_292",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -31037,7 +33593,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 293,
@@ -31084,7 +33649,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31127,7 +33693,6 @@
       "short_code": "WHEEL_293",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -31146,7 +33711,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 17.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 294,
@@ -31170,7 +33744,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31213,7 +33788,6 @@
       "short_code": "TIRE_294",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -31232,7 +33806,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 22,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 295,
@@ -31256,7 +33839,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31299,7 +33883,6 @@
       "short_code": "TIRE_295",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -31318,7 +33901,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 296,
@@ -31365,7 +33957,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31408,7 +34001,6 @@
       "short_code": "WHEEL_296",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -31427,7 +34019,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 297,
@@ -31474,7 +34075,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31517,7 +34119,6 @@
       "short_code": "WHEEL_297",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -31536,7 +34137,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 298,
@@ -31560,7 +34170,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31603,7 +34214,6 @@
       "short_code": "TIRE_298",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -31622,7 +34232,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 11.15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 299,
@@ -31646,7 +34265,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31689,7 +34309,6 @@
       "short_code": "TREAD_299",
       "tags": [
         "tread",
-        "tread",
         "ground",
         "large"
       ]
@@ -31708,7 +34327,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10.35,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 300,
@@ -31755,7 +34383,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31798,7 +34427,6 @@
       "short_code": "WHEEL_300",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -31817,7 +34445,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 301,
@@ -31841,7 +34478,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31884,7 +34522,6 @@
       "short_code": "TIRE_301",
       "tags": [
         "tire",
-        "tire",
         "ground",
         "large"
       ]
@@ -31903,7 +34540,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.75,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 302,
@@ -31927,7 +34573,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -31970,7 +34617,6 @@
       "short_code": "TRACK_302",
       "tags": [
         "track",
-        "track",
         "ground",
         "small"
       ]
@@ -31989,7 +34635,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.19,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 303,
@@ -32013,7 +34668,8 @@
     "material": "ABS",
     "connectors": [],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -32056,7 +34712,6 @@
       "short_code": "TRACK_303",
       "tags": [
         "track",
-        "track",
         "ground",
         "small"
       ]
@@ -32075,7 +34730,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 304,
@@ -32122,7 +34786,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -32184,7 +34849,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.1,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 305,
@@ -32231,7 +34905,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -32293,7 +34968,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.63,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 306,
@@ -32340,7 +35024,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -32383,7 +35068,6 @@
       "short_code": "WHEEL_306",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "large"
       ]
@@ -32402,7 +35086,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 24.74,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 307,
@@ -32488,7 +35181,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.18,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 308,
@@ -32556,8 +35258,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -32574,7 +35277,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 234,
+      "buoyancy_value": 702
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 309,
@@ -32642,8 +35354,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -32660,7 +35373,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 36.23,
+      "buoyancy_value": 108.69
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 310,
@@ -32728,8 +35450,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -32746,7 +35469,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 101.5,
+      "buoyancy_value": 304.5
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 311,
@@ -32814,8 +35546,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -32832,7 +35565,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 178,
+      "buoyancy_value": 534
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 312,
@@ -32900,8 +35642,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -32918,7 +35661,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 305,
+      "buoyancy_value": 915
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 313,
@@ -32986,8 +35738,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -33004,7 +35757,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 129,
+      "buoyancy_value": 387
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 314,
@@ -33072,7 +35834,6 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
         "large"
       ]
     },
@@ -33090,7 +35851,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 15,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 315,
@@ -33158,8 +35928,9 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
-        "large"
+        "large",
+        "hull",
+        "float_base"
       ]
     },
     "question_weights": {
@@ -33176,7 +35947,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": true,
+    "phys_props": {
+      "weight": 84,
+      "buoyancy_value": 252
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 316,
@@ -33243,7 +36023,6 @@
       "short_code": "PROPELLER_316",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -33262,7 +36041,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 317,
@@ -33329,7 +36117,6 @@
       "short_code": "PROPELLER_317",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "medium"
       ]
@@ -33348,7 +36135,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 318,
@@ -33415,7 +36211,6 @@
       "short_code": "PROPELLER_318",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -33434,7 +36229,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 319,
@@ -33501,7 +36305,6 @@
       "short_code": "PROPELLER_319",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -33520,7 +36323,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 320,
@@ -33587,7 +36399,6 @@
       "short_code": "PROPELLER_320",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -33606,7 +36417,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.09,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 321,
@@ -33673,7 +36493,6 @@
       "short_code": "PROPELLER_321",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "medium"
       ]
@@ -33692,7 +36511,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 322,
@@ -33778,7 +36606,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 4.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 323,
@@ -33864,7 +36701,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 324,
@@ -33950,7 +36796,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.76,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 325,
@@ -34036,7 +36891,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.17,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 326,
@@ -34122,7 +36986,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 327,
@@ -34189,7 +37062,6 @@
       "short_code": "PROPELLER_327",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -34208,7 +37080,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.95,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 328,
@@ -34275,7 +37156,6 @@
       "short_code": "PROPELLER_328",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -34294,7 +37174,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 329,
@@ -34361,7 +37250,6 @@
       "short_code": "PROPELLER_329",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -34380,7 +37268,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.24,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 330,
@@ -34447,7 +37344,6 @@
       "short_code": "PROPELLER_330",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -34466,7 +37362,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 331,
@@ -34533,7 +37438,6 @@
       "short_code": "PROPELLER_331",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -34552,7 +37456,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 13.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 332,
@@ -34619,7 +37532,6 @@
       "short_code": "PROPELLER_332",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -34638,7 +37550,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 333,
@@ -34724,7 +37645,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 334,
@@ -34810,7 +37740,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 335,
@@ -34896,7 +37835,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 0.59,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 336,
@@ -34982,7 +37930,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 16,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 337,
@@ -35068,7 +38025,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.63,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 338,
@@ -35168,7 +38134,6 @@
       "short_code": "MOTOR_338",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "medium"
       ]
@@ -35187,7 +38152,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 8.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 339,
@@ -35320,7 +38294,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7.99,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 340,
@@ -35453,7 +38436,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7.99,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 341,
@@ -35586,7 +38578,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 378,
@@ -35719,7 +38720,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6.45,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 342,
@@ -35852,7 +38862,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 79,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 343,
@@ -35985,7 +39004,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.93,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 344,
@@ -36118,7 +39146,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.93,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 345,
@@ -36251,7 +39288,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 79,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 346,
@@ -36337,7 +39383,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.64,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 347,
@@ -36423,7 +39478,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.4,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 348,
@@ -36470,7 +39534,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -36513,7 +39578,6 @@
       "short_code": "WHEEL_348",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "medium"
       ]
@@ -36532,7 +39596,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 349,
@@ -36579,7 +39652,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -36622,7 +39696,6 @@
       "short_code": "WHEEL_349",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "small"
       ]
@@ -36641,7 +39714,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 350,
@@ -36688,7 +39770,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -36731,7 +39814,6 @@
       "short_code": "WHEEL_350",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "medium"
       ]
@@ -36750,7 +39832,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 2.22,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 351,
@@ -36797,7 +39888,8 @@
       }
     ],
     "roles": [
-      "transmission"
+      "transmission",
+      "wheel_component"
     ],
     "primary_role": "transmission",
     "mechanical": {
@@ -36840,7 +39932,6 @@
       "short_code": "WHEEL_351",
       "tags": [
         "wheel",
-        "wheel",
         "ground",
         "medium"
       ]
@@ -36859,7 +39950,16 @@
     },
     "domains": [
       "ground"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 5.2,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 352,
@@ -36927,7 +40027,6 @@
       "tags": [
         "water",
         "water_propulsion",
-        "water",
         "medium"
       ]
     },
@@ -36945,7 +40044,16 @@
     },
     "domains": [
       "water"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 353,
@@ -37031,7 +40139,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 25.58,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 354,
@@ -37117,7 +40234,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 355,
@@ -37203,7 +40329,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7.6,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 356,
@@ -37289,7 +40424,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 8,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 357,
@@ -37375,7 +40519,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 358,
@@ -37461,7 +40614,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 23.92,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 359,
@@ -37528,7 +40690,6 @@
       "short_code": "PROPELLER_359",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "small"
       ]
@@ -37547,7 +40708,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 1.25,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 360,
@@ -37614,7 +40784,6 @@
       "short_code": "PROPELLER_360",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "large"
       ]
@@ -37633,7 +40802,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 10.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 361,
@@ -37700,7 +40878,6 @@
       "short_code": "PROPELLER_361",
       "tags": [
         "propeller",
-        "propeller",
         "air",
         "medium"
       ]
@@ -37719,7 +40896,16 @@
     },
     "domains": [
       "air"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 3.54,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 2.0
   },
   {
     "id": 362,
@@ -37793,7 +40979,6 @@
       "short_code": "SENSOR_362",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -37812,7 +40997,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 28,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 363,
@@ -37886,7 +41080,6 @@
       "short_code": "SENSOR_363",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -37905,7 +41098,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 18,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 364,
@@ -38005,7 +41207,6 @@
       "short_code": "MOTOR_364",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -38024,7 +41225,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 85,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 365,
@@ -38098,7 +41308,6 @@
       "short_code": "SENSOR_365",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38117,7 +41326,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 16.5,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 366,
@@ -38191,7 +41409,6 @@
       "short_code": "SENSOR_366",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38210,7 +41427,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 16.9,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 367,
@@ -38284,7 +41510,6 @@
       "short_code": "SENSOR_367",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38303,7 +41528,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 34.38,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 368,
@@ -38377,7 +41611,6 @@
       "short_code": "SENSOR_368",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38396,7 +41629,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 18.81,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 369,
@@ -38470,7 +41712,6 @@
       "short_code": "SENSOR_369",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38489,7 +41730,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 12.85,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 370,
@@ -38563,7 +41813,6 @@
       "short_code": "SENSOR_370",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38582,7 +41831,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 20,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 371,
@@ -38656,7 +41914,6 @@
       "short_code": "SENSOR_371",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -38675,7 +41932,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 24,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 372,
@@ -38775,7 +42041,6 @@
       "short_code": "MOTOR_372",
       "tags": [
         "motor",
-        "motor",
         "universal",
         "large"
       ]
@@ -38794,7 +42059,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 83,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 373,
@@ -38887,7 +42161,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 341.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 374,
@@ -38980,7 +42263,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 325.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.0
   },
   {
     "id": 375,
@@ -39047,7 +42339,6 @@
       "short_code": "ACCESSORY_375",
       "tags": [
         "accessory",
-        "accessory",
         "universal",
         "large"
       ]
@@ -39066,7 +42357,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 29,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 376,
@@ -39140,7 +42440,6 @@
       "short_code": "SENSOR_376",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "large"
       ]
@@ -39159,7 +42458,16 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 14.0,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   },
   {
     "id": 377,
@@ -39233,7 +42541,6 @@
       "short_code": "SENSOR_377",
       "tags": [
         "sensor",
-        "sensor",
         "universal",
         "medium"
       ]
@@ -39252,6 +42559,15 @@
     },
     "domains": [
       "universal"
-    ]
+    ],
+    "requires": [],
+    "excludes": [],
+    "assembly_group": null,
+    "is_base": false,
+    "phys_props": {
+      "weight": 7.7,
+      "buoyancy_value": 0
+    },
+    "probability_weight": 1.5
   }
 ]

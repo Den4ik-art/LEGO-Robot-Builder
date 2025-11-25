@@ -153,7 +153,7 @@ export default function Configurator() {
       if (data.warning) {
         showToast(data.warning, "info");
       } else {
-        showToast("Конфігурацію успішно створено! 🚀", "success");
+        showToast("Конфігурацію успішно створено!", "success");
       }
       
       if (window.innerWidth < 1024) {
@@ -189,7 +189,49 @@ export default function Configurator() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20">
       
-      {/* === Header Section (UI) === */}
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <motion.div 
+            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4 text-center"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="mb-4 flex justify-center">
+              <div className="relative">
+                <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
+                <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">
+              Генеруємо конфігурацію...
+            </h3>
+            <p className="text-sm text-slate-600 mb-4">
+              Алгоритм підбирає оптимальний набір деталей для вашого робота
+            </p>
+            <div className="flex items-center justify-center gap-1">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 bg-blue-600 rounded-full"
+                  animate={{
+                    y: [0, -10, 0],
+                    opacity: [1, 0.5, 1]
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    delay: i * 0.2
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+      
+      {/* Header Section (UI)*/}
       <div className="bg-white border-b border-slate-200 pt-10 pb-8 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-3">
@@ -201,10 +243,10 @@ export default function Configurator() {
         </div>
       </div>
 
-      {/* === Main Layout === */}
+      {/* Main Layout */}
       <div className="max-w-7xl mx-auto mt-6 px-4 grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] gap-6 items-start">
         
-        {/* === Left: Form Card === */}
+        {/* Left: Form Card */}
         <motion.div
           className="bg-white rounded-3xl shadow-md border border-slate-200 p-6 lg:sticky lg:top-6"
           initial={{ opacity: 0, x: -15 }}
@@ -316,7 +358,7 @@ export default function Configurator() {
                 label="Максимальна вага (г)"
                 name="weight"
                 min={100}
-                max={10000}
+                max={4000}
                 step={50}
                 value={formData.weight}
                 onChange={handleSliderChange}
@@ -437,7 +479,7 @@ export default function Configurator() {
           </form>
         </motion.div>
 
-        {/* === Right: Results === */}
+        {/* Right: Results */}
         <motion.div
           id="results"
           className="bg-white rounded-3xl shadow-md border border-slate-200 p-6"
@@ -491,7 +533,7 @@ export default function Configurator() {
               {/* Попередження якщо є */}
               {result.warning && (
                 <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
-                  <strong>ℹ️ Інформація:</strong> {result.warning}
+                  <strong>ℹІнформація:</strong> {result.warning}
                 </div>
               )}
 

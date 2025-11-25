@@ -1,30 +1,28 @@
 import React from "react";
 import type { LegoComponent } from "../types/Component";
 
-// Вказуємо URL вашого API
 const API_URL = "http://127.0.0.1:8000";
 
 type Props = {
   component: LegoComponent;
-  quantity?: number; // 🔹 підтримка кількості
+  quantity?: number;
 };
 
 const ComponentCard: React.FC<Props> = ({ component, quantity = 1 }) => {
   const { name, category, price, weight, image } = component;
 
-  // Створюємо повний шлях до зображення з API + fallback
   const imageUrl = image ? `${API_URL}${image}` : "/placeholder.jpg";
 
   return (
     <div className="relative bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-fadeIn overflow-hidden flex flex-col h-full">
-      {/* 🔹 Бейдж кількості у верхньому правому куті */}
+      {/* Кількость у верхньому правому куті */}
       {quantity > 1 && (
         <div className="absolute top-2 right-2 px-2.5 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full shadow-md z-10">
           ×{quantity}
         </div>
       )}
 
-      {/* 🔹 Зона зображення — збільшена */}
+      {/* Зображення */}
       <div className="h-48 sm:h-56 bg-gray-50 flex items-center justify-center overflow-hidden relative">
         <img
           src={imageUrl}
@@ -47,14 +45,13 @@ const ComponentCard: React.FC<Props> = ({ component, quantity = 1 }) => {
         <div className="mt-auto pt-2 border-t border-gray-100">
           <div className="flex items-center justify-between text-sm text-gray-700 mb-1">
             <span className="flex items-center gap-1" title="Вага однієї деталі">
-              ⚖️ <b>{weight}</b> г
+              <b>{weight}</b> г
             </span>
             <span className="font-bold text-blue-700 text-lg">
               {price} ₴
             </span>
           </div>
 
-          {/* 🔹 Якщо кількість > 1, показуємо загальну вартість/вагу дрібним шрифтом */}
           {quantity > 1 && (
             <div className="flex justify-between text-xs text-gray-400">
               <span>Разом: {(weight * quantity).toFixed(1)} г</span>
