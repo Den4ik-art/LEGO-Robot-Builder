@@ -68,7 +68,6 @@ lego-configurator/
 │   │   ├── api/              # HTTP-клієнт
 │   │   └── types/            # TypeScript типи
 │   └── package.json
-└── docs/                     # UML-діаграми (PlantUML)
 ```
 
 ## Запуск
