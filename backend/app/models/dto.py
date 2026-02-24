@@ -42,6 +42,19 @@ class LegoComponent(BaseModel):
     domain: Optional[str] = "universal"
 
 
+class PriorityWeights(BaseModel):
+    """
+    Ваги пріоритетів для зваженої системи оцінювання (Weighted Sum Model).
+    Значення від 0.0 до 1.0.
+    5 критеріїв: speed, force, economy, endurance, eco.
+    """
+    speed: float = 0.5        # Швидкість -> maximize speed_score (rpm)
+    force: float = 0.5        # Сила -> maximize torque_score
+    economy: float = 0.5      # Економія -> minimize price
+    endurance: float = 0.5    # Витривалість -> minimize mass (weight)
+    eco: float = 0.25         # Еко-режим -> minimize energy_consumption (V * A)
+
+
 class ConfigRequest(BaseModel):
     functions: List[str]
     subFunctions: Optional[Dict[str, str]] = {}
@@ -49,6 +62,9 @@ class ConfigRequest(BaseModel):
     weight: float
     priority: str
     sensors: List[str] = []
+    
+    # Нове поле для зважених пріоритетів
+    weights: Optional[PriorityWeights] = None
 
     # Нові поля опитування
 
@@ -56,7 +72,9 @@ class ConfigRequest(BaseModel):
     sizeClass: Optional[str] = None        # 'small' | 'medium' | 'large'
     maxDimensions: Optional[MaxDimensions] = None
 
-    complexityLevel: Optional[int] = 2     # 1 / 2 / 3
+    complexityLevel: Optional[int] = 2     # 1 / 2 / 3 / 4 / 5
+
+    eco_mode: Optional[bool] = False        # Eco-mode: мінімізація енергоспоживання
 
     powerProfile: Optional[str] = None     # 'long_runtime' | 'balanced' | 'performance'
 

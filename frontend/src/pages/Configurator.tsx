@@ -3,10 +3,11 @@ import { useToast } from "../components/Toast";
 import ComponentCard from "../components/ComponentCard";
 import FilterBar from "../components/FilterBar";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  FaCar, FaPlane, FaWater, FaRobot, FaSearch, 
+import {
+  FaCar, FaPlane, FaWater, FaRobot, FaSearch,
   FaCoins, FaWeightHanging, FaTachometerAlt, FaShieldAlt, FaPiggyBank, FaDumbbell,
-  FaTree, FaHome, FaSwimmingPool, FaMountain, FaMicrochip, FaPuzzlePiece, FaStar
+  FaTree, FaHome, FaSwimmingPool, FaMountain, FaMicrochip, FaPuzzlePiece, FaStar,
+  FaDna, FaCogs, FaLeaf, FaBolt
 } from "react-icons/fa";
 
 // --- Типи ---
@@ -21,12 +22,24 @@ type LegoComponent = {
   quantity?: number;
 };
 
+type GaStats = {
+  generations: number;
+  population_size: number;
+  final_fitness: number;
+  elapsed_seconds: number;
+  total_parts: number;
+  best_fitness_history: number[];
+  avg_fitness_history: number[];
+};
+
 type ApiResponse = {
   selected: LegoComponent[];
   total_price: number;
   total_weight: number;
   remaining_budget: number;
   warning?: string;
+  chromosome?: number[];
+  ga_stats?: GaStats;
 };
 
 // --- Опції функцій ---
@@ -39,10 +52,10 @@ const FUNCTION_OPTIONS = [
 ];
 
 const TERRAIN_OPTIONS = [
-  { value: "indoor",       label: "Приміщення",       icon: <FaHome /> },
-  { value: "outdoor_flat", label: "Вулиця (Рівно)",   icon: <FaTree /> },
-  { value: "offroad",      label: "Off-road",         icon: <FaMountain /> },
-  { value: "water_pool",   label: "Водойма",          icon: <FaSwimmingPool /> },
+  { value: "indoor", label: "Приміщення", icon: <FaHome /> },
+  { value: "outdoor_flat", label: "Вулиця (Рівно)", icon: <FaTree /> },
+  { value: "offroad", label: "Off-road", icon: <FaMountain /> },
+  { value: "water_pool", label: "Водойма", icon: <FaSwimmingPool /> },
 ];
 
 const SENSORS_LIST = [
@@ -66,21 +79,36 @@ export default function Configurator() {
     complexityLevel: 2,
     powerProfile: "balanced",
     decorationLevel: "normal",
+    // Нові ваги пріоритетів (0.0 - 1.0)
+    weights: {
+      speed: 0.5,      // Швидкість
+      force: 0.5,      // Сила
+      economy: 0.5,    // Економія
+      endurance: 0.5,  // Витривалість
+      eco: 0.25,       // Еко (Енергоефективність)
+    },
+    eco_mode: false,   // Eco-mode toggle
   });
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [algorithm, setAlgorithm] = useState<"sequential" | "genetic">("sequential");
+
+  // Progress bar state for GA
+  const [gaProgress, setGaProgress] = useState(0);
+  const [gaTotal, setGaTotal] = useState(100);
+  const [gaStatus, setGaStatus] = useState("");
 
   // --- Обробники форми ---
-  
+
   const handleFunctionToggle = (funcId: string) => {
     setFormData(prev => {
       const exists = prev.functions.includes(funcId);
       const newFunctions = exists
         ? prev.functions.filter((f) => f !== funcId)
         : [...prev.functions, funcId];
-      
+
       const newSub = { ...prev.subFunctions };
       if (exists) delete newSub[funcId];
       else {
@@ -97,7 +125,7 @@ export default function Configurator() {
       subFunctions: { ...prev.subFunctions, [funcId]: subtype },
     }));
   };
-  
+
   const handleTerrainChange = (terrain: string) => {
     setFormData(prev => ({ ...prev, terrain }));
   };
@@ -112,7 +140,7 @@ export default function Configurator() {
       return {
         ...prev,
         sensors: exists
-          ? prev.sensors.filter(i => i !== s) 
+          ? prev.sensors.filter(i => i !== s)
           : [...prev.sensors, s]
       };
     });
@@ -122,40 +150,120 @@ export default function Configurator() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleWeightChange = (weightName: "speed" | "force" | "economy" | "endurance" | "eco", value: number) => {
+    setFormData(prev => ({
+      ...prev,
+      weights: {
+        ...prev.weights,
+        [weightName]: value,
+      },
+    }));
+  };
+
   // --- Сабміт ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.functions.length === 0) return showToast("Оберіть хоча б одну функцію!", "error");
-    
+
     setLoading(true);
     setResult(null);
     setSelectedCategory("all");
+    setGaProgress(0);
+    setGaTotal(100);
+    setGaStatus("Підготовка...");
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://127.0.0.1:8000/config", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: JSON.stringify(formData),
-      });
 
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        throw new Error(data.error || data.detail || "Помилка генерації");
-      }
-      
-      setResult(data);
-      
-      // Показуємо попередження якщо воно є
-      if (data.warning) {
-        showToast(data.warning, "info");
+      if (algorithm === "genetic") {
+        // SSE-based request for GA with progress tracking
+        const res = await fetch("http://127.0.0.1:8000/config/genetic", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.detail || "Помилка генерації");
+        }
+
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        if (!reader) throw new Error("Не вдалося прочитати відповідь");
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+
+          // Parse SSE events from buffer
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || ""; // Keep incomplete line
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              try {
+                const msg = JSON.parse(line.substring(6));
+
+                if (msg.type === "progress") {
+                  setGaProgress(msg.progress);
+                  setGaTotal(msg.total);
+                  setGaStatus(msg.status || "");
+                } else if (msg.type === "result") {
+                  const data = msg.result;
+                  if (data.error) {
+                    throw new Error(data.error);
+                  }
+                  setResult(data);
+                  if (data.warning) {
+                    showToast(data.warning, "info");
+                  } else {
+                    showToast("Еволюцію завершено! Конфігурацію створено.", "success");
+                  }
+                } else if (msg.type === "error") {
+                  throw new Error(msg.error);
+                }
+              } catch (parseErr) {
+                // Ignore parse errors for incomplete lines
+                if ((parseErr as Error).message !== "Unexpected end of JSON input") {
+                  console.warn("SSE parse error:", parseErr);
+                }
+              }
+            }
+          }
+        }
       } else {
-        showToast("Конфігурацію успішно створено!", "success");
+        // Standard REST request for sequential
+        const res = await fetch("http://127.0.0.1:8000/config", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          throw new Error(data.error || data.detail || "Помилка генерації");
+        }
+
+        setResult(data);
+
+        if (data.warning) {
+          showToast(data.warning, "info");
+        } else {
+          showToast("Конфігурацію успішно створено!", "success");
+        }
       }
-      
+
       if (window.innerWidth < 1024) {
         setTimeout(() => document.getElementById("results")?.scrollIntoView({ behavior: "smooth" }), 100);
       }
@@ -163,6 +271,8 @@ export default function Configurator() {
       showToast((err as Error).message, "error");
     } finally {
       setLoading(false);
+      setGaProgress(0);
+      setGaStatus("");
     }
   };
 
@@ -181,56 +291,101 @@ export default function Configurator() {
   const displayedComponents = selectedCategory !== "all"
     ? aggregatedComponents.filter((c) => c.category === selectedCategory)
     : aggregatedComponents;
-    
-  const categories = aggregatedComponents.length 
+
+  const categories = aggregatedComponents.length
     ? ["all", ...new Set(aggregatedComponents.map(c => c.category))]
     : [];
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20">
-      
+
       {/* Loading Overlay */}
       {loading && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <motion.div 
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4 text-center"
+          <motion.div
+            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4 text-center w-full"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="mb-4 flex justify-center">
-              <div className="relative">
-                <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
-                <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-              </div>
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">
-              Генеруємо конфігурацію...
-            </h3>
-            <p className="text-sm text-slate-600 mb-4">
-              Алгоритм підбирає оптимальний набір деталей для вашого робота
-            </p>
-            <div className="flex items-center justify-center gap-1">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-2 h-2 bg-blue-600 rounded-full"
-                  animate={{
-                    y: [0, -10, 0],
-                    opacity: [1, 0.5, 1]
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    repeat: Infinity,
-                    delay: i * 0.2
-                  }}
-                />
-              ))}
-            </div>
+            {algorithm === "genetic" ? (
+              /* === GA Progress Bar Mode === */
+              <>
+                <div className="mb-4 flex justify-center">
+                  <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center">
+                    <FaDna className="text-2xl text-emerald-600 animate-pulse" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-1">
+                  Генетична еволюція
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  Алгоритм шукає оптимальну конфігурацію через еволюцію поколінь
+                </p>
+
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-200 rounded-full h-3 mb-2 overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-500"
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${gaTotal > 0 ? Math.round((gaProgress / gaTotal) * 100) : 0}%` }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between text-xs mb-3">
+                  <span className="text-slate-500">
+                    Покоління {gaProgress} / {gaTotal}
+                  </span>
+                  <span className="font-bold text-emerald-600">
+                    {gaTotal > 0 ? Math.round((gaProgress / gaTotal) * 100) : 0}%
+                  </span>
+                </div>
+
+                {gaStatus && (
+                  <p className="text-xs text-slate-500 bg-slate-50 rounded-xl px-3 py-2 border border-slate-100">
+                    {gaStatus}
+                  </p>
+                )}
+              </>
+            ) : (
+              /* === Sequential Spinner Mode === */
+              <>
+                <div className="mb-4 flex justify-center">
+                  <div className="relative">
+                    <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
+                    <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Генеруємо конфігурацію...
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Алгоритм підбирає оптимальний набір деталей для вашого робота
+                </p>
+                <div className="flex items-center justify-center gap-1">
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 bg-blue-600 rounded-full"
+                      animate={{
+                        y: [0, -10, 0],
+                        opacity: [1, 0.5, 1]
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        delay: i * 0.2
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
         </div>
       )}
-      
+
       {/* Header Section (UI)*/}
       <div className="bg-white border-b border-slate-200 pt-10 pb-8 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto text-center">
@@ -245,7 +400,7 @@ export default function Configurator() {
 
       {/* Main Layout */}
       <div className="max-w-7xl mx-auto mt-6 px-4 grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] gap-6 items-start">
-        
+
         {/* Left: Form Card */}
         <motion.div
           className="bg-white rounded-3xl shadow-md border border-slate-200 p-6 lg:sticky lg:top-6"
@@ -254,7 +409,7 @@ export default function Configurator() {
           transition={{ duration: 0.25 }}
         >
           <form className="space-y-6" onSubmit={handleSubmit}>
-            
+
             {/* Функції */}
             <section>
               <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-2">
@@ -269,9 +424,8 @@ export default function Configurator() {
                   return (
                     <div
                       key={f.id}
-                      className={`text-left border rounded-2xl px-3 py-2 text-xs flex flex-col gap-1 transition ${
-                        isActive ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
-                      }`}
+                      className={`text-left border rounded-2xl px-3 py-2 text-xs flex flex-col gap-1 transition ${isActive ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                        }`}
                     >
                       <button
                         type="button"
@@ -294,7 +448,7 @@ export default function Configurator() {
                         <select
                           className="mt-1 text-xs w-full rounded-xl border border-slate-200 bg-white px-2 py-1"
                           value={formData.subFunctions[f.id] || f.subtypes[0]}
-                          onChange={(e) => handleSubFunctionChange(f.id, e.target.value)} 
+                          onChange={(e) => handleSubFunctionChange(f.id, e.target.value)}
                         >
                           {f.subtypes.map((sub) => (
                             <option key={sub} value={sub}>
@@ -325,11 +479,10 @@ export default function Configurator() {
                       key={t.value}
                       type="button"
                       onClick={() => handleTerrainChange(t.value)}
-                      className={`flex flex-col items-start gap-1 border rounded-2xl px-3 py-2 text-xs transition ${
-                        isActive
-                          ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm"
-                          : "border-slate-200 bg-slate-50 hover:bg-slate-100"
-                      }`}
+                      className={`flex flex-col items-start gap-1 border rounded-2xl px-3 py-2 text-xs transition ${isActive
+                        ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm"
+                        : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                        }`}
                     >
                       <span className="flex items-center gap-2">
                         <span className="text-base">{t.icon}</span>
@@ -381,9 +534,9 @@ export default function Configurator() {
                 Розмір / Профіль
               </h2>
               <div className="flex gap-3">
-                <select 
-                  name="sizeClass" 
-                  value={formData.sizeClass} 
+                <select
+                  name="sizeClass"
+                  value={formData.sizeClass}
                   onChange={(e) => handlePriorityChange("sizeClass", e.target.value)}
                   className="w-full text-xs rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
                 >
@@ -392,9 +545,9 @@ export default function Configurator() {
                   <option value="large">Великий (L)</option>
                 </select>
 
-                <select 
-                  name="powerProfile" 
-                  value={formData.powerProfile} 
+                <select
+                  name="powerProfile"
+                  value={formData.powerProfile}
                   onChange={(e) => handlePriorityChange("powerProfile", e.target.value)}
                   className="w-full text-xs rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
                 >
@@ -418,9 +571,8 @@ export default function Configurator() {
                       key={sensor}
                       type="button"
                       onClick={() => handleSensorToggle(sensor)}
-                      className={`text-xs border rounded-2xl px-3 py-2 transition text-left ${
-                        isActive ? "border-amber-500 bg-amber-50 text-amber-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
-                      }`}
+                      className={`text-xs border rounded-2xl px-3 py-2 transition text-left ${isActive ? "border-amber-500 bg-amber-50 text-amber-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                        }`}
                     >
                       {sensor}
                     </button>
@@ -429,30 +581,117 @@ export default function Configurator() {
               </div>
             </section>
 
-            {/* Пріоритет */}
+            {/* Ваги Пріоритетів */}
             <section>
               <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-2">
-                <FaShieldAlt /> Пріоритет
+                <FaStar /> Ваги пріоритетів
+              </h2>
+              <p className="text-xs text-slate-500 mb-3">
+                Налаштуйте важливість кожного критерію від 0.0 до 1.0
+              </p>
+              <div className="grid grid-cols-1 gap-3">
+                <WeightSlider
+                  icon={<FaTachometerAlt />}
+                  label="Швидкість"
+                  name="speed"
+                  value={formData.weights.speed}
+                  onChange={handleWeightChange}
+                  color="blue"
+                />
+                <WeightSlider
+                  icon={<FaShieldAlt />}
+                  label="Сила (Крутний момент)"
+                  name="force"
+                  value={formData.weights.force}
+                  onChange={handleWeightChange}
+                  color="red"
+                />
+                <WeightSlider
+                  icon={<FaPiggyBank />}
+                  label="Економія (Ціна)"
+                  name="economy"
+                  value={formData.weights.economy}
+                  onChange={handleWeightChange}
+                  color="green"
+                />
+                <WeightSlider
+                  icon={<FaDumbbell />}
+                  label="Витривалість (Легкість)"
+                  name="endurance"
+                  value={formData.weights.endurance}
+                  onChange={handleWeightChange}
+                  color="purple"
+                />
+                <WeightSlider
+                  icon={<FaBolt />}
+                  label="Еко (Енергоефективність)"
+                  name="eco"
+                  value={formData.weights.eco}
+                  onChange={handleWeightChange}
+                  color="emerald"
+                />
+              </div>
+            </section>
+
+            {/* Eco-mode Toggle */}
+            <section>
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, eco_mode: !prev.eco_mode }))}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-medium transition-all border-2 ${formData.eco_mode
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md"
+                  : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300"
+                  }`}
+              >
+                <span className="flex items-center gap-2">
+                  <FaLeaf className={formData.eco_mode ? "text-emerald-500" : "text-slate-400"} />
+                  <div className="text-left">
+                    <div className="font-semibold">Eco-Mode</div>
+                    <div className="text-[10px] opacity-70">Мінімізація енергоспоживання</div>
+                  </div>
+                </span>
+                <div className={`w-10 h-5 rounded-full relative transition-colors ${formData.eco_mode ? "bg-emerald-500" : "bg-slate-300"
+                  }`}>
+                  <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow ${formData.eco_mode ? "left-5" : "left-0.5"
+                    }`} />
+                </div>
+              </button>
+            </section>
+
+            {/* Вибір алгоритму */}
+            <section>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-2">
+                <FaDna /> Алгоритм оптимізації
               </h2>
               <div className="grid grid-cols-2 gap-2">
-                {["speed", "stability", "cheapness", "durability"].map((p) => {
-                  const isActive = formData.priority === p;
-                  const label = { speed: "Швидкість", stability: "Сила", cheapness: "Економія", durability: "Витривалість" }[p] || p;
-                  const icon = { speed: <FaTachometerAlt />, stability: <FaShieldAlt />, cheapness: <FaPiggyBank />, durability: <FaDumbbell /> }[p];
-
-                  return (
-                    <button
-                      key={p}
-                      type="button"
-                      onClick={() => handlePriorityChange("priority", p)}
-                      className={`flex-1 py-2 text-[10px] font-bold uppercase rounded-2xl flex flex-col items-center gap-1 transition-all border
-                        ${isActive ? "border-purple-500 bg-purple-50 text-purple-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600"}`}
-                    >
-                      <span className="text-sm">{icon}</span>
-                      {label}
-                    </button>
-                  );
-                })}
+                <button
+                  type="button"
+                  onClick={() => setAlgorithm("sequential")}
+                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium transition-all border-2 ${algorithm === "sequential"
+                    ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
+                    : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                    }`}
+                >
+                  <FaCogs className="text-sm" />
+                  <div className="text-left">
+                    <div className="font-semibold">Послідовний</div>
+                    <div className="text-[10px] opacity-70">Швидкий, детермінований</div>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAlgorithm("genetic")}
+                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium transition-all border-2 ${algorithm === "genetic"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md"
+                    : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                    }`}
+                >
+                  <FaDna className="text-sm" />
+                  <div className="text-left">
+                    <div className="font-semibold">Генетичний</div>
+                    <div className="text-[10px] opacity-70">Еволюційна оптимізація</div>
+                  </div>
+                </button>
               </div>
             </section>
 
@@ -461,17 +700,20 @@ export default function Configurator() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 px-4 shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                className={`w-full rounded-2xl text-white text-sm font-semibold py-3 px-4 shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition ${algorithm === "genetic"
+                  ? "bg-emerald-600 hover:bg-emerald-700"
+                  : "bg-blue-600 hover:bg-blue-700"
+                  }`}
               >
                 {loading ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Обробка...
+                    {algorithm === "genetic" ? "Еволюція..." : "Обробка..."}
                   </>
                 ) : (
                   <>
-                    <FaPuzzlePiece />
-                    Згенерувати конфігурацію
+                    {algorithm === "genetic" ? <FaDna /> : <FaPuzzlePiece />}
+                    {algorithm === "genetic" ? "Запустити еволюцію" : "Згенерувати конфігурацію"}
                   </>
                 )}
               </button>
@@ -511,7 +753,7 @@ export default function Configurator() {
           {result && (
             <>
               {/* Загальна інформація */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 text-xs">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 text-xs">
                 <InfoBadge
                   label="Кількість типів деталей"
                   value={aggregatedComponents.length.toString()}
@@ -530,6 +772,46 @@ export default function Configurator() {
                 />
               </div>
 
+              {/* Використані ваги пріоритетів */}
+              <div className="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <h3 className="text-xs font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                  <FaStar className="text-amber-500" /> Використані ваги пріоритетів
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <WeightDisplay label="Швидкість" value={formData.weights.speed} color="blue" icon={<FaTachometerAlt />} />
+                  <WeightDisplay label="Сила" value={formData.weights.force} color="red" icon={<FaShieldAlt />} />
+                  <WeightDisplay label="Економія" value={formData.weights.economy} color="green" icon={<FaPiggyBank />} />
+                  <WeightDisplay label="Витривалість" value={formData.weights.endurance} color="purple" icon={<FaDumbbell />} />
+                </div>
+              </div>
+
+              {/* GA Stats - тільки при генетичному алгоритмі */}
+              {result.ga_stats && (
+                <div className="mb-6 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+                  <h3 className="text-xs font-semibold text-emerald-700 mb-3 flex items-center gap-2">
+                    <FaDna className="text-emerald-500" /> Статистика генетичного алгоритму
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <div className="bg-white rounded-xl p-2.5 border border-emerald-100">
+                      <div className="text-emerald-500 font-medium mb-1">Фітнес</div>
+                      <div className="text-slate-900 font-bold text-sm">{result.ga_stats.final_fitness}</div>
+                    </div>
+                    <div className="bg-white rounded-xl p-2.5 border border-emerald-100">
+                      <div className="text-emerald-500 font-medium mb-1">Поколінь</div>
+                      <div className="text-slate-900 font-bold text-sm">{result.ga_stats.generations}</div>
+                    </div>
+                    <div className="bg-white rounded-xl p-2.5 border border-emerald-100">
+                      <div className="text-emerald-500 font-medium mb-1">Час</div>
+                      <div className="text-slate-900 font-bold text-sm">{result.ga_stats.elapsed_seconds}s</div>
+                    </div>
+                    <div className="bg-white rounded-xl p-2.5 border border-emerald-100">
+                      <div className="text-emerald-500 font-medium mb-1">Популяція</div>
+                      <div className="text-slate-900 font-bold text-sm">{result.ga_stats.population_size}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Попередження якщо є */}
               {result.warning && (
                 <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
@@ -542,7 +824,7 @@ export default function Configurator() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   <AnimatePresence mode="popLayout">
                     {displayedComponents.map((comp) => (
-                      <motion.div 
+                      <motion.div
                         key={comp.id}
                         layout
                         initial={{ scale: 0.9, opacity: 0 }}
@@ -635,11 +917,10 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
             key={opt.value}
             type="button"
             onClick={() => onChange(name, opt.value)}
-            className={`text-[10px] font-bold uppercase border rounded-xl px-3 py-2 transition ${
-              isActive
-                ? "border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm"
-                : "border-slate-200 bg-white hover:bg-slate-100 text-slate-600"
-            }`}
+            className={`text-[10px] font-bold uppercase border rounded-xl px-3 py-2 transition ${isActive
+              ? "border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm"
+              : "border-slate-200 bg-white hover:bg-slate-100 text-slate-600"
+              }`}
           >
             {opt.label}
           </button>
@@ -648,3 +929,130 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
     </div>
   </div>
 );
+
+// --- Новий компонент для ваг пріоритетів ---
+type WeightSliderProps = {
+  icon: React.ReactNode;
+  label: string;
+  name: "speed" | "force" | "economy" | "endurance" | "eco";
+  value: number;
+  onChange: (name: "speed" | "force" | "economy" | "endurance" | "eco", value: number) => void;
+  color: "blue" | "red" | "green" | "purple" | "emerald";
+};
+
+const WeightSlider: React.FC<WeightSliderProps> = ({ icon, label, name, value, onChange, color }) => {
+  const colorClasses = {
+    blue: {
+      bg: "bg-blue-50",
+      border: "border-blue-200",
+      text: "text-blue-600",
+      accent: "accent-blue-500",
+      bar: "bg-blue-500",
+    },
+    red: {
+      bg: "bg-red-50",
+      border: "border-red-200",
+      text: "text-red-600",
+      accent: "accent-red-500",
+      bar: "bg-red-500",
+    },
+    green: {
+      bg: "bg-emerald-50",
+      border: "border-emerald-200",
+      text: "text-emerald-600",
+      accent: "accent-emerald-500",
+      bar: "bg-emerald-500",
+    },
+    purple: {
+      bg: "bg-purple-50",
+      border: "border-purple-200",
+      text: "text-purple-600",
+      accent: "accent-purple-500",
+      bar: "bg-purple-500",
+    },
+    emerald: {
+      bg: "bg-emerald-50",
+      border: "border-emerald-200",
+      text: "text-emerald-600",
+      accent: "accent-emerald-500",
+      bar: "bg-emerald-500",
+    },
+  };
+
+  const colors = colorClasses[color];
+  const percentage = value * 100;
+
+  return (
+    <div className={`${colors.bg} p-3 rounded-xl border ${colors.border}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span className={`text-xs font-semibold ${colors.text} flex items-center gap-2`}>
+          {icon} {label}
+        </span>
+        <span className={`text-sm font-bold ${colors.text}`}>
+          {value.toFixed(1)}
+        </span>
+      </div>
+      <div className="relative">
+        <input
+          type="range"
+          min={0}
+          max={1.0}
+          step={0.1}
+          value={value}
+          onChange={(e) => onChange(name, Number(e.target.value))}
+          className={`w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer ${colors.accent} hover:opacity-80 transition-all`}
+        />
+        {/* Progress bar overlay */}
+        <div
+          className={`absolute top-0 left-0 h-2 ${colors.bar} rounded-lg pointer-events-none opacity-30`}
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+        <span>Не важливо</span>
+        <span>Важливо</span>
+        <span>Критично</span>
+      </div>
+    </div>
+  );
+};
+
+// --- Компонент для відображення ваг у результатах ---
+type WeightDisplayProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+  color: "blue" | "red" | "green" | "purple" | "emerald";
+};
+
+const WeightDisplay: React.FC<WeightDisplayProps> = ({ icon, label, value, color }) => {
+  const colorClasses = {
+    blue: { bg: "bg-blue-100", bar: "bg-blue-500", text: "text-blue-700" },
+    red: { bg: "bg-red-100", bar: "bg-red-500", text: "text-red-700" },
+    green: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-700" },
+    purple: { bg: "bg-purple-100", bar: "bg-purple-500", text: "text-purple-700" },
+    emerald: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-700" },
+  };
+
+  const colors = colorClasses[color];
+  const percentage = ((value - 0.25) / 0.75) * 100;
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-2 shadow-sm">
+      <div className="flex items-center justify-between mb-1">
+        <span className={`text-[10px] font-semibold ${colors.text} flex items-center gap-1`}>
+          {icon} {label}
+        </span>
+        <span className={`text-xs font-bold ${colors.text}`}>
+          {value.toFixed(2)}
+        </span>
+      </div>
+      <div className={`h-1.5 ${colors.bg} rounded-full overflow-hidden`}>
+        <div
+          className={`h-full ${colors.bar} rounded-full transition-all duration-300`}
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+    </div>
+  );
+};

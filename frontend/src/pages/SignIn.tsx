@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { motion, Variants } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
-import { FaUser, FaLock, FaArrowRight, FaSignInAlt } from "react-icons/fa";
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
+import { CyberLayout } from "../components/layout/CyberLayout";
+import { CyberCard } from "../components/ui/CyberCard";
+import { CyberInput } from "../components/ui/CyberInput";
+import { CyberButton } from "../components/ui/CyberButton";
+import spacemanImg from "../assets/lego_spaceman_v2.png";
+import bgNeon from "../assets/bgSingInUp.jpg";
 
 export default function SignIn() {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -24,10 +18,10 @@ export default function SignIn() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.username || !form.password) {
-      showToast("Будь ласка, заповніть всі поля", "error");
+      showToast("БУДЬ ЛАСКА, ЗАПОВНІТЬ ВСІ ПОЛЯ", "error");
       return;
     }
-    
+
     setLoading(true);
 
     try {
@@ -39,12 +33,12 @@ export default function SignIn() {
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.detail || "Невірний логін або пароль");
+      if (!res.ok) throw new Error(data.detail || "НЕВІРНИЙ ЛОГІН АБО ПАРОЛЬ");
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      showToast("Раді вас бачити знову!", "success");
+      showToast("АВТОРИЗАЦІЯ УСПІШНА", "success");
 
       setTimeout(() => {
         window.location.href = "/";
@@ -56,101 +50,93 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 font-sans">
-      
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden"
-      >
-        
-        {/* (Header) */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-center text-white">
-          <div className="mx-auto w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 shadow-inner">
-            <FaSignInAlt className="text-3xl text-white" />
-          </div>
-          <h2 className="text-3xl font-bold mb-2">Вхід в акаунт</h2>
-          <p className="text-blue-100 text-sm">Продовжуйте створення свого ідеального робота</p>
+    <CyberLayout>
+      <div className="relative w-full h-[80vh] flex items-center justify-center p-4">
+
+        {/* LEGO Background Frame */}
+        <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none">
+          <img
+            src={bgNeon}
+            alt="Neon Background"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Форма */}
-        <div className="p-8 pt-10">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            
-            {/* Поле Логін */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                <FaUser />
-              </div>
-              <input
-                type="text"
+        {/* Absolute Spaceman - Top Right */}
+        <div className="hidden lg:block absolute top-[10%] right-[5%] w-[25vw] max-w-[300px] z-20 pointer-events-none">
+          <img
+            src={spacemanImg}
+            alt="Lego Spaceman"
+            className="w-full h-auto object-contain drop-shadow-[0_0_20px_rgba(0,191,255,0.6)] animate-pulse-slow"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="relative z-10 w-full max-w-md">
+
+
+
+          <CyberCard
+            title="USER LOGIN"
+            variant="yellow"
+            className="w-full backdrop-blur-md bg-hud-black/90 shadow-[0_0_50px_rgba(255,255,0,0.15)] border-neon-yellow/30"
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-display text-white mb-2 tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                ВХІД У СИСТЕМУ
+              </h2>
+              <p className="text-neon-yellow font-mono text-xs tracking-widest uppercase">
+                Введіть свої дані для доступу
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6 relative">
+              {/* Inner glowing accent */}
+              <div className="absolute -inset-4 bg-neon-yellow/5 blurred-3xl rounded-full pointer-events-none" />
+
+              <CyberInput
+                label="ІМ'Я КОРИСТУВАЧА"
                 name="username"
-                placeholder="Ваш логін"
-                autoComplete="username"
                 value={form.username}
                 onChange={handleChange}
-                className="w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all outline-none font-medium text-gray-700 placeholder-gray-400"
-                required
+                placeholder=""
+                disabled={loading}
+                className="relative z-10"
               />
-            </div>
 
-            {/* Поле Пароль */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                <FaLock />
-              </div>
-              <input
+              <CyberInput
+                label="ПАРОЛЬ"
                 type="password"
                 name="password"
-                placeholder="Ваш пароль"
-                autoComplete="current-password"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all outline-none font-medium text-gray-700 placeholder-gray-400"
-                required
+                placeholder=""
+                disabled={loading}
+                className="relative z-10"
               />
-            </div>
 
-            {/* Кнопка входу */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Перевірка...
-                </span>
-              ) : (
-                <>
-                  Увійти <FaArrowRight className="text-sm" />
-                </>
-              )}
-            </motion.button>
-          </form>
-
-          {/* Підвал форми */}
-          <div className="mt-8 text-center">
-            <p className="text-gray-500 text-sm">
-              Немає акаунту?{" "}
-              <Link 
-                to="/signup" 
-                className="text-blue-600 font-bold hover:text-blue-800 transition-colors underline decoration-transparent hover:decoration-blue-800 underline-offset-2"
+              <CyberButton
+                type="submit"
+                variant="primary"
+                isLoading={loading}
+                className="w-full mt-6 text-lg relative z-10 shadow-[0_0_20px_rgba(255,255,0,0.4)] hover:shadow-[0_0_30px_rgba(255,255,0,0.6)]"
               >
-                Зареєструватися
-              </Link>
-            </p>
-          </div>
+                УВІЙТИ
+              </CyberButton>
+            </form>
+
+            <div className="mt-8 text-center pt-6 border-t border-gray-800/50">
+              <CyberButton
+                variant="secondary"
+                className="w-full text-xs"
+                onClick={() => window.location.href = '/signup'}
+              >
+                ЩЕ НЕ ЗАРЕЄСТРОВАНІ? РЕЄСТРАЦІЯ
+              </CyberButton>
+            </div>
+          </CyberCard>
         </div>
-      </motion.div>
-      
-    </div>
+      </div>
+    </CyberLayout>
   );
 }

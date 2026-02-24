@@ -3,3 +3,9 @@ uvicorn
 pydantic[email]
 python-multipart
 pyjwt
+sqlalchemy>=2.0
+psycopg2-binary
+bcrypt
+python-jose[cryptography]
+python-dotenv
+alembic

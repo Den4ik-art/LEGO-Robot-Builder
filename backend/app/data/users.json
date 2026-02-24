@@ -26,5 +26,12 @@
     "email": "test@gmail.com",
     "full_name": "Test teest",
     "password": "1234test"
+  },
+  {
+    "id": "1b64d28f-f67a-409b-95eb-4c730dca4db8",
+    "username": "Tetra",
+    "email": "tetra@gmail.com",
+    "full_name": "Tetra te",
+    "password": "12345678"
   }
 ]
