@@ -1,669 +1,546 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 import {
-  FaChartLine, FaDatabase, FaMicrochip,
-  FaPlay, FaCheckCircle, FaExclamationTriangle, FaCopy, FaChevronDown, FaChevronUp,
-  FaDna, FaCogs, FaLeaf, FaBolt
-} from "react-icons/fa";
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer,
+  BarChart, Bar, Cell, ComposedChart, Area, ScatterChart, Scatter, ZAxis,
+  Tooltip as RechartsTooltip, ErrorBar, AreaChart
+} from "recharts";
+import {
+  Gauge, Cpu, FlaskConical, Binary, Play, Settings2, BarChart2,
+  Activity, ArrowRight, Lightbulb, TrendingUp, DollarSign, BrainCircuit,
+  AlertTriangle, Hammer, Cog
+} from "lucide-react";
 
 // ═══════════════════════════════════════════════════════
-//  TYPES
+// UI COMPONENTS
 // ═══════════════════════════════════════════════════════
 
-type AlgoResult = {
-  avg_time_ms: number;
-  min_time_ms: number;
-  max_time_ms: number;
-  std_dev_ms: number;
-  success_rate: number;
-  avg_fitness?: number;
-  population_size?: number;
-  generations?: number;
-};
+const ChartCard = ({ title, children, icon, className = "" }: any) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className={`bg-white border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 flex flex-col ${className}`}
+  >
+    <div className="flex items-center gap-2 mb-4 pb-2 border-b-4 border-slate-900">
+      <div className="p-2 bg-yellow-400 border-2 border-slate-900 rounded-sm">
+        {icon}
+      </div>
+      <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">{title}</h3>
+    </div>
+    <div className="flex-1 min-h-0 w-full relative">
+      {children}
+    </div>
+  </motion.div>
+);
 
-type ExperimentResult = {
-  n: number;
-  runs: number;
-  dataset_generation_ms: number;
-  greedy: AlgoResult;
-  genetic?: AlgoResult;
-  theoretical_n_log_n?: number;
-  greedy_coefficient?: number;
-};
+const HighlightCard = ({ title, value, subtitle, icon, color = "bg-emerald-400" }: any) => (
+  <motion.div
+    initial={{ scale: 0.9, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    className={`border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-4 flex items-center gap-4 ${color}`}
+  >
+    <div className="p-3 bg-white border-2 border-slate-900 rounded-full flex-shrink-0">
+      {icon}
+    </div>
+    <div>
+      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">{title}</h4>
+      <div className="text-2xl font-black text-slate-900">{value}</div>
+      {subtitle && <div className="text-sm font-bold text-slate-700">{subtitle}</div>}
+    </div>
+  </motion.div>
+);
 
-type FullComparisonResult = {
-  experiments: ExperimentResult[];
-  summary: {
-    total_experiments: number;
-    total_time_ms: number;
-    n_values: number[];
-    runs_per_n: number;
-    eco_mode: boolean;
-    greedy_complexity_analysis?: {
-      coefficients: number[];
-      coefficient_range: number;
-      is_approximately_n_log_n: boolean;
-    };
-    ga_vs_greedy_speed_ratio?: {
-      avg_ratio: number;
-      description: string;
-    };
-  };
-};
-
-type OldBenchmarkResult = {
-  n: number;
-  generation_time_ms: number;
-  algorithm_time_ms: number;
-  total_items_processed: number;
-  success: boolean;
-  items_selected: number;
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-900 border-2 border-emerald-400 p-3 shadow-[4px_4px_0px_0px_rgba(16,185,129,1)]">
+        <p className="font-bold text-white mb-2">{label || "Деталі"}</p>
+        {payload.map((entry: any, index: any) => {
+          let deltaText = "";
+          if (entry.payload && entry.payload.delta && entry.dataKey === entry.payload.targetKey) {
+             deltaText = ` (${entry.payload.delta > 0 ? '+' : ''}${entry.payload.delta.toFixed(1)}%)`;
+          }
+          return (
+            <p key={`item-${index}`} style={{ color: entry.color }} className="font-mono text-sm">
+              <span className="font-bold">{entry.name}:</span> {Number(entry.value).toFixed(2)}{deltaText}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+  return null;
 };
 
 // ═══════════════════════════════════════════════════════
-//  COMPONENT
+// MAIN PAGE COMPONENT
 // ═══════════════════════════════════════════════════════
 
 export default function Analysis() {
-  // Mode: "comparison" (new full analytics) or "single" (old benchmark)
-  const [mode, setMode] = useState<"comparison" | "single">("comparison");
-
-  // --- Single Mode State (old benchmark) ---
-  const [nValue, setNValue] = useState(1000);
   const [loading, setLoading] = useState(false);
-  const [singleResult, setSingleResult] = useState<OldBenchmarkResult | null>(null);
-  const [singleHistory, setSingleHistory] = useState<OldBenchmarkResult[]>([]);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState("");
 
-  // --- Comparison Mode State ---
-  const [compNValues, setCompNValues] = useState("100,500,1000,5000,10000");
-  const [runsPerN, setRunsPerN] = useState(5);
-  const [runGa, setRunGa] = useState(true);
+  const [n, setN] = useState(1000);
+  const [runGreedy, setRunGreedy] = useState(true);
+  const [runGenetic, setRunGenetic] = useState(true);
   const [ecoMode, setEcoMode] = useState(false);
-  const [gaPopulation, setGaPopulation] = useState(30);
-  const [gaGenerations, setGaGenerations] = useState(20);
-  const [compResult, setCompResult] = useState<FullComparisonResult | null>(null);
-  const [compLoading, setCompLoading] = useState(false);
+  const [gaPop, setGaPop] = useState(50);
+  const [gaGen, setGaGen] = useState(30);
 
-  const [configCollapsed, setConfigCollapsed] = useState(false);
+  const colors = { "Жадібний": "#facc15", "Генетичний": "#10b981", Base: "#3b82f6" };
 
-  // --- Run Old Benchmark ---
-  const runSingleBenchmark = async () => {
+  const handleRunAnalysis = async () => {
     setLoading(true);
+    setError("");
+    setResult(null);
+
     try {
-      const res = await fetch("http://127.0.0.1:8000/benchmark/run", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ n: nValue }),
+      const res = await axios.post("http://127.0.0.1:8000/analytics/dashboard", {
+        n,
+        run_greedy: runGreedy,
+        run_genetic: runGenetic,
+        eco_mode: ecoMode,
+        ga_population: gaPop,
+        ga_generations: gaGen
       });
-      if (!res.ok) throw new Error("Помилка сервера");
-      const data = await res.json();
-      setSingleResult(data);
-      setSingleHistory(prev => [data, ...prev]);
-    } catch {
-      alert("Не вдалося запустити тест");
+      setResult(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Помилка при запуску аналізу. Перевірте підключення до бекенду.");
     } finally {
       setLoading(false);
     }
   };
 
-  // --- Run Full Comparison ---
-  const runComparison = async () => {
-    setCompLoading(true);
-    try {
-      const nVals = compNValues.split(",").map(s => parseInt(s.trim())).filter(n => n > 0);
-      const res = await fetch("http://127.0.0.1:8000/analytics/run", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          n_values: nVals,
-          runs_per_n: runsPerN,
-          run_ga: runGa,
-          eco_mode: ecoMode,
-          ga_population: gaPopulation,
-          ga_generations: gaGenerations,
-        }),
-      });
-      if (!res.ok) throw new Error("Помилка сервера");
-      const data: FullComparisonResult = await res.json();
-      setCompResult(data);
-    } catch {
-      alert("Не вдалося запустити порівняльний аналіз");
-    } finally {
-      setCompLoading(false);
-    }
+  // ── DATA PREPARATION ──
+
+  const getRadarData = () => {
+    if (!result) return [];
+    const axes = { speed: "ШВИДКІСТЬ", force: "СИЛА", economy: "ЕКОНОМІЯ", endurance: "ВИТРИВАЛІСТЬ", eco: "ЕКО" };
+    return Object.keys(axes).map(axis => {
+      const dataPoint: any = { subject: axes[axis as keyof typeof axes] };
+      if (result.algorithms.Greedy?.characteristics) {
+        dataPoint["Жадібний"] = result.algorithms.Greedy.characteristics[axis] || 0;
+      }
+      if (result.algorithms.Genetic?.characteristics) {
+        dataPoint["Генетичний"] = result.algorithms.Genetic.characteristics[axis] || 0;
+      }
+      return dataPoint;
+    });
   };
 
-  const copyResultToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(compResult, null, 2));
-      alert("Результати скопійовано в буфер обміну");
-    } catch {
-      alert("Не вдалося скопіювати");
-    }
+  const getEfficiencyData = () => {
+    if (!result) return [];
+    return Object.values(result.algorithms).map((a: any) => ({
+      name: a.name === "Greedy" ? "Жадібний" : "Генетичний",
+      "Продуктивність (Якість/Час)": a.time_ms > 0 ? Number((a.fitness / a.time_ms * 10).toFixed(2)) : 0,
+      "Економічна вигода (Якість/1k₴)": a.total_price > 0 ? Number((a.fitness / (a.total_price / 1000)).toFixed(2)) : 0,
+    }));
   };
 
-  // Max bar height for chart
-  const maxGreedyTime = compResult
-    ? Math.max(...compResult.experiments.map(e => e.greedy.avg_time_ms), 1)
-    : 1;
-  const maxGaTime = compResult && runGa
-    ? Math.max(...compResult.experiments.filter(e => e.genetic).map(e => e.genetic!.avg_time_ms), 1)
-    : 1;
-  const maxTime = Math.max(maxGreedyTime, maxGaTime);
+  const getScatterData = () => {
+    if (!result) return [];
+    return Object.values(result.algorithms).map((a: any) => ({
+      name: a.name === "Greedy" ? "Жадібний" : "Генетичний",
+      time: a.time_ms,
+      fitness: a.fitness,
+      parts: a.parts_count,
+    }));
+  };
+
+  const getSpeedData = () => {
+    if (!result) return [];
+    return Object.values(result.algorithms).map((a: any) => ({
+      name: a.name === "Greedy" ? "Жадібний" : "Генетичний",
+      "Час (мс)": a.time_ms,
+    }));
+  };
+
+  const getCategoryBreakdownData = () => {
+    if (!result) return [];
+    const data = [];
+    if (result.algorithms.Greedy?.category_breakdown) {
+      const g: any = { name: "Жадібний" };
+      Object.assign(g, result.algorithms.Greedy.category_breakdown);
+      data.push(g);
+    }
+    if (result.algorithms.Genetic?.category_breakdown) {
+      const ga: any = { name: "Генетичний" };
+      Object.assign(ga, result.algorithms.Genetic.category_breakdown);
+      data.push(ga);
+    }
+    return data;
+  };
+
+  const getCategoryResourceData = (resourceKey: string) => {
+    if (!result) return [];
+    const data = [];
+    if (result.algorithms.Greedy && result.algorithms.Greedy[resourceKey]) {
+      const g: any = { name: "Жадібний" };
+      Object.assign(g, result.algorithms.Greedy[resourceKey]);
+      data.push(g);
+    }
+    if (result.algorithms.Genetic && result.algorithms.Genetic[resourceKey]) {
+      const ga: any = { name: "Генетичний" };
+      Object.assign(ga, result.algorithms.Genetic[resourceKey]);
+      data.push(ga);
+    }
+    return data;
+  };
+
+  const categories = Array.from(new Set(
+    Object.values(result?.algorithms || {}).flatMap((a: any) => [
+      ...Object.keys(a.category_breakdown || {}),
+      ...Object.keys(a.category_price || {}),
+      ...Object.keys(a.category_weight || {})
+    ])
+  ));
+  const catColors = ["#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#64748b"];
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 font-sans text-slate-800">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-slate-900 mb-3 flex justify-center items-center gap-3">
-            <FaChartLine className="text-blue-600" /> Аналіз Алгоритмів
-          </h1>
-          <p className="text-slate-500 max-w-3xl mx-auto">
-            Порівняльний аналіз продуктивності <b>Greedy</b> vs <b>Genetic Algorithm</b>.
-            Вимірювання T(N) для різних розмірів набору компонентів. Перевірка складності <code className="bg-slate-200 px-1 rounded">O(N log N)</code>.
-          </p>
-        </div>
-
-        {/* Mode Tabs */}
-        <div className="flex justify-center gap-3 mb-8">
+    <div className="min-h-screen bg-slate-50 p-6 font-sans pb-20">
+      <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* HEADER */}
+        <div className="flex justify-between items-end border-b-8 border-slate-900 pb-4">
+          <div>
+            <h1 className="text-5xl font-black uppercase tracking-tighter text-slate-900">
+              Аналітичний Дашборд
+            </h1>
+            <p className="text-xl font-bold text-slate-600 mt-2">
+              Система Підтримки Прийняття Рішень: Еволюція vs Жадібність
+            </p>
+          </div>
           <button
-            onClick={() => setMode("comparison")}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all border-2 ${mode === "comparison"
-                ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
-                : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
-              }`}
+            onClick={handleRunAnalysis}
+            disabled={loading || (!runGreedy && !runGenetic)}
+            className="group relative px-8 py-4 bg-emerald-400 border-4 border-slate-900 font-black text-xl uppercase tracking-wider hover:bg-emerald-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
-            <FaDna /> Порівняльний аналіз
-          </button>
-          <button
-            onClick={() => setMode("single")}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all border-2 ${mode === "single"
-                ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
-                : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
-              }`}
-          >
-            <FaCogs /> Однократний тест
+            <div className="absolute inset-0 bg-slate-900 translate-x-2 translate-y-2 -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"></div>
+            {loading ? (
+              <span className="flex items-center gap-2"><Cog className="animate-spin" /> Обчислення...</span>
+            ) : (
+              <span className="flex items-center gap-2"><Play /> Запуск Аналізу</span>
+            )}
           </button>
         </div>
 
-        {/* ═══════════════════════════════════════════════ */}
-        {/* COMPARISON MODE */}
-        {/* ═══════════════════════════════════════════════ */}
-        {mode === "comparison" && (
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Left: Parameters */}
-            <div className="md:col-span-1">
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sticky top-6">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <FaDatabase className="text-slate-400" /> Параметри
-                </h2>
+        {error && (
+          <div className="bg-red-400 border-4 border-slate-900 p-4 font-bold text-slate-900 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <AlertTriangle size={24} /> {error}
+          </div>
+        )}
 
-                {/* N Values */}
-                <div className="mb-4">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Розміри N (через кому)
-                  </label>
-                  <input
-                    type="text"
-                    value={compNValues}
-                    onChange={(e) => setCompNValues(e.target.value)}
-                    className="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {["100,500,1000,5000", "100,500,1000,5000,10000", "100,1000,10000,50000", "1000,5000,10000,50000,100000"].map(preset => (
-                      <button
-                        key={preset}
-                        onClick={() => setCompNValues(preset)}
-                        className="text-[10px] bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded transition"
-                      >
-                        {preset}
-                      </button>
-                    ))}
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          {/* SIDEBAR (Parameters) */}
+          <div className="lg:col-span-3 space-y-6">
+            <div className="bg-yellow-100 border-4 border-slate-900 p-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+              <h2 className="text-xl font-black uppercase mb-4 flex items-center gap-2 border-b-4 border-slate-900 pb-2">
+                <Settings2 /> Параметри
+              </h2>
+              
+              <div className="space-y-4 font-bold text-slate-800">
+                <div>
+                  <label className="block mb-1 text-sm uppercase">База деталей (N): {n}</label>
+                  <input type="range" min="100" max="10000" step="100" value={n} onChange={e => setN(Number(e.target.value))} className="w-full accent-slate-900" />
                 </div>
+                
+                <label className="flex items-center gap-2 cursor-pointer p-2 hover:bg-yellow-200 border-2 border-transparent hover:border-slate-900 transition-colors">
+                  <input type="checkbox" checked={runGreedy} onChange={e => setRunGreedy(e.target.checked)} className="w-5 h-5 accent-yellow-500 border-2 border-slate-900" />
+                  Жадібний Алгоритм
+                </label>
+                
+                <label className="flex items-center gap-2 cursor-pointer p-2 hover:bg-yellow-200 border-2 border-transparent hover:border-slate-900 transition-colors">
+                  <input type="checkbox" checked={runGenetic} onChange={e => setRunGenetic(e.target.checked)} className="w-5 h-5 accent-emerald-500 border-2 border-slate-900" />
+                  Генетичний Алгоритм
+                </label>
 
-                {/* Runs per N */}
-                <div className="mb-4">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Повторень (R)
-                  </label>
-                  <input
-                    type="number"
-                    value={runsPerN}
-                    onChange={(e) => setRunsPerN(Number(e.target.value))}
-                    min={1}
-                    max={20}
-                    className="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                </div>
-
-                {/* Toggles */}
-                <div className="space-y-3 mb-4">
-                  <ToggleSwitch
-                    label="Генетичний алгоритм"
-                    description="Включити GA у порівняння"
-                    icon={<FaDna className="text-emerald-500" />}
-                    active={runGa}
-                    onToggle={() => setRunGa(!runGa)}
-                  />
-                  <ToggleSwitch
-                    label="Eco-Mode"
-                    description="Мінімізація енергоспоживання"
-                    icon={<FaLeaf className="text-emerald-500" />}
-                    active={ecoMode}
-                    onToggle={() => setEcoMode(!ecoMode)}
-                  />
-                </div>
-
-                {/* GA Parameters */}
                 <AnimatePresence>
-                  {runGa && (
+                  {runGenetic && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="overflow-hidden mb-4"
+                      initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                      className="pl-4 border-l-4 border-emerald-500 space-y-3 overflow-hidden"
                     >
-                      <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-2">
-                        <p className="text-[10px] font-bold text-emerald-700 uppercase">GA Параметри</p>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div>
-                            <label className="text-[10px] text-emerald-600">Популяція</label>
-                            <input
-                              type="number"
-                              value={gaPopulation}
-                              onChange={(e) => setGaPopulation(Number(e.target.value))}
-                              className="w-full border border-emerald-200 rounded-lg px-2 py-1 text-xs font-mono"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[10px] text-emerald-600">Покоління</label>
-                            <input
-                              type="number"
-                              value={gaGenerations}
-                              onChange={(e) => setGaGenerations(Number(e.target.value))}
-                              className="w-full border border-emerald-200 rounded-lg px-2 py-1 text-xs font-mono"
-                            />
-                          </div>
-                        </div>
+                      <div>
+                        <label className="block text-xs uppercase mb-1">Популяція: {gaPop}</label>
+                        <input type="range" min="10" max="200" step="10" value={gaPop} onChange={e => setGaPop(Number(e.target.value))} className="w-full accent-emerald-500" />
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase mb-1">Покоління: {gaGen}</label>
+                        <input type="range" min="10" max="100" step="5" value={gaGen} onChange={e => setGaGen(Number(e.target.value))} className="w-full accent-emerald-500" />
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Run Button */}
-                <button
-                  onClick={runComparison}
-                  disabled={compLoading}
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-70"
-                >
-                  {compLoading ? (
-                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
-                  ) : (
-                    <><FaPlay /> Запустити аналіз</>
-                  )}
-                </button>
+                <label className="flex items-center gap-2 cursor-pointer p-2 hover:bg-yellow-200 border-2 border-transparent hover:border-slate-900 transition-colors">
+                  <input type="checkbox" checked={ecoMode} onChange={e => setEcoMode(e.target.checked)} className="w-5 h-5 accent-blue-500 border-2 border-slate-900" />
+                  Eco Mode (Енергозбереження)
+                </label>
               </div>
             </div>
 
-            {/* Right: Results */}
-            <div className="md:col-span-2 space-y-6">
-              {compResult && (
-                <>
-                  {/* Summary Card */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-3xl shadow-xl border border-blue-100 overflow-hidden"
-                  >
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white flex items-center justify-between">
-                      <div>
-                        <h3 className="text-2xl font-bold flex items-center gap-2">
-                          <FaMicrochip /> Результати аналізу
-                        </h3>
-                        <p className="text-blue-200 text-sm mt-1">
-                          {compResult.summary.total_experiments} &times; {compResult.summary.runs_per_n}R
-                          {compResult.summary.eco_mode && " | Eco-Mode"}
-                          {" | "}{(compResult.summary.total_time_ms / 1000).toFixed(1)}s
-                        </p>
-                      </div>
-                      <button
-                        onClick={copyResultToClipboard}
-                        className="text-blue-200 hover:text-white transition"
-                        title="Копіювати JSON"
-                      >
-                        <FaCopy className="text-lg" />
-                      </button>
-                    </div>
 
-                    {/* Summary Grid */}
-                    <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {/* Complexity Analysis */}
-                      {compResult.summary.greedy_complexity_analysis && (
-                        <div className="col-span-2 md:col-span-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                          <h4 className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-2">
-                            <FaBolt className="text-amber-500" /> Аналіз складності O(N log N)
-                          </h4>
-                          <div className="flex items-center gap-3">
-                            {compResult.summary.greedy_complexity_analysis.is_approximately_n_log_n ? (
-                              <span className="text-green-600 flex items-center gap-1 text-sm font-semibold">
-                                <FaCheckCircle /> Підтверджено
-                              </span>
-                            ) : (
-                              <span className="text-amber-600 flex items-center gap-1 text-sm font-semibold">
-                                <FaExclamationTriangle /> Потребує додаткового аналізу
-                              </span>
-                            )}
-                            <span className="text-xs text-slate-500">
-                              Діапазон коефіцієнтів: {compResult.summary.greedy_complexity_analysis.coefficient_range}x
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* GA vs Greedy Ratio */}
-                      {compResult.summary.ga_vs_greedy_speed_ratio && (
-                        <div className="col-span-2 md:col-span-3 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
-                          <h4 className="text-xs font-bold text-emerald-700 mb-1 flex items-center gap-2">
-                            <FaDna className="text-emerald-500" /> Співвідношення Greedy / GA
-                          </h4>
-                          <p className="text-sm text-emerald-800">
-                            {compResult.summary.ga_vs_greedy_speed_ratio.description}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-
-                  {/* Bar Chart */}
-                  <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                    <h3 className="font-bold text-slate-700 mb-4">T(N) — Час виконання (мс)</h3>
-                    <div className="flex items-end gap-2 h-64 border-b border-l border-slate-200 p-4 pt-0 relative">
-                      {compResult.experiments.map((exp, i) => {
-                        const greedyH = (exp.greedy.avg_time_ms / maxTime) * 100;
-                        const gaH = exp.genetic ? (exp.genetic.avg_time_ms / maxTime) * 100 : 0;
-                        return (
-                          <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
-                            <div className="flex items-end gap-0.5 h-full w-full justify-center">
-                              {/* Greedy bar */}
-                              <motion.div
-                                initial={{ height: 0 }}
-                                animate={{ height: `${Math.max(greedyH, 2)}%` }}
-                                transition={{ delay: i * 0.1, duration: 0.5 }}
-                                className="w-5 bg-blue-500 rounded-t-lg relative group"
-                              >
-                                <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-[9px] font-bold text-blue-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition">
-                                  {exp.greedy.avg_time_ms.toFixed(1)}ms
-                                </div>
-                              </motion.div>
-                              {/* GA bar */}
-                              {exp.genetic && (
-                                <motion.div
-                                  initial={{ height: 0 }}
-                                  animate={{ height: `${Math.max(gaH, 2)}%` }}
-                                  transition={{ delay: i * 0.1 + 0.05, duration: 0.5 }}
-                                  className="w-5 bg-emerald-500 rounded-t-lg relative group"
-                                >
-                                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-[9px] font-bold text-emerald-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition">
-                                    {exp.genetic.avg_time_ms.toFixed(1)}ms
-                                  </div>
-                                </motion.div>
-                              )}
-                            </div>
-                            <span className="text-[10px] text-slate-500 font-mono mt-1">
-                              {exp.n >= 1000 ? `${exp.n / 1000}K` : exp.n}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="flex justify-center gap-6 mt-3 text-xs">
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-3 h-3 bg-blue-500 rounded" /> Greedy
-                      </span>
-                      {runGa && (
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 bg-emerald-500 rounded" /> Genetic
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Data Table */}
-                  <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
-                    <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                      <h3 className="font-bold text-slate-700">Деталізовані результати</h3>
-                      <button
-                        onClick={() => setConfigCollapsed(prev => !prev)}
-                        className="text-sm text-slate-500 hover:text-slate-700 transition"
-                      >
-                        {configCollapsed ? <FaChevronDown /> : <FaChevronUp />}
-                      </button>
-                    </div>
-                    {!configCollapsed && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-xs text-left">
-                          <thead className="text-[10px] text-slate-500 uppercase bg-slate-50">
-                            <tr>
-                              <th className="px-4 py-2.5">N</th>
-                              <th className="px-4 py-2.5">Greedy avg (мс)</th>
-                              <th className="px-4 py-2.5">Greedy std</th>
-                              <th className="px-4 py-2.5">Success</th>
-                              {runGa && <>
-                                <th className="px-4 py-2.5">GA avg (мс)</th>
-                                <th className="px-4 py-2.5">GA std</th>
-                                <th className="px-4 py-2.5">Fitness</th>
-                              </>}
-                              <th className="px-4 py-2.5">N·log₂N</th>
-                              <th className="px-4 py-2.5">Coeff</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {compResult.experiments.map((exp, i) => (
-                              <tr key={i} className="border-b border-slate-100 hover:bg-slate-50 transition">
-                                <td className="px-4 py-3 font-mono font-bold text-slate-900">{exp.n.toLocaleString()}</td>
-                                <td className="px-4 py-3 font-bold text-blue-600">{exp.greedy.avg_time_ms.toFixed(2)}</td>
-                                <td className="px-4 py-3 text-slate-500">±{exp.greedy.std_dev_ms.toFixed(2)}</td>
-                                <td className="px-4 py-3">
-                                  {exp.greedy.success_rate === 1 ? (
-                                    <FaCheckCircle className="text-green-500" />
-                                  ) : (
-                                    <span className="text-amber-500">{(exp.greedy.success_rate * 100).toFixed(0)}%</span>
-                                  )}
-                                </td>
-                                {runGa && exp.genetic && <>
-                                  <td className="px-4 py-3 font-bold text-emerald-600">{exp.genetic.avg_time_ms.toFixed(2)}</td>
-                                  <td className="px-4 py-3 text-slate-500">±{exp.genetic.std_dev_ms.toFixed(2)}</td>
-                                  <td className="px-4 py-3 text-slate-700">{exp.genetic.avg_fitness?.toFixed(2)}</td>
-                                </>}
-                                {runGa && !exp.genetic && <>
-                                  <td className="px-4 py-3 text-slate-300">—</td>
-                                  <td className="px-4 py-3 text-slate-300">—</td>
-                                  <td className="px-4 py-3 text-slate-300">—</td>
-                                </>}
-                                <td className="px-4 py-3 text-slate-500 font-mono">{exp.theoretical_n_log_n?.toFixed(0)}</td>
-                                <td className="px-4 py-3 text-slate-500 font-mono">{exp.greedy_coefficient?.toFixed(4)}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
-
-              {!compResult && !compLoading && (
-                <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center text-slate-400">
-                  <FaChartLine className="text-4xl mx-auto mb-3 opacity-30" />
-                  <p className="text-sm">Налаштуйте параметри та натисніть «Запустити аналіз»</p>
-                </div>
-              )}
-
-              {compLoading && (
-                <div className="border border-dashed border-blue-200 rounded-3xl p-16 text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                  <p className="text-sm text-blue-600 font-medium">Виконуються експерименти...</p>
-                  <p className="text-xs text-slate-400 mt-1">Це може зайняти кілька хвилин</p>
-                </div>
-              )}
-            </div>
           </div>
-        )}
 
-        {/* ═══════════════════════════════════════════════ */}
-        {/* SINGLE TEST MODE (old benchmark) */}
-        {/* ═══════════════════════════════════════════════ */}
-        {mode === "single" && (
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-1">
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sticky top-6">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <FaDatabase className="text-slate-400" /> Однократний тест
-                </h2>
-                <div className="mb-6">
-                  <label className="block text-sm font-bold text-slate-700 mb-2">
-                    Розмір бази (N)
-                  </label>
-                  <input
-                    type="number"
-                    value={nValue}
-                    onChange={(e) => setNValue(Number(e.target.value))}
-                    className="w-full border border-slate-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-mono text-lg"
-                  />
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {[100, 1000, 5000, 10000, 50000, 100000, 200000, 300000, 500000].map(val => (
-                      <button
-                        key={val}
-                        onClick={() => setNValue(val)}
-                        className="text-xs bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded transition"
-                      >
-                        {val.toLocaleString()}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <button
-                  onClick={runSingleBenchmark}
-                  disabled={loading}
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-70"
-                >
-                  {loading ? (
-                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
-                  ) : (
-                    <><FaPlay /> Запустити Тест</>
-                  )}
-                </button>
+          {/* MAIN CONTENT AREA */}
+          <div className="lg:col-span-9 space-y-6">
+            {!result && !loading ? (
+              <div className="h-[600px] border-4 border-dashed border-slate-400 flex flex-col items-center justify-center text-slate-400 relative overflow-hidden">
+                <Hammer className="w-24 h-24 mb-4 opacity-50" />
+                <h2 className="text-2xl font-black uppercase tracking-widest">Очікування даних</h2>
+                <p className="font-bold text-sm mt-2">Запустіть аналіз для відображення інженерних метрик</p>
               </div>
-            </div>
+            ) : loading ? (
+              <div className="h-[600px] border-4 border-slate-900 flex flex-col items-center justify-center bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <Cog className="w-20 h-20 animate-spin text-emerald-500 mb-6" />
+                <h2 className="text-3xl font-black uppercase tracking-widest animate-pulse">Компіляція...</h2>
+              </div>
+            ) : result ? (
+              <div className="space-y-6">
+                
+                {/* COMPARISON TABLE */}
+                <div className="grid grid-cols-1 gap-4">
+                  <ChartCard title="Порівняльна Таблиця" icon={<Activity />} className="w-full">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b-4 border-slate-900 bg-slate-100">
+                            <th className="p-3 font-black uppercase text-slate-900 border-r-4 border-slate-900">Метрика</th>
+                            {result.algorithms.Greedy && <th className="p-3 font-black uppercase text-slate-900 border-r-4 border-slate-900">Жадібний Алгоритм</th>}
+                            {result.algorithms.Genetic && <th className="p-3 font-black uppercase text-slate-900">Генетичний Алгоритм</th>}
+                          </tr>
+                        </thead>
+                        <tbody className="font-bold text-slate-800">
+                          <tr className="border-b-2 border-slate-200">
+                            <td className="p-3 border-r-4 border-slate-900">Оцінка якості (Загальний рейтинг)</td>
+                            {result.algorithms.Greedy && <td className="p-3 border-r-4 border-slate-900">{result.algorithms.Greedy.fitness.toFixed(2)}</td>}
+                            {result.algorithms.Genetic && <td className="p-3">{result.algorithms.Genetic.fitness.toFixed(2)}</td>}
+                          </tr>
+                          <tr className="border-b-2 border-slate-200">
+                            <td className="p-3 border-r-4 border-slate-900">Час виконання</td>
+                            {result.algorithms.Greedy && <td className="p-3 border-r-4 border-slate-900">{result.algorithms.Greedy.time_ms.toFixed(2)} мс</td>}
+                            {result.algorithms.Genetic && <td className="p-3">{result.algorithms.Genetic.time_ms.toFixed(2)} мс</td>}
+                          </tr>
+                          <tr className="border-b-2 border-slate-200">
+                            <td className="p-3 border-r-4 border-slate-900">Кількість деталей</td>
+                            {result.algorithms.Greedy && <td className="p-3 border-r-4 border-slate-900">{result.algorithms.Greedy.parts_count} шт</td>}
+                            {result.algorithms.Genetic && <td className="p-3">{result.algorithms.Genetic.parts_count} шт</td>}
+                          </tr>
+                          <tr className="border-b-2 border-slate-200">
+                            <td className="p-3 border-r-4 border-slate-900">Загальна вартість</td>
+                            {result.algorithms.Greedy && <td className="p-3 border-r-4 border-slate-900">{result.algorithms.Greedy.total_price.toFixed(2)} ₴</td>}
+                            {result.algorithms.Genetic && <td className="p-3">{result.algorithms.Genetic.total_price.toFixed(2)} ₴</td>}
+                          </tr>
+                          <tr className="border-b-2 border-slate-200">
+                            <td className="p-3 border-r-4 border-slate-900">Загальна вага</td>
+                            {result.algorithms.Greedy && <td className="p-3 border-r-4 border-slate-900">{result.algorithms.Greedy.total_weight.toFixed(2)} г</td>}
+                            {result.algorithms.Genetic && <td className="p-3">{result.algorithms.Genetic.total_weight.toFixed(2)} г</td>}
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </ChartCard>
+                </div>
 
-            <div className="md:col-span-2 space-y-6">
-              {singleResult && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-3xl shadow-xl border border-blue-100 overflow-hidden"
-                >
-                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
-                    <h3 className="text-2xl font-bold flex items-center gap-2">
-                      <FaMicrochip /> Результат для N = {singleResult.n.toLocaleString()}
-                    </h3>
-                  </div>
-                  <div className="p-8 grid grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-sm text-slate-400 uppercase font-bold tracking-wide mb-1">Час алгоритму</p>
-                      <p className="text-4xl font-black text-blue-600">
-                        {singleResult.algorithm_time_ms.toFixed(2)} <span className="text-lg text-slate-500">мс</span>
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-slate-400 uppercase font-bold tracking-wide mb-1">Генерація даних</p>
-                      <p className="text-4xl font-black text-slate-700">
-                        {singleResult.generation_time_ms.toFixed(2)} <span className="text-lg text-slate-500">мс</span>
-                      </p>
-                    </div>
-                    <div className="col-span-2 border-t pt-4 flex justify-between items-center">
-                      <div className="flex items-center gap-2 text-sm font-medium">
-                        Статус:
-                        {singleResult.success ? (
-                          <span className="text-green-600 flex items-center gap-1"><FaCheckCircle /> Успішно</span>
-                        ) : (
-                          <span className="text-red-600 flex items-center gap-1"><FaExclamationTriangle /> Помилка</span>
+                {/* HIGHLIGHTS */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {result.algorithms.Genetic && (
+                    <HighlightCard 
+                      title="Найвища якість" 
+                      value={result.algorithms.Genetic.fitness.toFixed(2)} 
+                      subtitle="Генетичний" 
+                      icon={<TrendingUp className="text-emerald-500" />} 
+                      color="bg-emerald-300" 
+                    />
+                  )}
+                  {result.algorithms.Greedy && (
+                    <HighlightCard 
+                      title="Швидкість" 
+                      value={`${result.algorithms.Greedy.time_ms.toFixed(0)} мс`} 
+                      subtitle="Жадібний" 
+                      icon={<Activity className="text-yellow-500" />} 
+                      color="bg-yellow-300" 
+                    />
+                  )}
+                  {result.algorithms.Genetic && result.algorithms.Greedy && (
+                    <HighlightCard 
+                      title="Економічна вигода (Якість/1k₴)" 
+                      value={getEfficiencyData().sort((a,b)=>b["Економічна вигода (Якість/1k₴)"]-a["Економічна вигода (Якість/1k₴)"])[0]["Економічна вигода (Якість/1k₴)"].toFixed(2)} 
+                      subtitle={getEfficiencyData().sort((a,b)=>b["Економічна вигода (Якість/1k₴)"]-a["Економічна вигода (Якість/1k₴)"])[0].name}
+                      icon={<DollarSign className="text-blue-500" />} 
+                      color="bg-blue-300" 
+                    />
+                  )}
+                </div>
+
+
+                {/* CHARTS ROW 1 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-96">
+                  {/* RADAR CHART */}
+                  <ChartCard title="Радар Характеристик" icon={<Activity />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart cx="50%" cy="50%" outerRadius="70%" data={getRadarData()}>
+                        <PolarGrid stroke="#cbd5e1" strokeDasharray="3 3" />
+                        <PolarAngleAxis dataKey="subject" tick={{ fill: '#0f172a', fontWeight: 'bold', fontSize: 10 }} />
+                        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12, bottom: -10 }} />
+                        {result.algorithms.Greedy && (
+                          <Radar name="Жадібний" dataKey="Жадібний" stroke={colors["Жадібний"]} fill={colors["Жадібний"]} fillOpacity={0.4} strokeWidth={3} />
                         )}
-                      </div>
-                      <div className="text-sm text-slate-500">
-                        Підібрано деталей: <b>{singleResult.items_selected}</b> • Оброблено: <b>{singleResult.total_items_processed.toLocaleString()}</b>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
+                        {result.algorithms.Genetic && (
+                          <Radar name="Генетичний" dataKey="Генетичний" stroke={colors["Генетичний"]} fill={colors["Генетичний"]} fillOpacity={0.4} strokeWidth={3} />
+                        )}
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
 
-              {singleHistory.length > 0 && (
-                <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
-                  <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                    <h3 className="font-bold text-slate-700">Історія запусків</h3>
-                  </div>
-                  <table className="w-full text-sm text-left">
-                    <thead className="text-xs text-slate-500 uppercase bg-slate-50">
-                      <tr>
-                        <th className="px-6 py-3">N</th>
-                        <th className="px-6 py-3">Алгоритм (мс)</th>
-                        <th className="px-6 py-3">Генерація (мс)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {singleHistory.map((h, i) => (
-                        <tr key={i} className="border-b border-slate-100 hover:bg-slate-50 transition">
-                          <td className="px-6 py-4 font-medium text-slate-900">{h.n.toLocaleString()}</td>
-                          <td className="px-6 py-4 font-bold text-blue-600">{h.algorithm_time_ms.toFixed(2)}</td>
-                          <td className="px-6 py-4 text-slate-500">{h.generation_time_ms.toFixed(2)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {/* SCATTER CHART */}
+                  <ChartCard title="Фронт Ефективності" icon={<FlaskConical />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 10 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                        <XAxis type="number" dataKey="time" name="Час (мс)" scale="log" domain={['auto', 'auto']} tick={{ fontWeight: 'bold', fontSize: 12 }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} label={{ value: "Час виконання (лог-шкала)", position: "insideBottom", offset: -15, fontWeight: 'bold', fontSize: 10 }} />
+                        <YAxis type="number" dataKey="fitness" name="Фітнес" domain={[0, 100]} tick={{ fontWeight: 'bold', fontSize: 12 }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} label={{ value: "Якість", angle: -90, position: 'insideLeft', fontWeight: 'bold', fontSize: 10 }} />
+                        <ZAxis type="number" dataKey="parts" range={[100, 500]} name="Деталей" />
+                        <RechartsTooltip cursor={{ strokeDasharray: '3 3' }} content={(props: any) => <CustomTooltip {...props} />} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12, bottom: -15 }} />
+                        {getScatterData().map((entry, index) => (
+                          <Scatter key={`scatter-${index}`} name={entry.name} data={[entry]} fill={(colors as any)[entry.name]} shape="circle" />
+                        ))}
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
                 </div>
-              )}
-            </div>
-          </div>
-        )}
 
+                {/* CHARTS ROW 2 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-96">
+                  {/* CATEGORY BREAKDOWN (Resource Heatmap) */}
+                  <ChartCard title="Структура Якості" icon={<BarChart2 />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getCategoryBreakdownData()} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                        <XAxis type="number" tick={{ fontWeight: 'bold' }} />
+                        <YAxis dataKey="name" type="category" tick={{ fontWeight: 'bold', fontSize: 14 }} width={80} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12 }} />
+                        {categories.map((cat, i) => (
+                          <Bar key={cat} dataKey={cat} stackId="a" fill={catColors[i % catColors.length]} stroke="#0f172a" strokeWidth={2} />
+                        ))}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+
+                  {/* SPEED CHART */}
+                  <ChartCard title="Швидкодія Алгоритмів" icon={<Play />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getSpeedData()} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
+                        <XAxis type="number" scale="log" domain={['auto', 'auto']} tick={{ fontWeight: 'bold' }} label={{ value: "Час (мс) - лог.шкала", position: "insideBottom", offset: -5, fontSize: 10 }} />
+                        <YAxis dataKey="name" type="category" tick={{ fontWeight: 'bold', fontSize: 14 }} width={80} />
+                        <RechartsTooltip cursor={{fill: '#f1f5f9'}} content={(props: any) => <CustomTooltip {...props} />} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12 }} />
+                        <Bar dataKey="Час (мс)" fill="#f59e0b" stroke="#0f172a" strokeWidth={2}>
+                          {getSpeedData().map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={(colors as any)[entry.name] || "#f59e0b"} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </div>
+
+                {/* CHARTS ROW 3: RESOURCE BREAKDOWNS */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-96">
+                  {/* PRICE BREAKDOWN */}
+                  <ChartCard title="Розподіл Бюджету (Ціна)" icon={<DollarSign />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getCategoryResourceData("category_price")} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="name" tick={{ fontWeight: 'bold', fontSize: 14 }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <YAxis tick={{ fontWeight: 'bold' }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} cursor={{fill: '#f1f5f9'}} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12 }} />
+                        {categories.map((cat, i) => (
+                          <Bar key={cat} dataKey={cat} stackId="a" fill={catColors[i % catColors.length]} stroke="#0f172a" strokeWidth={2} />
+                        ))}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+
+                  {/* WEIGHT BREAKDOWN */}
+                  <ChartCard title="Розподіл Маси (Вага)" icon={<Hammer />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getCategoryResourceData("category_weight")} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="name" tick={{ fontWeight: 'bold', fontSize: 14 }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <YAxis tick={{ fontWeight: 'bold' }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} cursor={{fill: '#f1f5f9'}} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12 }} />
+                        {categories.map((cat, i) => (
+                          <Bar key={cat} dataKey={cat} stackId="a" fill={catColors[i % catColors.length]} stroke="#0f172a" strokeWidth={2} />
+                        ))}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </div>
+
+                {/* CHARTS ROW 4 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-96">
+                  {/* VALUE METRICS */}
+                  <ChartCard title="Показники Ефективності" icon={<Cpu />} className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getEfficiencyData()} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="name" tick={{ fontWeight: 'bold', fontSize: 14 }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <YAxis tick={{ fontWeight: 'bold' }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} cursor={{fill: '#f1f5f9'}} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12 }} />
+                        <Bar dataKey="Продуктивність (Якість/Час)" fill="#6366f1" stroke="#0f172a" strokeWidth={2} />
+                        <Bar dataKey="Економічна вигода (Якість/1k₴)" fill="#ec4899" stroke="#0f172a" strokeWidth={2} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </div>
+
+                {/* DEEP DIVE CONVERGENCE (GA ONLY) */}
+                {result.algorithms.Genetic && result.algorithms.Genetic.convergence && (
+                  <ChartCard title="Конвергенція ГА (Еволюція)" icon={<Binary className="text-emerald-500" />} className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={result.algorithms.Genetic.convergence} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+                        <defs>
+                          <linearGradient id="colorBest" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorAvg" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="generation" tick={{ fontWeight: 'bold' }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} label={{ value: "Покоління", position: "bottom", offset: 0, fontWeight: 'bold' }} />
+                        <YAxis domain={['auto', 'auto']} tick={{ fontWeight: 'bold' }} axisLine={{ strokeWidth: 2, stroke: '#0f172a' }} />
+                        <RechartsTooltip content={(props: any) => <CustomTooltip {...props} />} />
+                        <Legend wrapperStyle={{ fontWeight: 'bold', fontSize: 12, bottom: 0 }} />
+                        <Area type="monotone" name="Найвища якість" dataKey="best_fitness" stroke="#10b981" fillOpacity={1} fill="url(#colorBest)" strokeWidth={3} />
+                        <Area type="monotone" name="Середня якість" dataKey="avg_fitness" stroke="#3b82f6" fillOpacity={1} fill="url(#colorAvg)" strokeWidth={2} />
+                        <Line type="monotone" name="Різноманітність (StdDev)" dataKey="std_fitness" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                )}
+                
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════
-//  HELPER COMPONENTS
-// ═══════════════════════════════════════════════════════
-
-const ToggleSwitch: React.FC<{
-  label: string;
-  description: string;
-  icon: React.ReactNode;
-  active: boolean;
-  onToggle: () => void;
-}> = ({ label, description, icon, active, onToggle }) => (
-  <button
-    type="button"
-    onClick={onToggle}
-    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all border ${active
-        ? "border-emerald-400 bg-emerald-50 text-emerald-700"
-        : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300"
-      }`}
-  >
-    <span className="flex items-center gap-2">
-      {icon}
-      <div className="text-left">
-        <div className="font-semibold">{label}</div>
-        <div className="text-[10px] opacity-60">{description}</div>
-      </div>
-    </span>
-    <div className={`w-9 h-5 rounded-full relative transition-colors ${active ? "bg-emerald-500" : "bg-slate-300"
-      }`}>
-      <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] transition-all shadow ${active ? "left-[18px]" : "left-[3px]"
-        }`} />
-    </div>
-  </button>
-);

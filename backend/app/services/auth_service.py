@@ -14,7 +14,7 @@ import jwt
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
-from app.models.auto_generated_models import User
+from app.models.models import User
 from dotenv import load_dotenv
 
 load_dotenv()

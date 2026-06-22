@@ -175,6 +175,7 @@ class WeightedScorer:
         self,
         component: Dict[str, Any],
         weights: Optional[Dict[str, float]] = None,
+        function_context: Optional[List[str]] = None,
     ) -> float:
         """
         Обчислює зважену оцінку компонента (5-Term WSM).
@@ -186,10 +187,14 @@ class WeightedScorer:
                        + (norm_mass     × w_endurance)
                        + (norm_energy   × w_eco)
 
+        Structural parts: mass penalty is exempted (structural weight is necessary).
+        structural_value from DB provides bonus score to compensate for zero speed/torque.
+
         Args:
-            component: Компонент для оцінки.
-            weights:   Словник ваг {speed, force, economy, endurance, eco}.
-                       Якщо None — використовуються дефолтні ваги.
+            component:        Компонент для оцінки.
+            weights:          Словник ваг {speed, force, economy, endurance, eco}.
+                              Якщо None — використовуються дефолтні ваги.
+            function_context: Список функцій робота (для контекстних бонусів).
 
         Returns:
             Загальна зважена оцінка (float).
@@ -198,6 +203,7 @@ class WeightedScorer:
             weights = self.DEFAULT_WEIGHTS.copy()
 
         category = component.get("category", "unknown")
+        engineering_role = component.get("engineering_role", "")
         bounds = self.get_bounds_for_category(category)
 
         # 5 ваг
@@ -236,13 +242,25 @@ class WeightedScorer:
             )
 
         # --- Endurance (weight/mass) - minimize ---
+        # STRUCTURAL PARTS: маса не штрафується (вона необхідна для конструкції)
         normalized_mass_inv = 0.0
         weight = component.get("weight")
+        is_structural = (
+            engineering_role == "Structural"
+            or engineering_role == "Connection"
+            or category == "structure"
+        )
+
         if weight is not None and "weight" in bounds:
             weight_bounds = bounds["weight"]
-            normalized_mass_inv = self._normalize_minimize(
-                float(weight), weight_bounds["min"], weight_bounds["max"]
-            )
+            if is_structural:
+                # Structural parts: mass is a feature, not a penalty.
+                # Neutral score (0.5) instead of penalty.
+                normalized_mass_inv = 0.5
+            else:
+                normalized_mass_inv = self._normalize_minimize(
+                    float(weight), weight_bounds["min"], weight_bounds["max"]
+                )
 
         # --- Eco (energy consumption) - minimize ---
         normalized_energy_inv = 0.0
@@ -266,7 +284,7 @@ class WeightedScorer:
 
         # ── Structural Value Bonus ──
         # Structural parts have 0 speed/force, so they lose to functional parts.
-        # Compensate using their intrinsic structural scores (already in data).
+        # Compensate using their intrinsic structural scores and structural_value.
         if category == "structure":
             scores_data = component.get("scores") or {}
             str_strength = scores_data.get("structural_strength", 0.0)
@@ -280,15 +298,29 @@ class WeightedScorer:
             area = sl * sw
             area_norm = min(area / 128.0, 1.0) if area > 0 else 0.1
 
+            # structural_value from DB (connection points, normalized vs. max ~50)
+            sv = component.get("structural_value") or 1
+            sv_norm = min(sv / 50.0, 1.0)
+
             # Blended structural value (replaces the missing speed/force)
             structural_value = (
-                str_strength * 0.35
-                + str_versatility * 0.25
+                str_strength * 0.25
+                + str_versatility * 0.20
                 + area_norm * 0.25
-                + str_compactness * 0.15
+                + str_compactness * 0.10
+                + sv_norm * 0.20
             )
             # Scale to match typical functional part score range (0.3-0.8)
             total_score += structural_value * 0.6
+
+            # ── Function-specific bonus for structural parts ──
+            if function_context:
+                has_fly = any("літати" in f.lower() for f in function_context)
+                if has_fly:
+                    # Fly: lightweight structural parts get bonus
+                    comp_weight = component.get("weight") or 0
+                    if comp_weight < 30 and area > 8:
+                        total_score += 0.15  # Lightweight + large area = ideal for flying
 
         return total_score
 

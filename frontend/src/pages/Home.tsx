@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaFilter, FaArrowUp, FaBoxOpen, FaTags, FaLayerGroup } from "react-icons/fa";
 import ComponentCard from "../components/ComponentCard";
 import type { LegoComponent } from "../types/Component";
@@ -23,25 +23,6 @@ const CATEGORY_TRANSLATIONS: Record<string, string> = {
   structure_kit: "Набори",
   accessory: "Аксесуари",
   water: "Водні",
-};
-
-// --- Анімація ---
-const listVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 }
-  }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1, 
-    transition: { duration: 0.4, ease: "easeOut" } 
-  }
 };
 
 export default function Home() {
@@ -127,160 +108,159 @@ export default function Home() {
   const displayedComponents = filteredComponents.slice(0, visibleCount);
   const hasMore = visibleCount < filteredComponents.length;
 
+  const bgPattern = {
+    backgroundImage: `radial-gradient(circle at 14px 14px, #fef08a 3px, transparent 4px), radial-gradient(circle at 16px 16px, #ca8a04 6px, transparent 7px)`,
+    backgroundSize: "32px 32px"
+  };
+
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20">
+    <div className="min-h-screen bg-[#facc15] font-sans text-slate-900 pb-20 relative overflow-x-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-40" style={bgPattern} />
       
-      {/* Header */}
-      <div className="relative bg-white pt-8 pb-16 px-4 mb-4 overflow-hidden">
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-blue-50/60 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-         <div className="max-w-7xl mx-auto text-center z-10 relative">
-           <motion.h1 
-             initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-             className="text-3xl md:text-5xl font-black text-slate-900 mb-3 tracking-tight"
-           >
-             Каталог <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">LEGO</span>
-           </motion.h1>
-           <motion.p 
-             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-             className="text-slate-500 font-medium max-w-lg mx-auto"
-           >
-             Вся база деталей для ваших проєктів в одному місці.
-           </motion.p>
-         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12">
-        
-        {/* STICKY FILTER BAR*/}
-        <div className="sticky top-20 z-30 mb-10">
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-3"
-          >
-            <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
-              
-              {/* 1. Пошук */}
-              <div className="w-full lg:flex-1 relative group">
-                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                <input
-                  type="text"
-                  placeholder="Пошук за назвою"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 hover:bg-slate-100 focus:bg-white border-0 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium text-slate-700 placeholder-slate-400 outline-none"
-                />
-              </div>
-
-              <div className="hidden lg:block w-px h-10 bg-slate-200"></div>
-
-              {/* 2. Категорія */}
-              <div className="w-full lg:w-64 relative group">
-                <FaFilter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full pl-11 pr-10 py-3 bg-slate-50 hover:bg-slate-100 focus:bg-white border-0 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium appearance-none cursor-pointer capitalize text-slate-700 outline-none"
-                >
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {CATEGORY_TRANSLATIONS[cat] || cat}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">▼</div>
-              </div>
-
-              <div className="hidden lg:block w-px h-10 bg-slate-200"></div>
-
-              {/* 3. Ціна */}
-              <div className="w-full lg:w-72 px-2">
-                <div className="flex justify-between text-xs font-bold text-slate-500 mb-2">
-                  <span className="flex items-center gap-1.5"><FaTags className="text-slate-400"/> Бюджет до</span>
-                  <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md border border-blue-100">{priceLimit} ₴</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={maxPrice}
-                  step={50}
-                  value={priceLimit}
-                  onChange={(e) => setPriceLimit(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 hover:accent-blue-500 transition-all"
-                />
-              </div>
-
-            </div>
-          </motion.div>
+      <div className="relative z-10">
+        {/* Header Section */}
+        <div className="pt-12 pb-16 px-4 text-center">
+          <div className="inline-block bg-white px-8 py-4 rounded-xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] transform -skew-x-3 mb-6">
+            <h1 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 tracking-tighter">
+              Каталог <span className="text-red-600 drop-shadow-[2px_2px_0px_#0f172a]">LEGO</span>
+            </h1>
+          </div>
+          <p className="text-slate-900 font-black bg-white/80 backdrop-blur-sm inline-block px-6 py-2 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] tracking-widest text-sm uppercase">
+            Вся база деталей для ваших проєктів в одному місці
+          </p>
         </div>
 
-        {/* Результати */}
-        {displayedComponents.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 text-center animate-fadeIn">
-            <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
-              <FaBoxOpen className="text-5xl text-slate-300" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">Нічого не знайдено</h3>
-            <p className="text-slate-500 max-w-xs mx-auto">Спробуйте змінити пошуковий запит або категорію.</p>
-            <button 
-              onClick={() => {setSearchTerm(""); setSelectedCategory("all"); setPriceLimit(maxPrice)}}
-              className="mt-6 px-6 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-600 font-bold hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* STICKY FILTER BAR*/}
+          <div className="sticky top-20 z-30 mb-12">
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="bg-white rounded-2xl shadow-[8px_8px_0px_0px_#0f172a] border-4 border-slate-900 p-4"
             >
-              Скинути всі фільтри
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              <AnimatePresence mode="popLayout">
-                {displayedComponents.map((c, index) => (
-                  <motion.div 
-                    key={`${c.id}`}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
+              <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
+                
+                {/* 1. Пошук */}
+                <div className="w-full lg:flex-1 relative group">
+                  <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-900 group-focus-within:text-blue-600 transition-colors" />
+                  <input
+                    type="text"
+                    placeholder="Пошук за назвою..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border-2 border-slate-900 rounded-xl focus:outline-none focus:shadow-[4px_4px_0px_0px_#facc15] transition-all text-sm font-bold text-slate-900 placeholder-slate-500 uppercase tracking-wider"
+                  />
+                </div>
+
+                <div className="hidden lg:block w-1 h-10 bg-slate-900 rounded-full"></div>
+
+                {/* 2. Категорія */}
+                <div className="w-full lg:w-64 relative group">
+                  <FaFilter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-900 group-focus-within:text-blue-600 transition-colors" />
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full pl-12 pr-10 py-3 bg-slate-50 border-2 border-slate-900 rounded-xl focus:outline-none focus:shadow-[4px_4px_0px_0px_#facc15] transition-all text-sm font-bold appearance-none cursor-pointer uppercase tracking-wider text-slate-900"
                   >
-                    <ComponentCard component={c} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {CATEGORY_TRANSLATIONS[cat] || cat}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-900 text-xs">▼</div>
+                </div>
 
-            {/* Кнопка "Показати ще" */}
-            {hasMore && (
-              <div className="mt-16 mb-10 text-center">
-                <button 
-                  onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
-                  className="px-8 py-3 bg-white border-2 border-blue-100 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all shadow-sm hover:shadow-md active:scale-95"
-                >
-                  Показати ще ({filteredComponents.length - visibleCount})
-                </button>
+                <div className="hidden lg:block w-1 h-10 bg-slate-900 rounded-full"></div>
+
+                {/* 3. Ціна */}
+                <div className="w-full lg:w-72 px-2">
+                  <div className="flex justify-between text-xs font-black uppercase tracking-widest text-slate-900 mb-2">
+                    <span className="flex items-center gap-1.5"><FaTags /> Бюджет до</span>
+                    <span className="bg-blue-500 text-white px-2 py-0.5 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">{priceLimit} ₴</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={maxPrice}
+                    step={50}
+                    value={priceLimit}
+                    onChange={(e) => setPriceLimit(Number(e.target.value))}
+                    className="w-full h-4 bg-slate-200 border-2 border-slate-900 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                  />
+                </div>
+
               </div>
-            )}
-          </>
-        )}
+            </motion.div>
+          </div>
+
+          {/* Результати */}
+          {displayedComponents.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <div className="w-24 h-24 bg-white border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] rounded-full flex items-center justify-center mb-6">
+                <FaBoxOpen className="text-5xl text-slate-400" />
+              </div>
+              <h3 className="text-2xl font-black uppercase tracking-widest text-slate-900 mb-2 bg-white px-4 py-1 rounded-lg border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] inline-block">Нічого не знайдено</h3>
+              <button 
+                onClick={() => {setSearchTerm(""); setSelectedCategory("all"); setPriceLimit(maxPrice)}}
+                className="mt-6 px-6 py-3 bg-red-500 border-2 border-slate-900 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-600 shadow-[4px_4px_0px_0px_#0f172a] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0px_0px_#0f172a] transition-all"
+              >
+                Скинути всі фільтри
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <AnimatePresence mode="popLayout">
+                  {displayedComponents.map((c) => (
+                    <motion.div 
+                      key={`${c.id}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ComponentCard component={c} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Кнопка "Показати ще" */}
+              {hasMore && (
+                <div className="mt-16 mb-10 text-center">
+                  <button 
+                    onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
+                    className="px-8 py-4 bg-white border-4 border-slate-900 text-slate-900 font-black uppercase tracking-widest text-lg rounded-xl hover:bg-slate-100 shadow-[8px_8px_0px_0px_#0f172a] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0px_0px_#0f172a] transition-all active:scale-95"
+                  >
+                    Показати ще ({filteredComponents.length - visibleCount})
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Кнопка "Вгору" */}
+        <AnimatePresence>
+          {showScroll && (
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              onClick={scrollToTop}
+              className="fixed z-50 bottom-8 right-8 p-4 bg-blue-600 text-white rounded-full border-4 border-slate-900 shadow-[6px_6px_0px_0px_#0f172a] hover:bg-blue-500 hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_#0f172a] transition-all duration-300 active:scale-90"
+            >
+              <FaArrowUp size={20} />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
-
-      {/* Кнопка "Вгору" */}
-      <AnimatePresence>
-        {showScroll && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            onClick={scrollToTop}
-            className="fixed z-50 bottom-8 right-8 p-4 bg-slate-900 text-white rounded-full shadow-2xl hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 active:scale-90"
-          >
-            <FaArrowUp size={20} />
-          </motion.button>
-        )}
-      </AnimatePresence>
-
     </div>
   );
 }
@@ -288,22 +268,21 @@ export default function Home() {
 // --- Допоміжні компоненти ---
 
 const Loader = () => (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
-    <div className="relative w-16 h-16">
-      <div className="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
-      <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+  <div className="min-h-screen flex flex-col items-center justify-center bg-[#facc15]">
+    <div className="relative w-20 h-20 bg-white border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] rounded-2xl flex items-center justify-center animate-bounce">
+      <div className="absolute inset-0 border-4 border-blue-600 rounded-xl border-t-transparent animate-spin m-2"></div>
     </div>
-    <p className="mt-6 text-slate-500 font-medium animate-pulse">Завантаження каталогу...</p>
+    <p className="mt-6 text-slate-900 font-black uppercase tracking-widest bg-white px-4 py-1 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] rounded-lg">Завантаження...</p>
   </div>
 );
 
 const ErrorState = ({ message }: { message: string }) => (
-  <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-    <div className="bg-white p-8 rounded-2xl shadow-xl border border-red-100 text-center max-w-md">
-      <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">!</div>
-      <h3 className="font-bold text-xl text-slate-900 mb-2">Виникла помилка</h3>
-      <p className="text-slate-500 mb-6">{message}</p>
-      <button onClick={() => window.location.reload()} className="bg-slate-900 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-slate-800 transition">
+  <div className="min-h-screen flex items-center justify-center bg-[#facc15] p-4">
+    <div className="bg-white p-8 rounded-2xl shadow-[8px_8px_0px_0px_#0f172a] border-4 border-slate-900 text-center max-w-md">
+      <div className="w-16 h-16 bg-red-500 text-white border-4 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-black">!</div>
+      <h3 className="font-black text-2xl uppercase tracking-widest text-slate-900 mb-2">Помилка</h3>
+      <p className="text-slate-600 font-bold mb-6">{message}</p>
+      <button onClick={() => window.location.reload()} className="bg-blue-600 text-white px-6 py-3 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] font-black uppercase tracking-wider hover:bg-blue-500 transition-all hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0px_0px_#0f172a]">
         Оновити сторінку
       </button>
     </div>

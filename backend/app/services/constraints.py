@@ -392,3 +392,332 @@ def find_adequate_base(
     # Якщо немає ідеальних — беремо найбільшу за площею
     candidates.sort(key=lambda x: -x[1])
     return candidates[0][0]
+
+
+# ═════════════════════════════════════════════════════════════════════
+#  VOLUME RATIO CONSTRAINT
+#  Structural_Volume >= Sum(Functional_Component_Volumes) * 1.5
+# ═════════════════════════════════════════════════════════════════════
+
+_VOLUME_CLASS_MAP = {"Small": 2, "Medium": 8, "Large": 24}
+
+
+def get_component_volume(comp: Dict[str, Any]) -> int:
+    """Обчислює об'єм компонента в stud² (stud_length × stud_width).
+
+    Fallback через volume_class або geometry.size_class.
+    """
+    geo = comp.get("geometry") or {}
+    sl = geo.get("stud_length") or 0
+    sw = geo.get("stud_width") or 0
+    if sl > 0 and sw > 0:
+        return sl * sw
+    vc = comp.get("volume_class") or geo.get("size_class", "Small")
+    return _VOLUME_CLASS_MAP.get(vc, _VOLUME_CLASS_MAP.get(vc.capitalize() if isinstance(vc, str) else "Small", 4))
+
+
+def check_volume_ratio(
+    structural_parts: List[Dict[str, Any]],
+    functional_parts: List[Dict[str, Any]],
+    ratio: float = 1.5,
+) -> Tuple[bool, float]:
+    """Перевіряє Volume Ratio constraint.
+
+    Structural_Volume >= Sum(Functional_Volume) * ratio.
+
+    Returns:
+        (is_satisfied, actual_ratio)
+    """
+    struct_vol = sum(get_component_volume(p) for p in structural_parts) or 1
+    func_vol = sum(get_component_volume(p) for p in functional_parts) or 1
+    actual_ratio = struct_vol / func_vol
+    return actual_ratio >= ratio, round(actual_ratio, 2)
+
+
+# ═════════════════════════════════════════════════════════════════════
+#  SCALING RULE — Large Structural Part Mandate
+# ═════════════════════════════════════════════════════════════════════
+
+def needs_large_structural(
+    complexity: int,
+    motor_count: int,
+) -> bool:
+    """Перевіряє чи потрібна хоча б одна Large структурна деталь.
+
+    Правило: Complexity > 2 OR Motor Count > 2 → потрібна Large деталь.
+    """
+    return complexity > 2 or motor_count > 2
+
+
+def has_large_structural(parts: List[Dict[str, Any]]) -> bool:
+    """Перевіряє чи є хоча б одна Large структурна деталь серед частин."""
+    for p in parts:
+        if p.get("category") != "structure":
+            continue
+        vc = p.get("volume_class") or (p.get("geometry") or {}).get("size_class", "small")
+        if isinstance(vc, str) and vc.lower() == "large":
+            return True
+    return False
+
+
+def find_large_structural(
+    components: List[Dict[str, Any]],
+    max_price: float = float("inf"),
+    max_weight: float = float("inf"),
+) -> Optional[Dict[str, Any]]:
+    """Знаходить найкращу Large структурну деталь (за площею / ціною)."""
+    candidates = []
+    for c in components:
+        if c.get("category") != "structure":
+            continue
+        vc = c.get("volume_class") or (c.get("geometry") or {}).get("size_class", "small")
+        if isinstance(vc, str) and vc.lower() != "large":
+            continue
+        price = c.get("price") or 0
+        weight = c.get("weight") or 0
+        if price > max_price or weight > max_weight:
+            continue
+        area = compute_stud_area(c)
+        candidates.append((c, area, price))
+
+    if not candidates:
+        return None
+
+    # Пріоритет: найбільша площа за розумну ціну
+    candidates.sort(key=lambda x: (-x[1], x[2]))
+    return candidates[0][0]
+
+
+# ═════════════════════════════════════════════════════════════════════
+#  CONNECTOR FILL — Заповнення недостатніх з'єднань
+# ═════════════════════════════════════════════════════════════════════
+
+# Мінімальні вимоги до з'єднувальних деталей per motor
+_CONNECTOR_REQUIREMENTS = {
+    "axle": 1,       # мін. 1 вісь на мотор
+    "technic_pin": 2, # мін. 2 піна на мотор
+}
+
+
+def compute_connector_deficit(
+    chosen_parts: List[Dict[str, Any]],
+    motor_count: int,
+) -> Dict[str, int]:
+    """Обчислює скільки з'єднувальних деталей не вистачає.
+
+    Returns:
+        dict {family: deficit_count} — скільки ще потрібно додати.
+    """
+    # Підрахунок існуючих з'єднувальних деталей
+    existing: Dict[str, int] = {}
+    for p in chosen_parts:
+        fam = p.get("family", "")
+        if fam in ("axle", "technic_pin", "technic_connector", "gear"):
+            existing[fam] = existing.get(fam, 0) + 1
+
+    # Обчислюємо дефіцит
+    deficit: Dict[str, int] = {}
+    for family, per_motor in _CONNECTOR_REQUIREMENTS.items():
+        needed = motor_count * per_motor
+        have = existing.get(family, 0)
+        if have < needed:
+            deficit[family] = needed - have
+
+    return deficit
+
+
+def find_connector_parts(
+    components: List[Dict[str, Any]],
+    family: str,
+    count: int,
+    max_price: float = float("inf"),
+    max_weight: float = float("inf"),
+) -> List[Dict[str, Any]]:
+    """Знаходить з'єднувальні деталі потрібного типу.
+
+    Returns:
+        Список до count найдешевших деталей.
+    """
+    candidates = [
+        c for c in components
+        if c.get("category") == "structure"
+        and c.get("family") == family
+        and (c.get("price") or 0) <= max_price
+        and (c.get("weight") or 0) <= max_weight
+    ]
+    if not candidates:
+        return []
+
+    # Сортуємо за ціною (найдешевші)
+    candidates.sort(key=lambda c: c.get("price") or 0)
+    best = candidates[0]
+    return [best] * min(count, 10)  # Repeat best connector
+
+
+# ═════════════════════════════════════════════════════════════════════
+#  FUNCTION-SPECIFIC STRUCTURAL REQUIREMENTS
+# ═════════════════════════════════════════════════════════════════════
+
+# Fly → needs lightweight but large frame
+# Drive → needs strong base plate
+# Swim → needs hull/waterproof frame
+
+FUNCTION_STRUCTURAL_HINTS: Dict[str, Dict[str, Any]] = {
+    "літати": {
+        "preferred_families": ["plate", "technic_beam"],
+        "prefer_lightweight": True,
+        "min_size": "medium",
+        "volume_ratio": 1.2,   # літаючі роботи — менше вимог до маси
+    },
+    "їздити": {
+        "preferred_families": ["frame", "plate", "brick"],
+        "prefer_lightweight": False,
+        "min_size": "medium",
+        "volume_ratio": 1.5,
+    },
+    "плавати": {
+        "preferred_families": ["hull_frame", "plate"],
+        "prefer_lightweight": True,
+        "min_size": "medium",
+        "volume_ratio": 1.3,
+    },
+    "маніпулювати": {
+        "preferred_families": ["technic_beam", "frame"],
+        "prefer_lightweight": False,
+        "min_size": "small",
+        "volume_ratio": 1.0,
+    },
+}
+
+
+def get_function_structural_hint(functions: List[str]) -> Dict[str, Any]:
+    """Повертає агреговані структурні вимоги для набору функцій.
+
+    Обирає найвимогливіший volume_ratio і об'єднує preferred families.
+    """
+    result = {
+        "preferred_families": set(),
+        "prefer_lightweight": False,
+        "min_size": "small",
+        "volume_ratio": 1.5,
+    }
+
+    for func in functions:
+        func_l = func.lower()
+        for key, hint in FUNCTION_STRUCTURAL_HINTS.items():
+            if key in func_l:
+                result["preferred_families"].update(hint["preferred_families"])
+                if hint["prefer_lightweight"]:
+                    result["prefer_lightweight"] = True
+                # Найвимогливіший ratio
+                result["volume_ratio"] = max(
+                    result["volume_ratio"], hint["volume_ratio"]
+                )
+                # Найбільший min_size
+                size_order = {"small": 0, "medium": 1, "large": 2}
+                if size_order.get(hint["min_size"], 0) > size_order.get(
+                    result["min_size"], 0
+                ):
+                    result["min_size"] = hint["min_size"]
+
+    result["preferred_families"] = list(
+        result["preferred_families"]
+    ) or ["plate", "frame"]
+
+    return result
+
+
+# ═════════════════════════════════════════════════════════════════════
+#  DECOR PHASE — Budget-Based Aesthetic Filling
+# ═════════════════════════════════════════════════════════════════════
+
+# Категорії деталей для декоративного заповнення
+DECOR_FAMILIES = [
+    "plate", "brick", "tile", "panel",
+    "technic_pin", "technic_connector",
+]
+
+DECOR_ENGINEERING_ROLES = {"Decorative", "Connection"}
+
+
+def select_decor_parts(
+    components: List[Dict[str, Any]],
+    remaining_budget: float,
+    remaining_mass: float,
+    target_budget_usage: float = 0.95,
+    original_budget: float = 0.0,
+) -> List[Dict[str, Any]]:
+    """Підбирає декоративні / з'єднувальні деталі для заповнення бюджету.
+
+    Правило: якщо remaining_budget > 10% від оригінального бюджету,
+    додаємо деталі з роллю Decorative або Connection до 95% використання.
+
+    Returns:
+        Список деталей для додавання.
+    """
+    if original_budget <= 0:
+        return []
+
+    budget_usage = 1.0 - (remaining_budget / original_budget)
+    if budget_usage >= target_budget_usage:
+        return []  # Бюджет вже використано достатньо
+
+    # Збираємо кандидатів
+    candidates = []
+    for c in components:
+        eng_role = c.get("engineering_role", "")
+        fam = c.get("family", "")
+        cat = c.get("category", "")
+
+        # Деталі Decorative або Connection ролі
+        is_decor = eng_role in DECOR_ENGINEERING_ROLES
+        # Або маленькі структурні деталі (пластини, цеглинки)
+        is_small_struct = (
+            cat == "structure"
+            and fam in DECOR_FAMILIES
+            and (c.get("volume_class") or "Small") in ("Small", "Medium")
+        )
+
+        if not (is_decor or is_small_struct):
+            continue
+
+        price = c.get("price") or 0
+        weight = c.get("weight") or 0
+        if price <= 0 or price > remaining_budget or weight > remaining_mass:
+            continue
+
+        candidates.append(c)
+
+    if not candidates:
+        return []
+
+    # Сортуємо: спочатку дешевші (щоб набрати більше різноманітності)
+    candidates.sort(key=lambda c: c.get("price") or 0)
+
+    result: List[Dict[str, Any]] = []
+    budget_left = remaining_budget
+    mass_left = remaining_mass
+    target_remaining = original_budget * (1.0 - target_budget_usage)
+
+    # Чергуємо різні типи для естетики
+    used_families: Dict[str, int] = {}
+    max_per_family = 4  # не більше 4 штук одного типу
+
+    for c in candidates:
+        if budget_left <= target_remaining:
+            break
+
+        fam = c.get("family", "unknown")
+        if used_families.get(fam, 0) >= max_per_family:
+            continue
+
+        price = c.get("price") or 0
+        weight = c.get("weight") or 0
+
+        if price <= budget_left and weight <= mass_left:
+            result.append(c)
+            budget_left -= price
+            mass_left -= weight
+            used_families[fam] = used_families.get(fam, 0) + 1
+
+    return result

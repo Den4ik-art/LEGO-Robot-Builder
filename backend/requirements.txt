@@ -9,3 +9,8 @@ bcrypt
 python-jose[cryptography]
 python-dotenv
 alembic
+reportlab
+matplotlib
+numpy
+qrcode[pil]
+Pillow

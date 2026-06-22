@@ -23,6 +23,7 @@ from app.db.repo import Repo
 from app.models.dto import ConfigRequest
 from app.services.greedy import GreedyConfigurator
 from app.services.genetic import GeneticAlgorithmOptimizer
+from app.services.scoring import WeightedScorer
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -364,4 +365,239 @@ class ExperimentRunner:
         return {
             "experiments": experiments,
             "summary": summary,
+        }
+
+    # ══════════════════════════════════════════════════════════════════════
+    #  DASHBOARD ANALYSIS (для аналітичного модуля)
+    # ══════════════════════════════════════════════════════════════════════
+
+    @staticmethod
+    def _compute_characteristics(
+        selected_parts: List[Dict[str, Any]],
+        scorer: WeightedScorer,
+    ) -> Dict[str, float]:
+        """
+        Обчислює агреговані характеристики робота для Radar Chart.
+
+        Повертає 5 метрик (0..100):
+          - speed:     на основі rpm моторів
+          - force:     на основі torque моторів
+          - economy:   інверсна ціна (дешевше = краще)
+          - endurance: інверсна вага (легше = краще)
+          - eco:       енергоефективність
+        """
+        if not selected_parts:
+            return {"speed": 0, "force": 0, "economy": 0, "endurance": 0, "eco": 0}
+
+        total_price = sum(c.get("price") or 0 for c in selected_parts)
+        total_weight = sum(c.get("weight") or 0 for c in selected_parts)
+
+        # --- Speed (RPM від моторів) ---
+        rpms = []
+        torques = []
+        energies = []
+        for comp in selected_parts:
+            elec = comp.get("electronics") or {}
+            rpm = elec.get("rpm_nominal")
+            if rpm is not None:
+                rpms.append(float(rpm))
+            torque = elec.get("torque_nominal_ncm")
+            if torque is not None:
+                torques.append(float(torque))
+            voltage = elec.get("voltage_v")
+            current = elec.get("max_current_a")
+            if voltage is not None and current is not None:
+                energies.append(float(voltage) * float(current))
+
+        # Нормалізація до 0..100
+        # Speed: середній RPM як частка від максимально можливого (~185 RPM для Technic XL)
+        speed_score = 0.0
+        if rpms:
+            avg_rpm = statistics.mean(rpms)
+            speed_score = min(100, (avg_rpm / 200) * 100)
+
+        # Force: середній torque як частка від макс. (~25 N·cm)
+        force_score = 0.0
+        if torques:
+            avg_torque = statistics.mean(torques)
+            force_score = min(100, (avg_torque / 30) * 100)
+
+        # Economy: інверсна ціна (менше = краще), 50000 грн — макс. бюджет
+        economy_score = max(0, min(100, (1 - total_price / 50000) * 100))
+
+        # Endurance: інверсна вага (менше = краще), 20000 г — макс. вага
+        endurance_score = max(0, min(100, (1 - total_weight / 20000) * 100))
+
+        # Eco: інверсне енергоспоживання
+        eco_score = 50.0  # default
+        if energies:
+            avg_energy = statistics.mean(energies)
+            eco_score = max(0, min(100, (1 - avg_energy / 10) * 100))
+
+        return {
+            "speed": round(speed_score, 1),
+            "force": round(force_score, 1),
+            "economy": round(economy_score, 1),
+            "endurance": round(endurance_score, 1),
+            "eco": round(eco_score, 1),
+        }
+
+    def run_dashboard_analysis(
+        self,
+        n: int = 1000,
+        run_greedy: bool = True,
+        run_genetic: bool = True,
+        eco_mode: bool = False,
+        ga_population: int = 50,
+        ga_generations: int = 30,
+    ) -> Dict[str, Any]:
+        """
+        Запускає аналіз для Dashboard (фронтенд аналітичний модуль).
+
+        Повертає структуровані дані для BarChart, RadarChart, та LineChart:
+        {
+          "n": 1000,
+          "algorithms": {
+            "Greedy": { "time_ms", "fitness", "success", "characteristics": {...} },
+            "Genetic": { ..., "convergence": [...] }
+          }
+        }
+        """
+        request = make_test_request(eco_mode=eco_mode)
+        dataset = generate_synthetic_dataset(self.real_components, n)
+        scorer = WeightedScorer(dataset)
+        weights = scorer.get_weights_from_priority(request.priority, eco_mode=eco_mode)
+
+        algorithms: Dict[str, Any] = {}
+
+        # ── GREEDY (Жадібний) ──
+        if run_greedy:
+            configurator = GreedyConfigurator(dataset)
+
+            t0 = time.perf_counter()
+            greedy_result = configurator.configure(request)
+            greedy_time = (time.perf_counter() - t0) * 1000
+
+            greedy_parts = greedy_result.get("selected", [])
+            greedy_success = "error" not in greedy_result
+
+            # Обчислюємо fitness як середню зважену оцінку (0..100)
+            greedy_fitness = 0.0
+            greedy_cat_scores = {}
+            greedy_cat_price = {}
+            greedy_cat_weight = {}
+            if greedy_parts:
+                scores = []
+                for comp in greedy_parts:
+                    score = scorer.calculate_component_score(comp, weights)
+                    scores.append(score)
+                    cat = comp.get("category", "unknown")
+                    greedy_cat_scores[cat] = greedy_cat_scores.get(cat, 0.0) + score
+                    greedy_cat_price[cat] = greedy_cat_price.get(cat, 0.0) + (comp.get("price") or 0)
+                    greedy_cat_weight[cat] = greedy_cat_weight.get(cat, 0.0) + (comp.get("weight") or 0)
+                
+                total_raw = sum(scores)
+                greedy_fitness = (total_raw / len(scores)) / 2.5 * 100
+                
+                if total_raw > 0:
+                    for cat in greedy_cat_scores:
+                        greedy_cat_scores[cat] = round((greedy_cat_scores[cat] / total_raw) * greedy_fitness, 2)
+
+            characteristics = self._compute_characteristics(greedy_parts, scorer)
+
+            algorithms["Greedy"] = {
+                "name": "Greedy",
+                "time_ms": round(greedy_time, 2),
+                "fitness": round(greedy_fitness, 2),
+                "success": greedy_success,
+                "parts_count": len(greedy_parts),
+                "total_price": greedy_result.get("total_price", 0),
+                "total_weight": greedy_result.get("total_weight", 0),
+                "characteristics": characteristics,
+                "category_breakdown": greedy_cat_scores,
+                "category_price": greedy_cat_price,
+                "category_weight": greedy_cat_weight,
+            }
+
+        # ── GENETIC (Генетичний) ──
+        if run_genetic:
+            optimizer = GeneticAlgorithmOptimizer(
+                dataset,
+                population_size=ga_population,
+                generations=ga_generations,
+                mutation_rate=0.08,
+                crossover_rate=0.75,
+                tournament_size=5,
+                elitism_pct=0.05,
+            )
+
+            t0 = time.perf_counter()
+            ga_result = optimizer.optimize(request)
+            ga_time = (time.perf_counter() - t0) * 1000
+
+            ga_parts = ga_result.get("selected", [])
+            ga_success = "error" not in ga_result
+            ga_stats = ga_result.get("ga_stats", {})
+
+            # Fitness від GA — нормалізуємо аналогічно до Greedy
+            ga_fitness = 0.0
+            ga_cat_scores = {}
+            ga_cat_price = {}
+            ga_cat_weight = {}
+            if ga_parts:
+                ga_scores = []
+                for comp in ga_parts:
+                    score = scorer.calculate_component_score(comp, weights)
+                    ga_scores.append(score)
+                    cat = comp.get("category", "unknown")
+                    ga_cat_scores[cat] = ga_cat_scores.get(cat, 0.0) + score
+                    ga_cat_price[cat] = ga_cat_price.get(cat, 0.0) + (comp.get("price") or 0)
+                    ga_cat_weight[cat] = ga_cat_weight.get(cat, 0.0) + (comp.get("weight") or 0)
+                
+                total_raw = sum(ga_scores)
+                ga_fitness = (total_raw / len(ga_scores)) / 2.5 * 100
+                
+                if total_raw > 0:
+                    for cat in ga_cat_scores:
+                        ga_cat_scores[cat] = round((ga_cat_scores[cat] / total_raw) * ga_fitness, 2)
+
+            # Convergence history (повна, не обрізана)
+            best_hist = ga_stats.get("best_fitness_history", [])
+            avg_hist = ga_stats.get("avg_fitness_history", [])
+            std_hist = ga_stats.get("std_fitness_history", [])
+            convergence = []
+            for i in range(len(best_hist)):
+                convergence.append({
+                    "generation": i + 1,
+                    "best_fitness": round(best_hist[i], 4) if i < len(best_hist) else 0,
+                    "avg_fitness": round(avg_hist[i], 4) if i < len(avg_hist) else 0,
+                    "std_fitness": round(std_hist[i], 4) if i < len(std_hist) else 0,
+                })
+
+            characteristics = self._compute_characteristics(ga_parts, scorer)
+
+            algorithms["Genetic"] = {
+                "name": "Genetic",
+                "time_ms": round(ga_time, 2),
+                "fitness": round(ga_fitness, 2),
+                "success": ga_success,
+                "parts_count": len(ga_parts),
+                "total_price": ga_result.get("total_price", 0),
+                "total_weight": ga_result.get("total_weight", 0),
+                "characteristics": characteristics,
+                "category_breakdown": ga_cat_scores,
+                "category_price": ga_cat_price,
+                "category_weight": ga_cat_weight,
+                "convergence": convergence,
+                "ga_meta": {
+                    "generations_completed": ga_stats.get("generations_completed", 0),
+                    "population_size": ga_stats.get("population_size", 0),
+                    "stagnation_events": ga_stats.get("stagnation_events", 0),
+                    "elapsed_seconds": ga_stats.get("elapsed_seconds", 0),
+                },
+            }
+
+        return {
+            "n": n,
+            "algorithms": algorithms,
         }

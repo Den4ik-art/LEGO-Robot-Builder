@@ -131,7 +131,7 @@ def init_db() -> None:
     try:
         from app.db.base import Base
         # Імпортуємо моделі щоб вони зареєструвались в Base.metadata
-        import app.models.auto_generated_models  # noqa: F401
+        import app.models.models  # noqa: F401
 
         engine = get_engine()
         Base.metadata.create_all(bind=engine)

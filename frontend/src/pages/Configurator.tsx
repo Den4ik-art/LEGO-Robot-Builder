@@ -7,8 +7,9 @@ import {
   FaCar, FaPlane, FaWater, FaRobot, FaSearch,
   FaCoins, FaWeightHanging, FaTachometerAlt, FaShieldAlt, FaPiggyBank, FaDumbbell,
   FaTree, FaHome, FaSwimmingPool, FaMountain, FaMicrochip, FaPuzzlePiece, FaStar,
-  FaDna, FaCogs, FaLeaf, FaBolt
+  FaDna, FaCogs, FaLeaf, FaBolt, FaFilePdf
 } from "react-icons/fa";
+import DownloadPDFButton from "../components/DownloadPDFButton";
 
 // --- Типи ---
 type LegoComponent = {
@@ -33,6 +34,7 @@ type GaStats = {
 };
 
 type ApiResponse = {
+  id?: number;
   selected: LegoComponent[];
   total_price: number;
   total_weight: number;
@@ -297,13 +299,23 @@ export default function Configurator() {
     : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20">
+    <div className="min-h-screen w-full bg-[#facc15] font-sans text-slate-900 pb-20 relative overflow-x-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 14px 14px, #fef08a 3px, transparent 4px),
+            radial-gradient(circle at 16px 16px, #ca8a04 6px, transparent 7px)
+          `,
+          backgroundSize: "32px 32px"
+        }}
+      />
 
       {/* Loading Overlay */}
       {loading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <motion.div
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4 text-center w-full"
+            className="bg-white rounded-3xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_#facc15] p-8 max-w-md mx-4 text-center w-full"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -387,15 +399,16 @@ export default function Configurator() {
       )}
 
       {/* Header Section (UI)*/}
-      <div className="bg-white border-b border-slate-200 pt-10 pb-8 px-4 shadow-sm">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-3">
-            Спроектуй свого <span className="text-blue-600">LEGO-Робота</span>
+      <div className="relative z-10 pt-10 pb-8 px-4 text-center">
+        <div className="inline-block bg-white px-8 py-3 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_#0f172a] mb-4 transform -skew-x-3">
+          <h1 className="text-3xl md:text-5xl font-black italic uppercase text-slate-900 tracking-tighter">
+            Спроектуй свого <span className="text-red-600 drop-shadow-[2px_2px_0px_#0f172a]">LEGO-Робота</span>
           </h1>
-          <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-            Налаштуйте параметри середовища, функцій та обмеження бюджету — конфігуратор підбере оптимальний набір деталей.
-          </p>
         </div>
+        <br/>
+        <p className="text-slate-900 font-bold bg-white/80 inline-block px-4 py-1 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] tracking-widest text-xs uppercase max-w-2xl mx-auto mt-2">
+          Налаштуйте параметри середовища, функцій та обмеження бюджету — конфігуратор підбере оптимальний набір деталей.
+        </p>
       </div>
 
       {/* Main Layout */}
@@ -403,7 +416,7 @@ export default function Configurator() {
 
         {/* Left: Form Card */}
         <motion.div
-          className="bg-white rounded-3xl shadow-md border border-slate-200 p-6 lg:sticky lg:top-6"
+          className="bg-white rounded-3xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] p-6 lg:sticky lg:top-6 relative z-10"
           initial={{ opacity: 0, x: -15 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.25 }}
@@ -424,7 +437,7 @@ export default function Configurator() {
                   return (
                     <div
                       key={f.id}
-                      className={`text-left border rounded-2xl px-3 py-2 text-xs flex flex-col gap-1 transition ${isActive ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                      className={`text-left border-2 rounded-xl px-3 py-2 text-xs flex flex-col gap-1 transition-all ${isActive ? "border-blue-600 bg-blue-100 text-blue-900 shadow-[3px_3px_0px_0px_#2563eb] translate-y-0.5 translate-x-0.5" : "border-slate-900 bg-white shadow-[3px_3px_0px_0px_#0f172a] hover:bg-[#facc15]"
                         }`}
                     >
                       <button
@@ -446,7 +459,7 @@ export default function Configurator() {
 
                       {isActive && f.subtypes.length > 0 && (
                         <select
-                          className="mt-1 text-xs w-full rounded-xl border border-slate-200 bg-white px-2 py-1"
+                          className="mt-1 text-xs w-full font-bold rounded-xl border-2 border-slate-900 bg-white px-2 py-1 shadow-[2px_2px_0px_0px_#0f172a] focus:outline-none"
                           value={formData.subFunctions[f.id] || f.subtypes[0]}
                           onChange={(e) => handleSubFunctionChange(f.id, e.target.value)}
                         >
@@ -479,9 +492,9 @@ export default function Configurator() {
                       key={t.value}
                       type="button"
                       onClick={() => handleTerrainChange(t.value)}
-                      className={`flex flex-col items-start gap-1 border rounded-2xl px-3 py-2 text-xs transition ${isActive
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm"
-                        : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                      className={`flex flex-col items-start gap-1 border-2 rounded-xl px-3 py-2 text-xs transition-all ${isActive
+                        ? "border-emerald-600 bg-emerald-100 text-emerald-900 shadow-[3px_3px_0px_0px_#059669] translate-y-0.5 translate-x-0.5"
+                        : "border-slate-900 bg-white shadow-[3px_3px_0px_0px_#0f172a] hover:bg-[#facc15]"
                         }`}
                     >
                       <span className="flex items-center gap-2">
@@ -538,7 +551,7 @@ export default function Configurator() {
                   name="sizeClass"
                   value={formData.sizeClass}
                   onChange={(e) => handlePriorityChange("sizeClass", e.target.value)}
-                  className="w-full text-xs rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
+                  className="w-full text-xs font-bold rounded-xl border-2 border-slate-900 bg-white px-3 py-2 shadow-[3px_3px_0px_0px_#0f172a] focus:outline-none"
                 >
                   <option value="small">Малий (S)</option>
                   <option value="medium">Середній (M)</option>
@@ -549,7 +562,7 @@ export default function Configurator() {
                   name="powerProfile"
                   value={formData.powerProfile}
                   onChange={(e) => handlePriorityChange("powerProfile", e.target.value)}
-                  className="w-full text-xs rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
+                  className="w-full text-xs font-bold rounded-xl border-2 border-slate-900 bg-white px-3 py-2 shadow-[3px_3px_0px_0px_#0f172a] focus:outline-none"
                 >
                   <option value="long_runtime">Еко (Довгий час)</option>
                   <option value="balanced">Збалансовано</option>
@@ -571,7 +584,7 @@ export default function Configurator() {
                       key={sensor}
                       type="button"
                       onClick={() => handleSensorToggle(sensor)}
-                      className={`text-xs border rounded-2xl px-3 py-2 transition text-left ${isActive ? "border-amber-500 bg-amber-50 text-amber-700 shadow-sm" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                      className={`text-xs border-2 rounded-xl px-3 py-2 transition-all font-bold text-left ${isActive ? "border-amber-600 bg-amber-200 text-amber-900 shadow-[3px_3px_0px_0px_#d97706] translate-y-0.5 translate-x-0.5" : "border-slate-900 bg-white shadow-[3px_3px_0px_0px_#0f172a] hover:bg-[#facc15]"
                         }`}
                     >
                       {sensor}
@@ -638,9 +651,9 @@ export default function Configurator() {
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, eco_mode: !prev.eco_mode }))}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-medium transition-all border-2 ${formData.eco_mode
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md"
-                  : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300"
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-black uppercase transition-all border-2 ${formData.eco_mode
+                  ? "border-emerald-600 bg-emerald-100 text-emerald-900 shadow-[4px_4px_0px_0px_#059669] translate-y-1 translate-x-1"
+                  : "border-slate-900 bg-white text-slate-900 shadow-[4px_4px_0px_0px_#0f172a] hover:bg-[#facc15]"
                   }`}
               >
                 <span className="flex items-center gap-2">
@@ -667,9 +680,9 @@ export default function Configurator() {
                 <button
                   type="button"
                   onClick={() => setAlgorithm("sequential")}
-                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium transition-all border-2 ${algorithm === "sequential"
-                    ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
-                    : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all border-2 ${algorithm === "sequential"
+                    ? "border-blue-600 bg-blue-100 text-blue-900 shadow-[3px_3px_0px_0px_#2563eb] translate-y-0.5 translate-x-0.5"
+                    : "border-slate-900 bg-white text-slate-900 shadow-[3px_3px_0px_0px_#0f172a] hover:bg-[#facc15]"
                     }`}
                 >
                   <FaCogs className="text-sm" />
@@ -681,9 +694,9 @@ export default function Configurator() {
                 <button
                   type="button"
                   onClick={() => setAlgorithm("genetic")}
-                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium transition-all border-2 ${algorithm === "genetic"
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md"
-                    : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all border-2 ${algorithm === "genetic"
+                    ? "border-emerald-600 bg-emerald-100 text-emerald-900 shadow-[3px_3px_0px_0px_#059669] translate-y-0.5 translate-x-0.5"
+                    : "border-slate-900 bg-white text-slate-900 shadow-[3px_3px_0px_0px_#0f172a] hover:bg-[#facc15]"
                     }`}
                 >
                   <FaDna className="text-sm" />
@@ -700,9 +713,9 @@ export default function Configurator() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full rounded-2xl text-white text-sm font-semibold py-3 px-4 shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition ${algorithm === "genetic"
-                  ? "bg-emerald-600 hover:bg-emerald-700"
-                  : "bg-blue-600 hover:bg-blue-700"
+                className={`w-full mt-2 font-black uppercase tracking-widest text-lg py-4 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_#0f172a] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_#0f172a] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed ${algorithm === "genetic"
+                  ? "bg-emerald-500 text-white hover:bg-emerald-400"
+                  : "bg-blue-600 text-white hover:bg-blue-500"
                   }`}
               >
                 {loading ? (
@@ -724,7 +737,7 @@ export default function Configurator() {
         {/* Right: Results */}
         <motion.div
           id="results"
-          className="bg-white rounded-3xl shadow-md border border-slate-200 p-6"
+          className="bg-white rounded-3xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] p-6 relative z-10"
           initial={{ opacity: 0, x: 15 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.25 }}
@@ -738,6 +751,20 @@ export default function Configurator() {
                 Перегляньте підібрані деталі та оберіть потрібну категорію.
               </p>
             </div>
+            {result && (
+              <DownloadPDFButton
+                configId={result.id}
+                configData={{
+                  id: result.id || 0,
+                  request: formData,
+                  result: { selected: result.selected, ga_stats: result.ga_stats },
+                  total_price: result.total_price,
+                  total_weight: result.total_weight,
+                  remaining_budget: result.remaining_budget,
+                  algorithm: algorithm === "genetic" ? "genetic" : "greedy",
+                }}
+              />
+            )}
           </div>
 
           <div className="mb-6">
@@ -820,7 +847,7 @@ export default function Configurator() {
               )}
 
               {/* Список деталей */}
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+              <div className="bg-white rounded-2xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_#0f172a] p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   <AnimatePresence mode="popLayout">
                     {displayedComponents.map((comp) => (
@@ -836,6 +863,31 @@ export default function Configurator() {
                       </motion.div>
                     ))}
                   </AnimatePresence>
+                </div>
+              </div>
+              
+              {/* Кнопка завантаження PDF */}
+              <div className="mt-8 border-t-4 border-slate-900 pt-8 flex flex-col items-center">
+                <div className="bg-[#facc15] px-6 py-2 rounded-xl border-4 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] transform -skew-x-2 mb-4">
+                  <h3 className="text-xl font-black uppercase tracking-widest text-slate-900">ТЕХНІЧНА СПЕЦИФІКАЦІЯ</h3>
+                </div>
+                <p className="text-sm font-bold text-slate-600 mb-6 text-center max-w-md">
+                  Отримайте повний перелік необхідних компонентів (BOM), розрахункову схему підключення вузлів та інженерні рекомендації щодо фізичного складання моделі.
+                </p>
+                <div className="w-full max-w-md">
+                  <DownloadPDFButton
+                    configId={result.id}
+                    configData={{
+                      id: result.id || 0,
+                      request: formData,
+                      result: { selected: result.selected, ga_stats: result.ga_stats },
+                      total_price: result.total_price,
+                      total_weight: result.total_weight,
+                      remaining_budget: result.remaining_budget,
+                      algorithm: algorithm === "genetic" ? "genetic" : "greedy",
+                    }}
+                    variant="large"
+                  />
                 </div>
               </div>
             </>
@@ -858,12 +910,12 @@ const SliderBlock: React.FC<{
   value: number;
   onChange: (name: any, value: number) => void;
 }> = ({ icon, label, name, min, max, step, value, onChange }) => (
-  <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-    <div className="flex items-center justify-between mb-1">
-      <span className="text-xs font-semibold text-slate-700 flex items-center gap-2">
+  <div className="bg-white p-3 rounded-xl border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0f172a]">
+    <div className="flex items-center justify-between mb-2">
+      <span className="text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2">
         {icon} {label}
       </span>
-      <span className="text-xs font-semibold text-blue-600">
+      <span className="text-xs font-black text-blue-600 bg-blue-100 px-2 py-0.5 rounded border border-blue-600">
         {value} {name === "budget" ? "грн" : name === "weight" ? "г" : "lvl"}
       </span>
     </div>
@@ -874,15 +926,15 @@ const SliderBlock: React.FC<{
       step={step}
       value={value}
       onChange={(e) => onChange(name, Number(e.target.value))}
-      className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-500 hover:accent-blue-600 transition-all"
+      className="w-full h-2 bg-slate-200 border border-slate-900 rounded-lg appearance-none cursor-pointer accent-blue-600"
     />
   </div>
 );
 
 const InfoBadge: React.FC<{ label: string; value: string }> = ({ label, value }) => (
-  <div className="border border-slate-200 rounded-xl p-3 bg-white flex flex-col justify-center shadow-sm">
-    <span className="text-[10px] text-slate-500 font-medium">{label}</span>
-    <span className="text-sm font-semibold text-slate-800">{value}</span>
+  <div className="border-2 border-slate-900 rounded-xl p-3 bg-white flex flex-col justify-center shadow-[3px_3px_0px_0px_#0f172a]">
+    <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{label}</span>
+    <span className="text-sm font-black text-slate-900">{value}</span>
   </div>
 );
 
@@ -903,9 +955,9 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
   options,
   onChange,
 }) => (
-  <div className="p-3 rounded-xl border border-slate-200 bg-slate-50">
-    <div className="flex items-center gap-2 mb-1">
-      <span className="text-xs font-semibold text-slate-700 flex items-center gap-2">
+  <div className="p-3 rounded-xl border-2 border-slate-900 bg-white shadow-[3px_3px_0px_0px_#0f172a]">
+    <div className="flex items-center gap-2 mb-2">
+      <span className="text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2">
         {icon} {label}
       </span>
     </div>
@@ -917,9 +969,9 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
             key={opt.value}
             type="button"
             onClick={() => onChange(name, opt.value)}
-            className={`text-[10px] font-bold uppercase border rounded-xl px-3 py-2 transition ${isActive
-              ? "border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm"
-              : "border-slate-200 bg-white hover:bg-slate-100 text-slate-600"
+            className={`text-[10px] font-black uppercase tracking-wider border-2 rounded-xl px-3 py-2 transition-all ${isActive
+              ? "border-blue-600 bg-blue-100 text-blue-900 shadow-[2px_2px_0px_0px_#2563eb] translate-y-0.5 translate-x-0.5"
+              : "border-slate-900 bg-white hover:bg-[#facc15] text-slate-900 shadow-[2px_2px_0px_0px_#0f172a]"
               }`}
           >
             {opt.label}
@@ -942,53 +994,23 @@ type WeightSliderProps = {
 
 const WeightSlider: React.FC<WeightSliderProps> = ({ icon, label, name, value, onChange, color }) => {
   const colorClasses = {
-    blue: {
-      bg: "bg-blue-50",
-      border: "border-blue-200",
-      text: "text-blue-600",
-      accent: "accent-blue-500",
-      bar: "bg-blue-500",
-    },
-    red: {
-      bg: "bg-red-50",
-      border: "border-red-200",
-      text: "text-red-600",
-      accent: "accent-red-500",
-      bar: "bg-red-500",
-    },
-    green: {
-      bg: "bg-emerald-50",
-      border: "border-emerald-200",
-      text: "text-emerald-600",
-      accent: "accent-emerald-500",
-      bar: "bg-emerald-500",
-    },
-    purple: {
-      bg: "bg-purple-50",
-      border: "border-purple-200",
-      text: "text-purple-600",
-      accent: "accent-purple-500",
-      bar: "bg-purple-500",
-    },
-    emerald: {
-      bg: "bg-emerald-50",
-      border: "border-emerald-200",
-      text: "text-emerald-600",
-      accent: "accent-emerald-500",
-      bar: "bg-emerald-500",
-    },
+    blue: { bg: "bg-blue-50", border: "border-blue-300", text: "text-blue-700", bar: "bg-blue-500" },
+    red: { bg: "bg-red-50", border: "border-red-300", text: "text-red-700", bar: "bg-red-500" },
+    green: { bg: "bg-emerald-50", border: "border-emerald-300", text: "text-emerald-700", bar: "bg-emerald-500" },
+    purple: { bg: "bg-purple-50", border: "border-purple-300", text: "text-purple-700", bar: "bg-purple-500" },
+    emerald: { bg: "bg-emerald-50", border: "border-emerald-300", text: "text-emerald-700", bar: "bg-emerald-500" },
   };
 
   const colors = colorClasses[color];
   const percentage = value * 100;
 
   return (
-    <div className={`${colors.bg} p-3 rounded-xl border ${colors.border}`}>
+    <div className={`p-3 rounded-xl border-2 border-slate-900 bg-white shadow-[3px_3px_0px_0px_#0f172a]`}>
       <div className="flex items-center justify-between mb-2">
-        <span className={`text-xs font-semibold ${colors.text} flex items-center gap-2`}>
+        <span className={`text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2`}>
           {icon} {label}
         </span>
-        <span className={`text-sm font-bold ${colors.text}`}>
+        <span className={`text-xs font-black ${colors.text} bg-white px-2 py-0.5 rounded border-2 border-slate-900`}>
           {value.toFixed(1)}
         </span>
       </div>
@@ -1000,17 +1022,15 @@ const WeightSlider: React.FC<WeightSliderProps> = ({ icon, label, name, value, o
           step={0.1}
           value={value}
           onChange={(e) => onChange(name, Number(e.target.value))}
-          className={`w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer ${colors.accent} hover:opacity-80 transition-all`}
+          className="w-full h-3 bg-slate-200 border-2 border-slate-900 rounded-lg appearance-none cursor-pointer"
         />
-        {/* Progress bar overlay */}
         <div
-          className={`absolute top-0 left-0 h-2 ${colors.bar} rounded-lg pointer-events-none opacity-30`}
-          style={{ width: `${percentage}%` }}
+          className={`absolute top-0.5 left-0.5 h-2 ${colors.bar} rounded-lg pointer-events-none`}
+          style={{ width: `calc(${percentage}% - 4px)` }}
         />
       </div>
-      <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+      <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2">
         <span>Не важливо</span>
-        <span>Важливо</span>
         <span>Критично</span>
       </div>
     </div>
@@ -1027,29 +1047,29 @@ type WeightDisplayProps = {
 
 const WeightDisplay: React.FC<WeightDisplayProps> = ({ icon, label, value, color }) => {
   const colorClasses = {
-    blue: { bg: "bg-blue-100", bar: "bg-blue-500", text: "text-blue-700" },
-    red: { bg: "bg-red-100", bar: "bg-red-500", text: "text-red-700" },
-    green: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-700" },
-    purple: { bg: "bg-purple-100", bar: "bg-purple-500", text: "text-purple-700" },
-    emerald: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-700" },
+    blue: { bg: "bg-blue-100", bar: "bg-blue-500", text: "text-blue-900" },
+    red: { bg: "bg-red-100", bar: "bg-red-500", text: "text-red-900" },
+    green: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-900" },
+    purple: { bg: "bg-purple-100", bar: "bg-purple-500", text: "text-purple-900" },
+    emerald: { bg: "bg-emerald-100", bar: "bg-emerald-500", text: "text-emerald-900" },
   };
 
   const colors = colorClasses[color];
   const percentage = ((value - 0.25) / 0.75) * 100;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-2 shadow-sm">
-      <div className="flex items-center justify-between mb-1">
-        <span className={`text-[10px] font-semibold ${colors.text} flex items-center gap-1`}>
+    <div className="bg-white border-2 border-slate-900 rounded-xl p-2 shadow-[2px_2px_0px_0px_#0f172a]">
+      <div className="flex items-center justify-between mb-2">
+        <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text} flex items-center gap-1`}>
           {icon} {label}
         </span>
-        <span className={`text-xs font-bold ${colors.text}`}>
+        <span className={`text-xs font-black ${colors.text}`}>
           {value.toFixed(2)}
         </span>
       </div>
-      <div className={`h-1.5 ${colors.bg} rounded-full overflow-hidden`}>
+      <div className={`h-2 border border-slate-900 bg-slate-100 rounded-full overflow-hidden`}>
         <div
-          className={`h-full ${colors.bar} rounded-full transition-all duration-300`}
+          className={`h-full ${colors.bar} rounded-full transition-all duration-300 border-r border-slate-900`}
           style={{ width: `${percentage}%` }}
         />
       </div>

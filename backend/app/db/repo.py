@@ -10,7 +10,7 @@ from typing import List, Dict
 from sqlalchemy.orm import Session, joinedload
 
 from app.db.database import get_session_factory
-from app.models.auto_generated_models import Component
+from app.models.models import Component
 
 logger = logging.getLogger(__name__)
 
@@ -48,8 +48,8 @@ class Repo:
             )
 
             if not components:
-                logger.warning("[WARN] Компоненти не знайдено в БД")
-                return []
+                logger.warning("[WARN] Компоненти не знайдено в БД. Перехід на JSON fallback.")
+                return self._fallback_json()
 
             return [comp.to_dict() for comp in components]
         except Exception as e:

@@ -67,3 +67,34 @@ def quick_performance_test(
         ga_generations=20,
     )
     return result
+
+
+class DashboardRequest(BaseModel):
+    """Параметри для аналітичного дашборду."""
+    n: Optional[int] = 1000
+    run_greedy: Optional[bool] = True
+    run_genetic: Optional[bool] = True
+    eco_mode: Optional[bool] = False
+    ga_population: Optional[int] = 50
+    ga_generations: Optional[int] = 30
+
+
+@router.post("/dashboard")
+def run_dashboard_analysis(req: DashboardRequest):
+    """
+    Запускає аналіз для аналітичного дашборду.
+
+    Повертає структуровані дані для BarChart, RadarChart та LineChart:
+      - algorithms.Greedy: час, fitness, характеристики робота
+      - algorithms.Genetic: час, fitness, характеристики, convergence history
+    """
+    runner = ExperimentRunner()
+    result = runner.run_dashboard_analysis(
+        n=req.n or 1000,
+        run_greedy=req.run_greedy if req.run_greedy is not None else True,
+        run_genetic=req.run_genetic if req.run_genetic is not None else True,
+        eco_mode=req.eco_mode if req.eco_mode is not None else False,
+        ga_population=req.ga_population or 50,
+        ga_generations=req.ga_generations or 30,
+    )
+    return result

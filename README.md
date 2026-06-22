@@ -60,6 +60,7 @@ lego-configurator/
 │   │   ├── data/             # JSON-дані компонентів
 │   │   └── static/           # Зображення компонентів
 │   ├── tests/                # Юніт-тести алгоритмів
+│   ├── run_benchmark.py      # Скрипт бенчмарку алгоритмів
 │   └── requirements.txt
 ├── frontend/
 │   ├── src/
@@ -68,6 +69,7 @@ lego-configurator/
 │   │   ├── api/              # HTTP-клієнт
 │   │   └── types/            # TypeScript типи
 │   └── package.json
+└── diagrams/                 # UML та IDEF0 діаграми (draw.io)
 ```
 
 ## Запуск
@@ -83,10 +85,18 @@ lego-configurator/
 ```bash
 cd backend
 python -m venv .venv
-source .venv/Scripts/activate   # Windows
-# source .venv/bin/activate     # Linux/Mac
+
+# Активація віртуального середовища:
+# Windows:
+.venv\Scripts\activate
+# Linux/Mac:
+# source .venv/bin/activate
 
 pip install -r requirements.txt
+
+# Створіть файл .env на основі .env.example:
+cp .env.example .env
+
 uvicorn app.main:app --reload
 ```
 
@@ -119,10 +129,21 @@ npm run dev
 
 ```bash
 cd backend
-python -m pytest tests/test_algorithms.py -v
+python -m pytest tests/ -v
 ```
 
 Тести покривають: жадібний алгоритм, генетичний алгоритм, обмеження (symmetry, domain filtering, power balance, budget constraints).
+
+## Бенчмарк
+
+Для порівняльного аналізу продуктивності алгоритмів:
+
+```bash
+cd backend
+python run_benchmark.py
+```
+
+Скрипт виконує серію тестів для різних розмірів набору компонентів (N = 100–10000) і зберігає результати у файл `benchmark_results.json`.
 
 ## Автор
 

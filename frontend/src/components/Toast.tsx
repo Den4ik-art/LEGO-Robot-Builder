@@ -19,22 +19,22 @@ export const useToast = (): ToastContextType => {
 // Конфігурація стилів для різних типів
 const toastStyles = {
   success: {
-    bg: "bg-emerald-50 border-emerald-200",
-    icon: <FaCheckCircle className="text-emerald-500 text-xl" />,
-    text: "text-emerald-800",
-    progress: "bg-emerald-500"
+    bg: "bg-emerald-500 border-slate-900 border-4 shadow-[6px_6px_0px_0px_#0f172a]",
+    icon: <FaCheckCircle className="text-white text-2xl drop-shadow-[2px_2px_0px_#0f172a]" />,
+    text: "text-white font-black uppercase tracking-widest text-sm",
+    progress: "bg-slate-900"
   },
   error: {
-    bg: "bg-red-50 border-red-200",
-    icon: <FaExclamationCircle className="text-red-500 text-xl" />,
-    text: "text-red-800",
-    progress: "bg-red-500"
+    bg: "bg-red-600 border-slate-900 border-4 shadow-[6px_6px_0px_0px_#0f172a]",
+    icon: <FaExclamationCircle className="text-white text-2xl drop-shadow-[2px_2px_0px_#0f172a]" />,
+    text: "text-white font-black uppercase tracking-widest text-sm",
+    progress: "bg-slate-900"
   },
   info: {
-    bg: "bg-blue-50 border-blue-200",
-    icon: <FaInfoCircle className="text-blue-500 text-xl" />,
-    text: "text-blue-800",
-    progress: "bg-blue-500"
+    bg: "bg-blue-600 border-slate-900 border-4 shadow-[6px_6px_0px_0px_#0f172a]",
+    icon: <FaInfoCircle className="text-white text-2xl drop-shadow-[2px_2px_0px_#0f172a]" />,
+    text: "text-white font-black uppercase tracking-widest text-sm",
+    progress: "bg-slate-900"
   }
 };
 
@@ -69,7 +69,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           >
             <div 
               className={`
-                pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-xl shadow-xl border backdrop-blur-sm relative overflow-hidden min-w-[300px] max-w-sm
+                pointer-events-auto flex items-center gap-3 px-5 py-4 rounded-xl relative overflow-hidden min-w-[300px] max-w-sm
                 ${toastStyles[toast.type].bg}
               `}
             >
@@ -79,14 +79,14 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
               </div>
 
               {/* Текст */}
-              <div className={`flex-1 text-sm font-medium ${toastStyles[toast.type].text}`}>
+              <div className={`flex-1 ${toastStyles[toast.type].text}`}>
                 {toast.message}
               </div>
 
               {/* Кнопка закриття */}
               <button 
                 onClick={closeToast}
-                className={`ml-2 p-1 rounded-md transition-colors hover:bg-black/5 ${toastStyles[toast.type].text}`}
+                className={`ml-2 p-1 rounded-md transition-colors hover:bg-black/20 text-white z-10 relative`}
               >
                 <FaTimes />
               </button>
@@ -96,7 +96,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                 initial={{ width: "100%" }}
                 animate={{ width: "0%" }}
                 transition={{ duration: 3, ease: "linear" }}
-                className={`absolute bottom-0 left-0 h-1 ${toastStyles[toast.type].progress}`}
+                className={`absolute bottom-0 left-0 h-2 border-t border-slate-900 ${toastStyles[toast.type].progress}`}
               />
             </div>
           </motion.div>

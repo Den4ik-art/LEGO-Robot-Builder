@@ -1,4 +1,4 @@
-# Python
+# ── Python ───────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
@@ -8,16 +8,16 @@ dist/
 build/
 .eggs/
 
-# Virtual environments
+# ── Virtual environment ───────────────────────────────────
 .venv/
 venv/
 ENV/
 
-# Environment variables
+# ── Environment variables ─────────────────────────────────
 .env
 .env.local
 
-# IDE
+# ── IDE ───────────────────────────────────────────────────
 .vscode/
 .idea/
 *.suo
@@ -26,15 +26,15 @@ ENV/
 *.sln
 *.sw?
 
-# OS
+# ── OS ────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 *.stackdump
 
-# Pytest
+# ── Pytest ────────────────────────────────────────────────
 .pytest_cache/
 
-# Node
+# ── Node ──────────────────────────────────────────────────
 node_modules/
 frontend/dist/
 frontend/dist-ssr/
@@ -42,10 +42,8 @@ frontend/dist-ssr/
 npm-debug.log*
 yarn-debug.log*
 
-# Database
+# ── Database & runtime data ───────────────────────────────
 *.db
-
-# Build output
-*.tsbuildinfo
-vite.config.d.ts
-vite.config.js
+backend/app/data/config_history.json
+backend/app/data/users.json
+benchmark_results.json
