@@ -22,6 +22,15 @@ from app.services.constraints import (
     find_adequate_base,
     compute_stud_area,
     compute_structural_requirement,
+
+    check_volume_ratio,
+    needs_large_structural,
+    has_large_structural,
+    find_large_structural,
+    compute_connector_deficit,
+    find_connector_parts,
+    get_function_structural_hint,
+    select_decor_parts,
 )
 
 # Мапа «людських» підтипів на технічні категорії
@@ -54,7 +63,7 @@ FUNCTION_TO_CATEGORY_MAP = {
 
 class GreedyConfigurator:
     """
-    Slot-Based Greedy Configurator v3.0.
+    Slot-Based Greedy Configurator.
 
     Заповнює функціональні слоти послідовно, гарантуючи структурну
     цілісність та логічну коректність конфігурації.
@@ -818,6 +827,88 @@ class GreedyConfigurator:
             if lights and _fits(lights):
                 lights_qty = 1 if decoration_level == "normal" else 2
                 _add(lights, lights_qty)
+
+        # ════════════════════════════════════════════════
+        #  SLOT 9: SCALING RULE — Large Structural Mandate
+        # ════════════════════════════════════════════════
+        motor_count_final = len(motors_added)
+        if needs_large_structural(complexity, motor_count_final):
+            if not has_large_structural(chosen):
+                large_struct = find_large_structural(
+                    self.components,
+                    max_price=remaining_budget * 0.3,
+                    max_weight=remaining_mass * 0.3,
+                )
+                if large_struct and _fits(large_struct):
+                    _add(large_struct)
+                else:
+                    warnings.append(
+                        "Не вдалося знайти Large структурну деталь для складного робота."
+                    )
+
+        # ════════════════════════════════════════════════
+        #  SLOT 10: CONNECTOR FILL — Missing Axles & Pins
+        # ════════════════════════════════════════════════
+        if motor_count_final > 0:
+            deficit = compute_connector_deficit(chosen, motor_count_final)
+            for family, count in deficit.items():
+                fill_parts = find_connector_parts(
+                    self.components, family, count,
+                    max_price=remaining_budget * 0.15,
+                    max_weight=remaining_mass * 0.15,
+                )
+                for fp in fill_parts:
+                    if _fits(fp):
+                        _add(fp)
+
+        # ════════════════════════════════════════════════
+        #  SLOT 11: VOLUME RATIO CHECK
+        # ════════════════════════════════════════════════
+        structural_parts = [c for c in chosen if c.get("category") == "structure"]
+        functional_parts = [
+            c for c in chosen
+            if c.get("category") in ("motor", "sensor", "controller", "power")
+        ]
+        func_hint = get_function_structural_hint(request.functions)
+        vol_satisfied, vol_ratio = check_volume_ratio(
+            structural_parts, functional_parts, func_hint["volume_ratio"]
+        )
+        if not vol_satisfied and remaining_budget > 10 and remaining_mass > 5:
+            # Додаємо структурні деталі до покриття volume ratio
+            for _ in range(6):
+                filler = self._find_best_component(
+                    category="structure", priority=priority,
+                    role="body_plate",
+                    allowed_domains=["universal"], weights=weights,
+                    max_price=remaining_budget * 0.2,
+                    max_weight=remaining_mass * 0.2,
+                )
+                if filler and _fits(filler):
+                    _add(filler)
+                    structural_parts.append(filler)
+                    ok, _ = check_volume_ratio(
+                        structural_parts, functional_parts, func_hint["volume_ratio"]
+                    )
+                    if ok:
+                        break
+                else:
+                    break
+
+        # ════════════════════════════════════════════════
+        #  SLOT 12: DECOR PHASE — Budget-Based Aesthetic Filling
+        # ════════════════════════════════════════════════
+        original_budget = float(request.budget)
+        if remaining_budget > original_budget * 0.10 and decoration_level != "minimal":
+            decor_parts = select_decor_parts(
+                self.components,
+                remaining_budget=remaining_budget,
+                remaining_mass=remaining_mass,
+                target_budget_usage=0.95,
+                original_budget=original_budget,
+            )
+            for dp in decor_parts:
+                if _fits(dp):
+                    _add(dp)
 
         # ════════════════════════════════════════════════
         #  POWER BALANCE CHECK

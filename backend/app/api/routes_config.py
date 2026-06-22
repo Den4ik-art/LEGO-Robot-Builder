@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db, get_session_factory
 from app.db.repo import Repo
 from app.models.dto import ConfigRequest
-from app.models.auto_generated_models import Configuration, ConfigurationPart
+from app.models.models import Configuration, ConfigurationPart
 from app.services.sequential import SequentialConfigurator
 from app.services.genetic import GeneticAlgorithmOptimizer
 from app.services.auth_service import decode_token
@@ -22,8 +22,8 @@ def _save_configuration_to_db(
     request: ConfigRequest,
     result: dict,
     algorithm: str = "greedy",
-) -> None:
-    """Зберігає результат конфігурації в БД."""
+) -> int:
+    """Зберігає результат конфігурації в БД та повертає ID."""
     try:
         config = Configuration(
             user_id=user_id if user_id != "anonymous" else None,
@@ -58,11 +58,13 @@ def _save_configuration_to_db(
             db.add(config_part)
 
         db.commit()
+        return config.id
     except Exception as e:
         db.rollback()
         # Не зупиняємо відповідь через помилку логування
         import logging
         logging.getLogger(__name__).error(f"Помилка збереження конфігурації: {e}")
+        return 0
 
 
 @router.post("")
@@ -92,7 +94,8 @@ def generate_configuration(
         except Exception:
             user_id = "anonymous"
 
-    _save_configuration_to_db(db, user_id, request, result, algorithm="greedy")
+    config_id = _save_configuration_to_db(db, user_id, request, result, algorithm="greedy")
+    result["id"] = config_id
 
     return result
 
@@ -104,7 +107,7 @@ def genetic_optimization(
     db: Session = Depends(get_db),
 ):
     """
-    Генетичний алгоритм v2.0: Context-Aware оптимізація конфігурації робота.
+    Генетичний алгоритм оптимізації конфігурації робота.
 
     Повертає Server-Sent Events (SSE) потік:
       - progress events: {"progress": int, "total": int, "status": str}
@@ -157,7 +160,8 @@ def genetic_optimization(
             # Зберігаємо в БД
             save_db = get_session_factory()()
             try:
-                _save_configuration_to_db(save_db, user_id, request, result, algorithm="genetic")
+                config_id = _save_configuration_to_db(save_db, user_id, request, result, algorithm="genetic")
+                result["id"] = config_id
             finally:
                 save_db.close()
 

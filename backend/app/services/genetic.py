@@ -33,6 +33,16 @@ from app.services.constraints import (
     compute_structural_requirement,
     check_structural_adequacy,
     find_adequate_base,
+
+    check_volume_ratio,
+    needs_large_structural,
+    has_large_structural,
+    find_large_structural,
+    compute_connector_deficit,
+    find_connector_parts,
+    get_function_structural_hint,
+    select_decor_parts,
+    get_component_volume,
 )
 
 
@@ -97,7 +107,7 @@ class Individual:
     chromosome: List[int] = field(default_factory=list)
 
     # Структуровані блоки
-    base_id: Optional[int] = None       # === NEW: Structural Base ===
+    base_id: Optional[int] = None       # Структурна база
     hub_id: Optional[int] = None
     power_id: Optional[int] = None
     motor_groups: List[Tuple[int, List[int]]] = field(default_factory=list)
@@ -634,7 +644,7 @@ class GeneticAlgorithmOptimizer:
         return population
 
     # ──────────────────────────────────────────────────────────────────
-    #  FITNESS (v3.0 with structural integrity bonuses)
+    #  FITNESS (з урахуванням структурної цілісності)
     # ──────────────────────────────────────────────────────────────────
 
     def _evaluate_fitness(
@@ -647,7 +657,7 @@ class GeneticAlgorithmOptimizer:
         profile: ComplexityProfile,
     ) -> float:
         """
-        Fitness v3.0: включає перевірку Base-First, Symmetry, Power Balance.
+        Обчислює fitness: включає перевірку структурної бази, симетрії коліс та балансу потужності.
         """
         if not individual.chromosome:
             return 0.0
@@ -730,7 +740,7 @@ class GeneticAlgorithmOptimizer:
         if not has_power:
             penalty *= 0.5
         if not has_base:
-            penalty *= 0.1  # === NEW: Base-First penalty ===
+            penalty *= 0.1  # Штраф за відсутність структурної бази
 
         # Budget/Mass overflow
         if total_price > max_budget:
@@ -790,6 +800,47 @@ class GeneticAlgorithmOptimizer:
                 if functional_weight <= max_mass:
                     # Перевага без структурної ваги — послаблюємо penalty
                     penalty *= 1.5  # частковий відкат
+
+        # ── Volume Ratio Check ──
+        functional_comps = [
+            self._id_map[pid] for pid in individual.chromosome
+            if pid in self._id_map
+            and self._id_map[pid].get("category") in ("motor", "sensor", "controller", "power")
+        ]
+        if structure_parts and functional_comps:
+            func_hint_ratio = 1.5
+            if hasattr(self, "current_request"):
+                func_hint = get_function_structural_hint(self.current_request.functions)
+                func_hint_ratio = func_hint["volume_ratio"]
+            vol_ok, vol_ratio = check_volume_ratio(
+                structure_parts, functional_comps, func_hint_ratio
+            )
+            if not vol_ok:
+                # Structural volume insufficient for functional parts
+                penalty *= max(0.5, vol_ratio / func_hint_ratio)
+            elif vol_ratio >= func_hint_ratio * 1.2:
+                pass  # Good coverage, no extra bonus needed
+
+        # ── Connector Fill Check ──
+        if motor_count > 0:
+            all_parts = [
+                self._id_map[pid] for pid in individual.chromosome
+                if pid in self._id_map
+            ]
+            deficit = compute_connector_deficit(all_parts, motor_count)
+            total_deficit = sum(deficit.values())
+            if total_deficit > 0:
+                # Missing connectors → physically un-buildable
+                penalty *= max(0.6, 1.0 - total_deficit * 0.05)
+
+        # ── Scaling Rule Check ──
+        if needs_large_structural(profile.level, motor_count):
+            all_parts = [
+                self._id_map[pid] for pid in individual.chromosome
+                if pid in self._id_map
+            ]
+            if not has_large_structural(all_parts):
+                penalty *= 0.7  # Complex robot without large structural part
 
         # ── Bonuses ──
         bonus = 1.0
@@ -963,7 +1014,7 @@ class GeneticAlgorithmOptimizer:
         return child1, child2
 
     # ──────────────────────────────────────────────────────────────────
-    #  MUTATION (v3.0 — symmetry-aware)
+    #  MUTATION (з урахуванням симетрії коліс)
     # ──────────────────────────────────────────────────────────────────
 
     def _mutate(
@@ -1278,6 +1329,68 @@ class GeneticAlgorithmOptimizer:
                     if ok:
                         break
 
+        # 8. Scaling Rule: complexity > 2 or motors > 2 → need Large structural
+        if needs_large_structural(profile.level, motor_count):
+            all_parts = [
+                self._id_map[pid] for pid in individual.chromosome
+                if pid in self._id_map
+            ]
+            if not has_large_structural(all_parts):
+                large = find_large_structural(self.components)
+                if large:
+                    individual.structure_ids.append(large["id"])
+
+        # 9. Connector Fill: ensure motors have axles + pins
+        if motor_count > 0:
+            all_chosen = [
+                self._id_map[pid] for pid in individual.chromosome
+                if pid in self._id_map
+            ]
+            # Include structure_ids too (they may not be in chromosome yet)
+            for sid in individual.structure_ids:
+                if sid in self._id_map:
+                    all_chosen.append(self._id_map[sid])
+
+            deficit = compute_connector_deficit(all_chosen, motor_count)
+            for family, count in deficit.items():
+                fill = find_connector_parts(self.components, family, count)
+                for fp in fill:
+                    individual.structure_ids.append(fp["id"])
+
+        # 10. Volume Ratio: structural volume must cover functional
+        if hasattr(self, "current_request"):
+            func_hint = get_function_structural_hint(self.current_request.functions)
+            target_ratio = func_hint["volume_ratio"]
+
+            struct_comps = [
+                self._id_map[sid] for sid in individual.structure_ids
+                if sid in self._id_map
+            ]
+            func_comps = []
+            for mid, _ in individual.motor_groups:
+                if mid in self._id_map:
+                    func_comps.append(self._id_map[mid])
+            if individual.hub_id and individual.hub_id in self._id_map:
+                func_comps.append(self._id_map[individual.hub_id])
+            for sid in individual.sensor_ids:
+                if sid in self._id_map:
+                    func_comps.append(self._id_map[sid])
+
+            vol_ok, _ = check_volume_ratio(struct_comps, func_comps, target_ratio)
+            if not vol_ok and len(individual.structure_ids) < profile.max_structure + 5:
+                # Додаємо структурні деталі до покриття ratio
+                for _ in range(4):
+                    filler = self._random_from_category(
+                        "structure", allowed_domains=allowed_domains,
+                        family_filter=random.choice(["plate", "brick"]),
+                    )
+                    if filler:
+                        individual.structure_ids.append(filler["id"])
+                        struct_comps.append(filler)
+                        ok, _ = check_volume_ratio(struct_comps, func_comps, target_ratio)
+                        if ok:
+                            break
+
         individual.rebuild_chromosome()
 
     # ──────────────────────────────────────────────────────────────────
@@ -1305,7 +1418,7 @@ class GeneticAlgorithmOptimizer:
         request: ConfigRequest,
         progress_callback: Optional[Callable[[int, int, str], None]] = None,
     ) -> Dict[str, Any]:
-        """Запускає генетичний алгоритм v3.0."""
+        """Запускає генетичний алгоритм оптимізації конфігурації."""
         if not request.functions:
             return {"error": "Будь ласка, оберіть хоча б одну функцію."}
         if request.budget is None or request.weight is None:
@@ -1366,6 +1479,7 @@ class GeneticAlgorithmOptimizer:
         # Статистика
         best_fitness_history: List[float] = []
         avg_fitness_history: List[float] = []
+        std_fitness_history: List[float] = []
         global_best: Optional[Individual] = None
         stagnation_count = 0
         prev_best_fitness = 0.0
@@ -1395,9 +1509,14 @@ class GeneticAlgorithmOptimizer:
 
             fitnesses = [ind.fitness for ind in population]
             best_fitness_history.append(gen_best.fitness)
-            avg_fitness_history.append(
-                sum(fitnesses) / len(fitnesses) if fitnesses else 0
-            )
+            avg_fit = sum(fitnesses) / len(fitnesses) if fitnesses else 0
+            avg_fitness_history.append(avg_fit)
+
+            if len(fitnesses) > 1:
+                variance = sum((f - avg_fit) ** 2 for f in fitnesses) / len(fitnesses)
+                std_fitness_history.append(math.sqrt(variance))
+            else:
+                std_fitness_history.append(0.0)
 
             if progress_callback and gen % progress_interval == 0:
                 phase = "Еволюція" if gen < self.generations * 0.8 else "Фінальна оптимізація"
@@ -1515,6 +1634,25 @@ class GeneticAlgorithmOptimizer:
         total_price = sum(c.get("price") or 0 for c in selected_parts)
         total_weight = sum(c.get("weight") or 0 for c in selected_parts)
 
+        # ── DECOR PHASE: fill remaining budget with aesthetic parts ──
+        remaining_budget_ga = max_budget - total_price
+        remaining_mass_ga = max_mass - total_weight
+        if remaining_budget_ga > max_budget * 0.10 and remaining_mass_ga > 0:
+            decor_parts = select_decor_parts(
+                self.components,
+                remaining_budget=remaining_budget_ga,
+                remaining_mass=remaining_mass_ga,
+                target_budget_usage=0.95,
+                original_budget=max_budget,
+            )
+            for dp in decor_parts:
+                dp_price = dp.get("price") or 0
+                dp_weight = dp.get("weight") or 0
+                if (total_price + dp_price) <= max_budget and (total_weight + dp_weight) <= max_mass:
+                    selected_parts.append(dp)
+                    total_price += dp_price
+                    total_weight += dp_weight
+
         if total_price > max_budget:
             warnings.append(
                 f"Ціна ({total_price} грн) перевищує бюджет ({max_budget} грн)."
@@ -1537,10 +1675,13 @@ class GeneticAlgorithmOptimizer:
                 "complexity_level": profile.level,
                 "final_fitness": round(final_best.fitness, 4),
                 "best_fitness_history": [
-                    round(f, 4) for f in best_fitness_history[-10:]
+                    round(f, 4) for f in best_fitness_history
                 ],
                 "avg_fitness_history": [
-                    round(f, 4) for f in avg_fitness_history[-10:]
+                    round(f, 4) for f in avg_fitness_history
+                ],
+                "std_fitness_history": [
+                    round(f, 4) for f in std_fitness_history
                 ],
                 "elapsed_seconds": round(elapsed, 3),
                 "total_parts": len(selected_parts),
