@@ -45,7 +45,7 @@ class ComplexityProfile:
     allow_gearbox: bool
     allow_manipulator: bool
 
-    # GA population diversity boost
+    # Підсилення різноманітності популяції ГА
     ga_population_multiplier: float  # 1.0 = default, >1.0 = more diverse
 
 
@@ -118,7 +118,7 @@ def get_complexity_profile(level: int) -> ComplexityProfile:
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  TERRAIN / ENVIRONMENT CONSTRAINTS
+#  ОБМЕЖЕННЯ МІСЦЕВОСТІ / СЕРЕДОВИЩА
 # ═════════════════════════════════════════════════════════════════════
 
 TERRAIN_ALLOWED_DOMAINS: Dict[str, List[str]] = {
@@ -226,7 +226,7 @@ def check_port_count(
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  MOTOR QUALITY PREFERENCE  (Quality > Quantity)
+#  ПРІОРИТЕТ ЯКОСТІ МОТОРІВ (якість > кількість)
 # ═════════════════════════════════════════════════════════════════════
 
 def prefer_large_motor(comp: Dict[str, Any]) -> bool:
@@ -244,7 +244,7 @@ def prefer_large_motor(comp: Dict[str, Any]) -> bool:
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  STRUCTURAL INTEGRITY — Scale & Chassis Awareness
+#  СТРУКТУРНА ЦІЛІСНІСТЬ — масштаб та шасі
 # ═════════════════════════════════════════════════════════════════════
 
 # Мінімальна площа в stud² для «фундаменту» робота
@@ -395,8 +395,8 @@ def find_adequate_base(
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  VOLUME RATIO CONSTRAINT
-#  Structural_Volume >= Sum(Functional_Component_Volumes) * 1.5
+#  ОБМЕЖЕННЯ ОБ'ЄМНОГО СПІВВІДНОШЕННЯ
+#  Обсяг структури >= Σ(обсяг функц. компонентів) × 1.5
 # ═════════════════════════════════════════════════════════════════════
 
 _VOLUME_CLASS_MAP = {"Small": 2, "Medium": 8, "Large": 24}
@@ -435,7 +435,7 @@ def check_volume_ratio(
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  SCALING RULE — Large Structural Part Mandate
+#  ПРАВИЛО МАСШТАБУ — обов'язкова велика структурна деталь
 # ═════════════════════════════════════════════════════════════════════
 
 def needs_large_structural(
@@ -555,12 +555,12 @@ def find_connector_parts(
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  FUNCTION-SPECIFIC STRUCTURAL REQUIREMENTS
+#  СТРУКТУРНІ ВИМОГИ ДО ФУНКЦІЙ
 # ═════════════════════════════════════════════════════════════════════
 
-# Fly → needs lightweight but large frame
-# Drive → needs strong base plate
-# Swim → needs hull/waterproof frame
+# Політ → потрібна легка, але велика рама
+# Їзда → потрібна міцна базова плита
+# Плавання → потрібен корпус/водонепроникна рама
 
 FUNCTION_STRUCTURAL_HINTS: Dict[str, Dict[str, Any]] = {
     "літати": {
@@ -628,7 +628,7 @@ def get_function_structural_hint(functions: List[str]) -> Dict[str, Any]:
 
 
 # ═════════════════════════════════════════════════════════════════════
-#  DECOR PHASE — Budget-Based Aesthetic Filling
+#  ФАЗА ДЕКОРУ — естетичне заповнення за бюджетом
 # ═════════════════════════════════════════════════════════════════════
 
 # Категорії деталей для декоративного заповнення

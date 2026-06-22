@@ -27,7 +27,7 @@ from app.services.scoring import WeightedScorer
 
 
 # ══════════════════════════════════════════════════════════════════════
-#  SYNTHETIC DATA GENERATOR
+#  ГЕНЕРАТОР СИНТЕТИЧНИХ ДАНИХ
 # ══════════════════════════════════════════════════════════════════════
 
 def generate_synthetic_dataset(
@@ -80,7 +80,7 @@ def generate_synthetic_dataset(
 
 
 # ══════════════════════════════════════════════════════════════════════
-#  DEFAULT TEST REQUEST
+#  СТАНДАРТНИЙ ТЕСТОВИЙ ЗАПИТ
 # ══════════════════════════════════════════════════════════════════════
 
 def make_test_request(eco_mode: bool = False) -> ConfigRequest:
@@ -100,7 +100,7 @@ def make_test_request(eco_mode: bool = False) -> ConfigRequest:
 
 
 # ══════════════════════════════════════════════════════════════════════
-#  EXPERIMENT RUNNER
+#  ЗАПУСК ЕКСПЕРИМЕНТУ
 # ══════════════════════════════════════════════════════════════════════
 
 class ExperimentRunner:
@@ -205,7 +205,7 @@ class ExperimentRunner:
         dataset = generate_synthetic_dataset(self.real_components, n)
         t_gen = (time.perf_counter() - t_gen_start) * 1000
 
-        # Greedy runs
+        # Запуски Greedy-алгоритму
         greedy_times: List[float] = []
         greedy_success = 0
         for r in range(runs):
@@ -216,7 +216,7 @@ class ExperimentRunner:
             if res["success"]:
                 greedy_success += 1
 
-        # GA runs (optional)
+        # Запуски ГА (опціонально)
         ga_times: List[float] = []
         ga_success = 0
         ga_avg_fitness = 0.0
@@ -263,7 +263,7 @@ class ExperimentRunner:
                 "generations": ga_generations,
             }
 
-        # Approximate complexity validation
+        # Наближена перевірка складності
         if n > 0:
             n_log_n = n * math.log2(max(n, 2))
             result["theoretical_n_log_n"] = round(n_log_n, 2)
@@ -325,7 +325,7 @@ class ExperimentRunner:
 
         total_time = (time.perf_counter() - total_time_start) * 1000
 
-        # Summary
+        # Зведений результат
         summary: Dict[str, Any] = {
             "total_experiments": len(experiments),
             "total_time_ms": round(total_time, 2),
@@ -347,7 +347,7 @@ class ExperimentRunner:
                 "is_approximately_n_log_n": (max(coefficients) / max(min(coefficients), 1e-9)) < 10,
             }
 
-        # GA vs Greedy speed ratio
+        # Співвідношення швидкості ГА vs Greedy
         if run_ga and len(experiments) >= 2:
             speed_ratios: List[float] = []
             for exp in experiments:

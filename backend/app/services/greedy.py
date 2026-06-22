@@ -94,7 +94,7 @@ class GreedyConfigurator:
         for comp in self.components:
             cat = comp.get("category", "")
 
-            # domain
+            # домен компонента
             domain = comp.get("domain")
             if not domain:
                 if cat in ("water",):
@@ -106,13 +106,13 @@ class GreedyConfigurator:
                 else:
                     comp["domain"] = "universal"
 
-            # family
+            # сімейство
             if not comp.get("family"):
                 fam = self._infer_family(comp)
                 if fam:
                     comp["family"] = fam
 
-            # safety defaults
+            # захисні значення за замовчуванням
             if "geometry" not in comp:
                 comp["geometry"] = {}
             if "scores" not in comp:
@@ -413,7 +413,7 @@ class GreedyConfigurator:
             return price <= remaining_budget and weight <= remaining_mass
 
         # ════════════════════════════════════════════════
-        #  SLOT 1: STRUCTURAL BASE  (Scale-Aware Chassis)
+        #  СЛОТ 1: СТРУКТУРНА БАЗА (масштабна шасі)
         # ════════════════════════════════════════════════
         # Оцінюємо к-ть моторів для масштабного вибору бази
         from app.services.sequential import FUNCTION_MOTOR_MAP
@@ -481,7 +481,7 @@ class GreedyConfigurator:
             warnings.append("Не вдалося знайти структурну базу.")
 
         # ════════════════════════════════════════════════
-        #  SLOT 2: CONTROL HUB
+        #  СЛОТ 2: КОНТРОЛЕР (ХАБ)
         # ════════════════════════════════════════════════
         hub = self._find_best_component(
             category="controller",
@@ -505,7 +505,7 @@ class GreedyConfigurator:
         _add(hub)
 
         # ════════════════════════════════════════════════
-        #  SLOT 3: POWER SOURCE
+        #  СЛОТ 3: ДЖЕРЕЛО ЖИВЛЕННЯ
         # ════════════════════════════════════════════════
         power = self._find_best_component(
             category="power",
@@ -528,7 +528,7 @@ class GreedyConfigurator:
             warnings.append("Не знайдено блок живлення.")
 
         # ════════════════════════════════════════════════
-        #  SLOT 4: DRIVE MODULE  (Symmetric!)
+        #  СЛОТ 4: ПРИВІД (симетричний!)
         # ════════════════════════════════════════════════
         for func in request.functions:
             func_l = func.lower()
@@ -628,7 +628,7 @@ class GreedyConfigurator:
                     _add(gear, min(2, round(2 * profile.structure_reinforcement)))
 
         # ════════════════════════════════════════════════
-        #  SLOT 5: FUNCTION MODULES  (Fly / Swim / Manipulate)
+        #  СЛОТ 5: ФУНКЦІОНАЛЬНІ МОДУЛІ (польот / плавання / маніпуляція)
         # ════════════════════════════════════════════════
         for func in request.functions:
             func_l = func.lower()
@@ -809,7 +809,7 @@ class GreedyConfigurator:
                 warnings.append(f"Не знайдено сенсор '{sensor_name}'.")
 
         # ════════════════════════════════════════════════
-        #  SLOT 7: STRUCTURE REINFORCEMENT
+        #  СЛОТ 7: ПІДСИЛЕННЯ КОНСТРУКЦІЇ
         # ════════════════════════════════════════════════
         self._add_structure_reinforcement(
             chosen, weights, priority, profile, size_pref,
@@ -817,7 +817,7 @@ class GreedyConfigurator:
         )
 
         # ════════════════════════════════════════════════
-        #  SLOT 8: ACCESSORIES
+        #  СЛОТ 8: АКСЕСУАРИ
         # ════════════════════════════════════════════════
         if decoration_level != "minimal":
             lights = self._find_best_component(
@@ -829,7 +829,7 @@ class GreedyConfigurator:
                 _add(lights, lights_qty)
 
         # ════════════════════════════════════════════════
-        #  SLOT 9: SCALING RULE — Large Structural Mandate
+        #  СЛОТ 9: ПРАВИЛО МАСШТАБУ — обов'язкова велика конструкція
         # ════════════════════════════════════════════════
         motor_count_final = len(motors_added)
         if needs_large_structural(complexity, motor_count_final):
@@ -847,7 +847,7 @@ class GreedyConfigurator:
                     )
 
         # ════════════════════════════════════════════════
-        #  SLOT 10: CONNECTOR FILL — Missing Axles & Pins
+        #  СЛОТ 10: ЗАПОВНЕННЯ КОНЕКТОРАМИ — відсутні осі та піни
         # ════════════════════════════════════════════════
         if motor_count_final > 0:
             deficit = compute_connector_deficit(chosen, motor_count_final)
@@ -862,7 +862,7 @@ class GreedyConfigurator:
                         _add(fp)
 
         # ════════════════════════════════════════════════
-        #  SLOT 11: VOLUME RATIO CHECK
+        #  СЛОТ 11: ПЕРЕВІРКА ОБ'ЄМНОГО СПІВВІДНОШЕННЯ
         # ════════════════════════════════════════════════
         structural_parts = [c for c in chosen if c.get("category") == "structure"]
         functional_parts = [
@@ -895,7 +895,7 @@ class GreedyConfigurator:
                     break
 
         # ════════════════════════════════════════════════
-        #  SLOT 12: DECOR PHASE — Budget-Based Aesthetic Filling
+        #  СЛОТ 12: ФАЗА ДЕКОРУ — естетичне заповнення залишку бюджету
         # ════════════════════════════════════════════════
         original_budget = float(request.budget)
         if remaining_budget > original_budget * 0.10 and decoration_level != "minimal":
@@ -911,7 +911,7 @@ class GreedyConfigurator:
                     _add(dp)
 
         # ════════════════════════════════════════════════
-        #  POWER BALANCE CHECK
+        #  ПЕРЕВІРКА БАЛАНСУ ПОТУЖНОСТІ
         # ════════════════════════════════════════════════
         if hub and motors_added:
             if not check_power_balance(hub, motors_added):
@@ -969,7 +969,7 @@ class GreedyConfigurator:
         }
 
     # ════════════════════════════════════════════════════════════════
-    #  SLOT 7 HELPER: STRUCTURE REINFORCEMENT
+    #  ДОПОМІЖНИЙ МЕТОД СЛОТУ 7: ПІДСИЛЕННЯ КОНСТРУКЦІЇ
     # ════════════════════════════════════════════════════════════════
 
     def _add_structure_reinforcement(

@@ -96,15 +96,15 @@ export default function About() {
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">✓</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">&#10003;</span>
                   <span className="font-bold">Підбір під конкретні функції (їзда, політ, плавання).</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">✓</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">&#10003;</span>
                   <span className="font-bold">Урахування бюджету та вагових обмежень.</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">✓</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a] text-white font-black flex items-center justify-center mt-1">&#10003;</span>
                   <span className="font-bold">Пріоритезація швидкості, потужності або ціни.</span>
                 </li>
               </ul>

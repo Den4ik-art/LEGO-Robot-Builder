@@ -45,7 +45,7 @@ if _MISSING_LIBS:
         ", ".join(_MISSING_LIBS)
     )
 
-# Fonts setup
+# Налаштування шрифтів
 font_regular = 'Helvetica'
 font_bold = 'Helvetica-Bold'
 
@@ -88,7 +88,7 @@ def register_fonts():
 
 register_fonts()
 
-# Colors (Yellow, Black, Emerald)
+# Кольори (жовтий, чорний, смарагдовий)
 LEGO_YELLOW = colors.HexColor("#facc15")
 LEGO_BLACK = colors.HexColor("#0f172a")
 LEGO_EMERALD = colors.HexColor("#059669")
@@ -113,7 +113,7 @@ def create_radar_chart(characteristics: dict) -> io.BytesIO:
     angles += angles[:1]
     
     try:
-        # Use simple fonts that support cyrillic in matplotlib if available, else default
+        # Шрифти з підтримкою кирилиці для matplotlib
         plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Tahoma']
         fig, ax = plt.subplots(figsize=(4, 4), subplot_kw=dict(polar=True))
         fig.patch.set_facecolor('none')
@@ -174,11 +174,11 @@ def generate_robot_passport(config_data: dict) -> bytes:
     timestamp = config_data.get("timestamp", datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     algorithm_name = "Генетичний Алгоритм" if config_data.get('algorithm') == 'genetic' else "Жадібний Алгоритм"
     
-    # Header & Footer
+    # Шапка та підвал сторінки
     def header_footer(canvas, doc):
         canvas.saveState()
         
-        # Grid Background
+        # Фонова сітка
         canvas.setStrokeColor(colors.HexColor("#e2e8f0"))
         canvas.setLineWidth(0.5)
         for i in range(0, int(A4[0]), 10):
@@ -186,15 +186,15 @@ def generate_robot_passport(config_data: dict) -> bytes:
         for i in range(0, int(A4[1]), 10):
             canvas.line(0, i, A4[0], i)
             
-        # Header Box
+        # Блок заголовка
         canvas.setFillColor(LEGO_YELLOW)
         canvas.rect(15*mm, A4[1] - 25*mm, A4[0] - 30*mm, 15*mm, fill=1, stroke=0)
         
-        # Draw a simple LEGO brick icon using rectangles
+        # Малюємо просту іконку LEGO-цеглини з прямокутників
         canvas.setFillColor(LEGO_BLACK)
-        # Brick body
+        # Тіло цеглини
         canvas.rect(18*mm, A4[1] - 20*mm, 12*mm, 6*mm, fill=1, stroke=0)
-        # Studs
+        # Шипи (studs)
         canvas.rect(19*mm, A4[1] - 14*mm, 2*mm, 1.5*mm, fill=1, stroke=0)
         canvas.rect(23*mm, A4[1] - 14*mm, 2*mm, 1.5*mm, fill=1, stroke=0)
         canvas.rect(27*mm, A4[1] - 14*mm, 2*mm, 1.5*mm, fill=1, stroke=0)
@@ -210,7 +210,7 @@ def generate_robot_passport(config_data: dict) -> bytes:
         canvas.setFont(font_bold, 12)
         canvas.drawString(33*mm, A4[1] - 22*mm, "Технічна Специфікація")
         
-        # Footer Box
+        # Блок підвалу
         canvas.setFillColor(LEGO_GRAY)
         canvas.rect(15*mm, 10*mm, A4[0] - 30*mm, 10*mm, fill=1, stroke=0)
         
@@ -244,7 +244,7 @@ def generate_robot_passport(config_data: dict) -> bytes:
 
     story = []
     
-    # 1. Executive Summary
+    # 1. Загальний огляд конфігурації
     story.append(Paragraph("1. Аналітичне резюме", h1_style))
     
     ga_stats = res_data.get("ga_stats", {})
@@ -360,7 +360,7 @@ def generate_robot_passport(config_data: dict) -> bytes:
     
     story.append(PageBreak())
     
-    # 3. Connection Map
+    # 3. Схема підключень
     story.append(Paragraph("3. Мапа технічних з'єднань (Connection Map)", h1_style))
     story.append(Paragraph("Схема портів Хабу:", bold_style))
     
@@ -397,12 +397,12 @@ def generate_robot_passport(config_data: dict) -> bytes:
     story.append(Spacer(1, 10))
     power_warning = "Нормальне навантаження. Хаб працює в безпечних межах."
     if total_power > 3:
-        power_warning = "⚠️ Увага: Високе енергоспоживання (>3 моторів). Забезпечте повний заряд батареї Хабу для максимальної продуктивності."
+        power_warning = "УВАГА: Високе енергоспоживання (>3 моторів). Забезпечте повний заряд батареї Хабу для максимальної продуктивності."
     story.append(Paragraph(f"<b>Перевірка Живлення:</b> {power_warning}", tips_style))
     
     story.append(Spacer(1, 15))
 
-    # 4. Assembly Logic
+    # 4. Логіка складання
     story.append(Paragraph("4. Логіка Збірки", h1_style))
     
     # Аналіз функцій з запиту (українські ID: їздити, літати, плавати, маніпулювати, сканувати)

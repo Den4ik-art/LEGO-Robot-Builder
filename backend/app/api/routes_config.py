@@ -194,7 +194,7 @@ def genetic_optimization(
                     yield f"data: {json.dumps({'type': 'result', 'result': result_holder['data']}, ensure_ascii=False, default=str)}\n\n"
                 break
             else:
-                # progress update
+                # оновлення прогресу
                 yield f"data: {json.dumps(msg, ensure_ascii=False)}\n\n"
 
     return StreamingResponse(

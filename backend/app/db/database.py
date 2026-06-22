@@ -20,7 +20,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 # ═══════════════════════════════════════════════════════════════════
-#  DATABASE URL
+#  URL БД
 # ═══════════════════════════════════════════════════════════════════
 
 DATABASE_URL: str = os.getenv(
@@ -29,7 +29,7 @@ DATABASE_URL: str = os.getenv(
 )
 
 # ═══════════════════════════════════════════════════════════════════
-#  LAZY ENGINE & SESSION
+#  ЛІНИВО-ІНІЦІАЛІЗОВАНИЙ РУШІЙ ТА СЕСІЯ
 # ═══════════════════════════════════════════════════════════════════
 
 _engine: Optional[Engine] = None
@@ -53,7 +53,7 @@ def _resolve_database_url() -> str:
                 "Використовується SQLite як fallback для розробки."
             )
 
-    # Fallback: SQLite
+    # Резервний варіант: SQLite
     from pathlib import Path
     db_dir = Path(__file__).resolve().parent.parent / "data"
     db_dir.mkdir(exist_ok=True)
@@ -138,9 +138,9 @@ def init_db() -> None:
 
         global _db_available
         _db_available = True
-        logger.info("✅ Всі таблиці створено успішно")
+        logger.info("[OK] Всі таблиці створено успішно")
     except Exception as e:
-        logger.error(f"❌ Помилка створення таблиць: {e}")
+        logger.error(f"[ERROR] Помилка створення таблиць: {e}")
         raise
 
 

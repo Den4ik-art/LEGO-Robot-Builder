@@ -857,11 +857,11 @@ class GeneticAlgorithmOptimizer:
             else:
                 penalty *= 0.85  # Пенальті за непарну
 
-        # Budget efficiency
+        # Ефективність бюджету
         if total_price <= max_budget and total_price > max_budget * 0.7:
             bonus += 0.10
 
-        # Structure diversity & adequacy
+        # Різноманітність та достатність структури
         if len(structure_families) >= 3:
             bonus += 0.05
         if len(structure_families) >= 5:
@@ -876,7 +876,7 @@ class GeneticAlgorithmOptimizer:
         if has_base:
             bonus += 0.10  # === Base-First bonus ===
 
-        # ── Structural Diversity Bonus (Diversity Rule) ──
+        # Бонус різноманітності структурних елементів
         # Надаємо бонус якщо є суміш основних типів: цеглинки та пластини
         if "brick" in structure_families and "plate" in structure_families:
             bonus += 0.10
@@ -901,7 +901,7 @@ class GeneticAlgorithmOptimizer:
             self._evaluate_fitness(ind, weights, max_budget, max_mass, allowed_domains, profile)
 
     # ──────────────────────────────────────────────────────────────────
-    #  SELECTION
+    #  ВІДБІР (SELECTION)
     # ──────────────────────────────────────────────────────────────────
 
     def _tournament_select(self, population: List[Individual]) -> Individual:
@@ -911,7 +911,7 @@ class GeneticAlgorithmOptimizer:
         return max(contestants, key=lambda ind: ind.fitness)
 
     # ──────────────────────────────────────────────────────────────────
-    #  CROSSOVER
+    #  СХРЕЩУВАННЯ (CROSSOVER)
     # ──────────────────────────────────────────────────────────────────
 
     def _crossover(
@@ -935,13 +935,13 @@ class GeneticAlgorithmOptimizer:
         else:
             child1.hub_id, child2.hub_id = parent2.hub_id, parent1.hub_id
 
-        # Power
+        # Блок живлення
         if random.random() < 0.5:
             child1.power_id, child2.power_id = parent1.power_id, parent2.power_id
         else:
             child1.power_id, child2.power_id = parent2.power_id, parent1.power_id
 
-        # Motor groups
+        # Групи моторів
         max_groups = max(len(parent1.motor_groups), len(parent2.motor_groups))
         for i in range(max_groups):
             p1_group = parent1.motor_groups[i] if i < len(parent1.motor_groups) else None
@@ -977,14 +977,14 @@ class GeneticAlgorithmOptimizer:
             child2.drive_wheel_count = parent1.drive_wheel_count
             child2.drive_tire_id = parent1.drive_tire_id
 
-        # Sensors
+        # Сенсори
         all_sensors = list(set(parent1.sensor_ids + parent2.sensor_ids))
         random.shuffle(all_sensors)
         mid = len(all_sensors) // 2
         child1.sensor_ids = all_sensors[:mid]
         child2.sensor_ids = all_sensors[mid:]
 
-        # Structure (cap to avoid bloat from merging both parents)
+        # Структура (обмежуємо кількість щоб уникнути надлишку від злиття батьків)
         max_struct = max(len(parent1.structure_ids), len(parent2.structure_ids))
         all_structure = parent1.structure_ids + parent2.structure_ids
         random.shuffle(all_structure)
@@ -992,14 +992,14 @@ class GeneticAlgorithmOptimizer:
         child1.structure_ids = all_structure[:min(mid_s, max_struct)]
         child2.structure_ids = all_structure[mid_s:mid_s + max_struct]
 
-        # Accessories
+        # Аксесуари
         all_acc = list(set(parent1.accessory_ids + parent2.accessory_ids))
         random.shuffle(all_acc)
         mid_a = len(all_acc) // 2
         child1.accessory_ids = all_acc[:mid_a]
         child2.accessory_ids = all_acc[mid_a:]
 
-        # Repair Hub
+        # Відновлення хабу
         if child1.hub_id is None and child2.hub_id is not None:
             child1.hub_id = child2.hub_id
         elif child2.hub_id is None and child1.hub_id is not None:
@@ -1037,7 +1037,7 @@ class GeneticAlgorithmOptimizer:
             if new_hub:
                 individual.hub_id = new_hub["id"]
 
-        # ── Power ──
+        # ── Живлення ──
         if random.random() < self.mutation_rate and individual.power_id:
             new_power = self._random_from_category(
                 "power", allowed_domains=allowed_domains
@@ -1045,7 +1045,7 @@ class GeneticAlgorithmOptimizer:
             if new_power:
                 individual.power_id = new_power["id"]
 
-        # ── Motor Groups (symmetry-aware) ──
+        # ── Групи моторів (з урахуванням симетрії) ──
         if random.random() < self.mutation_rate and individual.motor_groups:
             # Мутуємо ВСІ мотори на ОДИН новий тип (consistency)
             new_motor = self._random_from_category(
@@ -1056,7 +1056,7 @@ class GeneticAlgorithmOptimizer:
                 for i, (_, periphs) in enumerate(individual.motor_groups):
                     individual.motor_groups[i] = (new_motor["id"], periphs)
 
-        # ── Wheel Symmetry Mutation ──
+        # ── Мутація симетрії коліс ──
         if random.random() < self.mutation_rate and individual.drive_wheel_id:
             # Якщо мутуємо колесо — мутуємо ВСІ колеса на один тип
             new_wheel = self._random_from_category(
@@ -1077,7 +1077,7 @@ class GeneticAlgorithmOptimizer:
                     ]
                     individual.motor_groups[i] = (motor_id, new_periphs)
 
-        # ── Sensors ──
+        # ── Сенсори ──
         for i, sensor_id in enumerate(individual.sensor_ids):
             if random.random() < self.mutation_rate:
                 new_sensor = self._random_from_category(
@@ -1086,7 +1086,7 @@ class GeneticAlgorithmOptimizer:
                 if new_sensor:
                     individual.sensor_ids[i] = new_sensor["id"]
 
-        # ── Structure ──
+        # ── Структура ──
         for i, struct_id in enumerate(individual.structure_ids):
             if random.random() < self.mutation_rate:
                 new_struct = self._random_from_category(
@@ -1095,7 +1095,7 @@ class GeneticAlgorithmOptimizer:
                 if new_struct:
                     individual.structure_ids[i] = new_struct["id"]
 
-        # ── Add/remove structure ──
+        # ── Додавання/видалення структурних деталей ──
         if random.random() < 0.05 and len(individual.structure_ids) < profile.max_structure:
             new_struct = self._random_from_category(
                 "structure", allowed_domains=allowed_domains
@@ -1107,7 +1107,7 @@ class GeneticAlgorithmOptimizer:
             idx = random.randint(0, len(individual.structure_ids) - 1)
             individual.structure_ids.pop(idx)
 
-        # ── Domain cleanup ──
+        # ── Очищення за доменом ──
         if random.random() < 0.15:
             self._domain_cleanup(individual, allowed_domains)
 
@@ -1177,7 +1177,7 @@ class GeneticAlgorithmOptimizer:
             """Lightweight check that adding comp won't obviously bloat."""
             return comp is not None
 
-        # 1. Base-First (Scale-Aware: swap small base for adequate one)
+        # 1. Основа першою (заміна малої бази на достатню)
         motor_count = len(individual.motor_groups)
         if individual.base_id is None:
             base = find_adequate_base(
@@ -1209,7 +1209,7 @@ class GeneticAlgorithmOptimizer:
             if hub:
                 individual.hub_id = hub["id"]
 
-        # 3. Motor count cap
+        # 3. Обмеження кількості моторів
         # Розраховуємо скільки моторів нам ДІЙСНО потрібно для функцій
         min_required_motors = 0
         if hasattr(self, "current_request"):
@@ -1271,7 +1271,7 @@ class GeneticAlgorithmOptimizer:
                                     ind_motor = random.choice(motor_comps)
                                     individual.motor_groups.append((ind_motor["id"], [m_comp["id"]]))
 
-        # 4. Wheel Symmetry repair
+        # 4. Відновлення симетрії коліс
         if individual.drive_wheel_id:
             for i, (motor_id, periphs) in enumerate(individual.motor_groups):
                 new_periphs: List[int] = []
@@ -1286,11 +1286,11 @@ class GeneticAlgorithmOptimizer:
                         new_periphs.append(pid)
                 individual.motor_groups[i] = (motor_id, new_periphs)
 
-        # 5. Sensor count cap
+        # 5. Обмеження кількості сенсорів
         if len(individual.sensor_ids) > profile.max_sensors:
             individual.sensor_ids = individual.sensor_ids[:profile.max_sensors]
 
-        # 6. Structure count & adequacy bounds
+        # 6. Обмеження кількості та достатності структури
         if len(individual.structure_ids) < profile.min_structure:
             deficit = profile.min_structure - len(individual.structure_ids)
             for _ in range(deficit):
@@ -1303,7 +1303,7 @@ class GeneticAlgorithmOptimizer:
         if len(individual.structure_ids) > profile.max_structure:
             individual.structure_ids = individual.structure_ids[:profile.max_structure]
 
-        # 7. Structural Adequacy: ensure enough surface area
+        # 7. Перевірка структурної достатності (площа поверхні)
         struct_parts = [
             self._id_map[sid] for sid in individual.structure_ids
             if sid in self._id_map
@@ -1329,7 +1329,7 @@ class GeneticAlgorithmOptimizer:
                     if ok:
                         break
 
-        # 8. Scaling Rule: complexity > 2 or motors > 2 → need Large structural
+        # 8. Правило масштабу: складність > 2 або моторів > 2 → велика структура
         if needs_large_structural(profile.level, motor_count):
             all_parts = [
                 self._id_map[pid] for pid in individual.chromosome
@@ -1340,13 +1340,13 @@ class GeneticAlgorithmOptimizer:
                 if large:
                     individual.structure_ids.append(large["id"])
 
-        # 9. Connector Fill: ensure motors have axles + pins
+        # 9. Заповнення конекторами: осі та піни для моторів
         if motor_count > 0:
             all_chosen = [
                 self._id_map[pid] for pid in individual.chromosome
                 if pid in self._id_map
             ]
-            # Include structure_ids too (they may not be in chromosome yet)
+            # Включаємо structure_ids (можуть бути ще не в хромосомі)
             for sid in individual.structure_ids:
                 if sid in self._id_map:
                     all_chosen.append(self._id_map[sid])
@@ -1357,7 +1357,7 @@ class GeneticAlgorithmOptimizer:
                 for fp in fill:
                     individual.structure_ids.append(fp["id"])
 
-        # 10. Volume Ratio: structural volume must cover functional
+        # 10. Перевірка об'ємного співвідношення структури
         if hasattr(self, "current_request"):
             func_hint = get_function_structural_hint(self.current_request.functions)
             target_ratio = func_hint["volume_ratio"]
@@ -1394,7 +1394,7 @@ class GeneticAlgorithmOptimizer:
         individual.rebuild_chromosome()
 
     # ──────────────────────────────────────────────────────────────────
-    #  ADAPTIVE MUTATION
+    #  АДАПТИВНА МУТАЦІЯ
     # ──────────────────────────────────────────────────────────────────
 
     def _adaptive_mutation_rate(
@@ -1426,7 +1426,7 @@ class GeneticAlgorithmOptimizer:
 
         self.current_request = request
 
-        # ── Complexity Profile ──
+        # ── Профіль складності ──
         complexity = request.complexityLevel or 2
         profile = get_complexity_profile(complexity)
 
@@ -1533,7 +1533,7 @@ class GeneticAlgorithmOptimizer:
 
             current_mutation_rate = self._adaptive_mutation_rate(gen, stagnation_count)
 
-            # ── Elitism ──
+            # ── Елітизм ──
             next_generation: List[Individual] = []
             elite = population[:self.elitism_count]
             for e in elite:
@@ -1634,7 +1634,7 @@ class GeneticAlgorithmOptimizer:
         total_price = sum(c.get("price") or 0 for c in selected_parts)
         total_weight = sum(c.get("weight") or 0 for c in selected_parts)
 
-        # ── DECOR PHASE: fill remaining budget with aesthetic parts ──
+        # Фаза декору: заповнюємо залишок бюджету естетичними деталями
         remaining_budget_ga = max_budget - total_price
         remaining_mass_ga = max_mass - total_weight
         if remaining_budget_ga > max_budget * 0.10 and remaining_mass_ga > 0:

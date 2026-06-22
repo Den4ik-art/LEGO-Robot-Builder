@@ -132,7 +132,7 @@ class WeightedScorer:
             if torque is not None:
                 torques.append(float(torque))
 
-            # Energy = voltage * current
+            # Енергоспоживання = напруга × струм
             voltage = elec.get("voltage_v")
             current = elec.get("max_current_a")
             if voltage is not None and current is not None:
@@ -213,7 +213,7 @@ class WeightedScorer:
         w_endurance = weights.get("endurance", 0.25)
         w_eco = weights.get("eco", 0.25)
 
-        # --- Speed (rpm) - maximize ---
+        # --- Швидкість (RPM) - максимізуємо ---
         normalized_speed = 0.0
         elec = component.get("electronics") or {}
         rpm = elec.get("rpm_nominal")
@@ -223,7 +223,7 @@ class WeightedScorer:
                 float(rpm), rpm_bounds["min"], rpm_bounds["max"]
             )
 
-        # --- Force (torque) - maximize ---
+        # --- Сила (крутний момент) - максимізуємо ---
         normalized_torque = 0.0
         torque = elec.get("torque_nominal_ncm")
         if torque is not None and "torque" in bounds:
@@ -232,7 +232,7 @@ class WeightedScorer:
                 float(torque), torque_bounds["min"], torque_bounds["max"]
             )
 
-        # --- Economy (price) - minimize ---
+        # --- Економічність (ціна) - мінімізуємо ---
         normalized_price_inv = 0.0
         price = component.get("price")
         if price is not None and "price" in bounds:
@@ -241,7 +241,7 @@ class WeightedScorer:
                 float(price), price_bounds["min"], price_bounds["max"]
             )
 
-        # --- Endurance (weight/mass) - minimize ---
+        # --- Витривалість (маса) - мінімізуємо ---
         # STRUCTURAL PARTS: маса не штрафується (вона необхідна для конструкції)
         normalized_mass_inv = 0.0
         weight = component.get("weight")
@@ -254,15 +254,15 @@ class WeightedScorer:
         if weight is not None and "weight" in bounds:
             weight_bounds = bounds["weight"]
             if is_structural:
-                # Structural parts: mass is a feature, not a penalty.
-                # Neutral score (0.5) instead of penalty.
+                # Для структурних деталей маса — характеристика, а не штраф.
+                # Нейтральна оцінка (0.5) замість штрафу.
                 normalized_mass_inv = 0.5
             else:
                 normalized_mass_inv = self._normalize_minimize(
                     float(weight), weight_bounds["min"], weight_bounds["max"]
                 )
 
-        # --- Eco (energy consumption) - minimize ---
+        # --- Еко-ефективність (споживання енергії) - мінімізуємо ---
         normalized_energy_inv = 0.0
         voltage = elec.get("voltage_v")
         current = elec.get("max_current_a")
@@ -273,7 +273,7 @@ class WeightedScorer:
                 energy, energy_bounds["min"], energy_bounds["max"]
             )
 
-        # 5-Term WSM Formula
+        # Формула зваженої суми (5 критеріїв)
         total_score = (
             (normalized_speed * w_speed)
             + (normalized_torque * w_force)
@@ -282,27 +282,26 @@ class WeightedScorer:
             + (normalized_energy_inv * w_eco)
         )
 
-        # ── Structural Value Bonus ──
-        # Structural parts have 0 speed/force, so they lose to functional parts.
-        # Compensate using their intrinsic structural scores and structural_value.
+        # Бонус для структурних елементів
+        # Структурні деталі не мають RPM/Torque, тому компенсуємо через власні оцінки та structural_value.
         if category == "structure":
             scores_data = component.get("scores") or {}
             str_strength = scores_data.get("structural_strength", 0.0)
             str_versatility = scores_data.get("connection_versatility", 0.0)
             str_compactness = scores_data.get("compactness", 0.5)
 
-            # Surface area contribution (normalized vs. max ~128 studs²)
+            # Площа поверхні (нормалізована відносно макс ~128 stud²)
             geo = component.get("geometry") or {}
             sl = geo.get("stud_length") or 0
             sw = geo.get("stud_width") or 0
             area = sl * sw
             area_norm = min(area / 128.0, 1.0) if area > 0 else 0.1
 
-            # structural_value from DB (connection points, normalized vs. max ~50)
+            # structural_value з БД (точки з'єднання, нормалізовано відносно макс ~50)
             sv = component.get("structural_value") or 1
             sv_norm = min(sv / 50.0, 1.0)
 
-            # Blended structural value (replaces the missing speed/force)
+            # Змішана оцінка структурного елемента (замінює відсутні RPM/Torque)
             structural_value = (
                 str_strength * 0.25
                 + str_versatility * 0.20
@@ -310,17 +309,17 @@ class WeightedScorer:
                 + str_compactness * 0.10
                 + sv_norm * 0.20
             )
-            # Scale to match typical functional part score range (0.3-0.8)
+            # Масштабуємо до діапазону функціональних деталей (0.3–0.8)
             total_score += structural_value * 0.6
 
-            # ── Function-specific bonus for structural parts ──
+            # Бонус для структурних деталей залежно від функцій
             if function_context:
                 has_fly = any("літати" in f.lower() for f in function_context)
                 if has_fly:
-                    # Fly: lightweight structural parts get bonus
+                    # Політ: легкі структурні деталі отримують бонус
                     comp_weight = component.get("weight") or 0
                     if comp_weight < 30 and area > 8:
-                        total_score += 0.15  # Lightweight + large area = ideal for flying
+                        total_score += 0.15  # Легка + велика площа = ідеально для польоту
 
         return total_score
 

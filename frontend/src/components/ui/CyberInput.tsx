@@ -22,7 +22,7 @@ export const CyberInput: React.FC<CyberInputProps> = ({ label, error, className 
             </div>
             {error && (
                 <div className="mt-1 text-xs text-neon-red flex items-center gap-1 font-mono">
-                    <span>⚠</span> {error}
+                    <span>!</span> {error}
                 </div>
             )}
         </div>

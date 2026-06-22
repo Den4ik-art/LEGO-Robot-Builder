@@ -52,7 +52,7 @@ FUNCTION_PERIPHERY_MAP: Dict[str, Dict[str, str]] = {
 
 # Скільки моторів потрібно для кожної функції + периферії на мотор
 FUNCTION_MOTOR_MAP: Dict[str, Dict[str, Tuple[int, int]]] = {
-    # func -> {subtype: (motors, periphery_per_motor)}
+    # функція -> {підтип: (кількість моторів, периферія на мотор)}
     "їздити": {
         "колеса": (2, 2),     # 2 мотори, 2 колеса на мотор
         "гусениці": (2, 1),   # 2 мотори, 1 гусениця на мотор
@@ -119,7 +119,7 @@ class SequentialConfigurator:
         """Гарантує наявність дефолтних полів у кожному компоненті."""
         for comp in self.components:
             cat = comp.get("category", "")
-            # domain
+            # домен компонента
             domain = comp.get("domain")
             if not domain:
                 if cat in ("water",):
@@ -130,14 +130,14 @@ class SequentialConfigurator:
                     comp["domain"] = "ground"
                 else:
                     comp["domain"] = "universal"
-            # safety defaults
+            # захисні значення за замовчуванням
             comp.setdefault("geometry", {})
             comp.setdefault("scores", {})
             comp.setdefault("connectors", [])
             comp.setdefault("roles", [])
             comp.setdefault("electronics", {})
             comp.setdefault("family", None)
-            # Infer family for structure
+            # Визначаємо сімейство структурного елемента
             if cat == "structure" and not comp.get("family"):
                 comp["family"] = self._infer_family(comp)
 
@@ -333,7 +333,7 @@ class SequentialConfigurator:
                 remaining_mass -= comp.get("weight") or 0
 
         # ════════════════════════════════════════════════════════════
-        # STEP 1: HUB (CONTROLLER) SELECTION
+        # КРОК 1: ВИБІР КОНТРОЛЕРА (ХАБ)
         # ════════════════════════════════════════════════════════════
         # Бюджетна резервація: Hub + Power мають зайняти не більше 35%
         # щоб залишити достатньо для моторів, периферії та структури
